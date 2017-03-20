@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace HeroSchool
 {
-    public abstract class Card
+    public abstract class Card 
     {
         public string Name { get; set; }
         public int Value { get; set; }

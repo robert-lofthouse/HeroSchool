@@ -26,18 +26,6 @@
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
-    <NestedTypes>
-      <Enum Name="HeroSchool.Constants.CardType" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Constants.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-      <Enum Name="HeroSchool.Constants.AttackResult" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Constants.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Constants.cs</FileName>
@@ -60,7 +48,7 @@
   <Class Name="HeroSchool.PlayerCard">
     <Position X="9" Y="5.25" Width="5.75" />
     <TypeIdentifier>
-      <HashCode>ACNQAAAAAAAAIAAAAgEAgAEBCAEAIQABQAAAlAACAAA=</HashCode>
+      <HashCode>ACNQIAAAAAAAIAAAAgEAgAEBCAEAIQABQAAAlAACAAA=</HashCode>
       <FileName>PlayerCard.cs</FileName>
     </TypeIdentifier>
   </Class>

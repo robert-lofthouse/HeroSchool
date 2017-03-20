@@ -51,21 +51,6 @@ namespace HeroSchool
             PlayedDefenseCards = new List<DefenseCard>();
         }
 
-        public void PlayCard(Card actionCard)
-        {
-            if (actionCard.Type == Constants.CardType.Defense)
-            {
-                defenseCardDeck.Remove(actionCard as DefenseCard);
-                playedDefenseCards.Add(actionCard as DefenseCard);
-
-            }
-            else if (actionCard.Type == Constants.CardType.Attack)
-            {
-                attackCardDeck.Remove(actionCard as AttackCard);
-                playedAttackCards.Add(actionCard as AttackCard);
-            }
-        }
-
         public void AddAttackCard(string p_name, int p_value)
         {
             AttackCard atkCard = new AttackCard(p_name, p_value);
@@ -80,6 +65,18 @@ namespace HeroSchool
             defCard.PlayerCard = this;
             defenseCardDeck.Add(defCard);
 
+        }
+
+        public void AddCard(Card card)
+        {
+            cardDeck.Add(card);
+
+        }
+
+        public void PlayCard(Card actionCard)
+        {
+            cardDeck.Remove(actionCard);
+            playedCards.Add(actionCard);
         }
 
         public Constants.AttackResult PerformAttack(AttackCard opponentAttackCard)

@@ -68,7 +68,7 @@ namespace HeroSchoolTest
             player2.PlayCard(player2.AttackCardDeck.Find(card => card.Name == "Laserblast"));
 
             //apply the attack card to the defence card from the played cards
-            Constants.AttackResult ar = player1.PlayedDefenseCards.Find(x => x.Name == "Dodge").PerformAttack(player2.PlayedAttackCards.Find(x => x.Name == "Laserblast"));
+            Constants.AttackResult ar = player1.PerformAttack(player2.PlayedAttackCards.Find(x => x.Name == "Laserblast"));
 
             Assert.IsNotNull(ar);
         }
