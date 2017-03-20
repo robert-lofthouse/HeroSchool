@@ -4,7 +4,7 @@ using System;
 
 namespace HeroSchool
 {
-    public class ActionCard :  Card, IActionCard
+    public class ActionCard :  PlayableCard
     {
 
         private PlayerCard playerCard;
@@ -18,11 +18,6 @@ namespace HeroSchool
         }
 
         public List<ModifierCard> ModifierCards { get => appliedModifierCards; set => appliedModifierCards = value; }
-
-        public int ModifiedValue()
-        {
-            return Value + ModifierCards.Sum(x => x.Value);
-        }
 
         public bool ApplyModifierCard(ModifierCard p_modifierCard)
         {
@@ -40,30 +35,6 @@ namespace HeroSchool
             }
         }
 
-        public Constants.AttackResult PerformAttack(AttackCard attackCard)
-        {
-            if (attackCard == null)
-            {
-                // if no attack card was played, then the attack failed
-                return Constants.AttackResult.AttackFailed;
-            }
-            else
-            {
-                //set the new value of the defense card based on the result of the attack
-                Value -= attackCard.Value;
-                attackCard.PlayerCard.PlayedAttackCards.Remove(attackCard);
 
-                // return the attack result
-                if (Value <= 0)
-                {
-                    playerCard.PlayedDefenseCards.Remove(playerCard.PlayedDefenseCard(Name));
-                    return Constants.AttackResult.AttackSuccededDamagedAndKilled;
-                }
-                else
-                {
-                    return Constants.AttackResult.AttackSuccededDamagedNotKilled;
-                }
-            }
-        }
     }
 }

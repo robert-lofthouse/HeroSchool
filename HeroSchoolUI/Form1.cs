@@ -102,11 +102,12 @@ namespace HeroSchoolUI
 
         private void lstPlayedAttackCardsP1_DragDrop(object sender, DragEventArgs e)
         {
-            string atkCardName = e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim();
+            AttackCard atkCard = player1.AttackCard(e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim());
 
-            if (player1.AttackCard(atkCardName) != null)
+            if (atkCard != null)
             {
-                player1.PlayCard(player1.AttackCard(atkCardName));
+                player1.PlayCard(atkCard);
+
                 BindList(player1.PlayedAttackCards, lstPlayedAttackCardsP1);
                 BindList(player1.AttackCardDeck, lstAttackCardDeckP1);
             }
@@ -170,9 +171,9 @@ namespace HeroSchoolUI
 
         private void lstPlayedAttackCardsP2_DragOver(object sender, DragEventArgs e)
         {
-            string atkCardName = e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim();
+            AttackCard atkCard = player2.AttackCard(e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim());
 
-            if (player2.AttackCard(atkCardName) != null)
+            if (atkCard != null)
             {
                 e.Effect = DragDropEffects.Move;
             }
@@ -181,8 +182,7 @@ namespace HeroSchoolUI
                 e.Effect = DragDropEffects.None;
             }
         }
-
-
+        
         private void lstDefenseCardDeckP2_MouseDown(object sender, MouseEventArgs e)
         {
             lstDefenseCardDeckP2.DoDragDrop(lstDefenseCardDeckP2.SelectedItem.ToString().Split('(')[0].Trim(), DragDropEffects.Move);
@@ -190,9 +190,9 @@ namespace HeroSchoolUI
 
         private void lstPlayedDefenseCardsP2_DragOver(object sender, DragEventArgs e)
         {
-            string defCardName = e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim();
+            DefenseCard defCard = player2.DefenseCard(e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim());
 
-            if (player2.DefenseCard(defCardName) != null)
+            if (defCard != null)
             {
                 e.Effect = DragDropEffects.Move;
             }
@@ -212,12 +212,25 @@ namespace HeroSchoolUI
             lstPlayedAttackCardsP2.DoDragDrop(lstPlayedAttackCardsP2.SelectedItem.ToString(), DragDropEffects.Copy);
         }
 
-
         private void txtPlayer2Value_DragOver(object sender, DragEventArgs e)
         {
-            string atkCardName = e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim();
+            AttackCard atkCard = player1.PlayedAttackCard(e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim());
 
-            if (player1.PlayedAttackCard(atkCardName) != null)
+            if (atkCard != null)
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void txtPlayer1Value_DragOver(object sender, DragEventArgs e)
+        {
+            AttackCard atkCard = player2.PlayedAttackCard(e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim());
+
+            if (atkCard != null)
             {
                 e.Effect = DragDropEffects.Copy;
             }
@@ -229,82 +242,50 @@ namespace HeroSchoolUI
 
         private void txtPlayer2Value_DragDrop(object sender, DragEventArgs e)
         {
-            string atkCardName = e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim();
+            AttackCard cardToUseforAttack = player1.PlayedAttackCard(e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim());
 
-            if (player1.PlayedAttackCard(atkCardName) != null)
+            if (cardToUseforAttack != null)
             {
-                if (lstPlayedDefenseCardsP2.Items.Count != 0)
-                {
-                    string defCardName = lstPlayedDefenseCardsP2.Items[0].ToString().Split('(')[0].Trim();
 
-                    player2.PlayedDefenseCard(defCardName).PerformAttack(player1.PlayedAttackCard(atkCardName));
-                    BindList(player2.PlayedDefenseCards, lstPlayedDefenseCardsP2);
-                    BindList(player1.PlayedAttackCards, lstPlayedAttackCardsP1);
-                }
-                else
+                if (player2.PerformAttack(cardToUseforAttack) == Constants.AttackResult.AttackSuccededDamagedAndKilled)
                 {
-                    if ( player2.PerformAttack(player1.PlayedAttackCard(atkCardName)) == Constants.AttackResult.AttackSuccededDamagedAndKilled)
-                    {
-                        Player2.BackColor = Color.Red;
-                    }
-                    txtPlayer2Value.Text = player2.Value.ToString();
-                    BindList(player1.PlayedAttackCards, lstPlayedAttackCardsP1);
+                    Player2.BackColor = Color.Red;
                 }
 
-            }
-        }
+                txtPlayer2Value.Text = player2.Value.ToString();
 
-        private void txtPlayer1Value_DragOver(object sender, DragEventArgs e)
-        {
-            string atkCardName = e.Data.GetData(DataFormats.StringFormat).ToString();
-
-            if (player2.PlayedAttackCard(atkCardName) != null)
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
+                BindList(player2.PlayedDefenseCards, lstPlayedDefenseCardsP2);
+                BindList(player1.PlayedAttackCards, lstPlayedAttackCardsP1);
             }
         }
 
         private void txtPlayer1Value_DragDrop(object sender, DragEventArgs e)
         {
-            string atkCardName = e.Data.GetData(DataFormats.StringFormat).ToString();
+            AttackCard cardToUseforAttack = player2.PlayedAttackCard(e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim());
 
-            if (player2.PlayedAttackCard(atkCardName) != null)
+            if (cardToUseforAttack != null)
             {
-                if (lstPlayedDefenseCardsP1.Items.Count != 0)
+
+                if (player1.PerformAttack(cardToUseforAttack) == Constants.AttackResult.AttackSuccededDamagedAndKilled)
                 {
-                    string defCardName = lstPlayedDefenseCardsP1.Items[0].ToString().Split('(')[0].Trim();
-
-                    //Todo - need to somehow figure out how to tie the attack card back to a player
-
-                    player1.PlayedDefenseCard(defCardName).PerformAttack(player2.PlayedAttackCard(atkCardName));
-                    BindList(player1.PlayedDefenseCards, lstPlayedDefenseCardsP1);
-                    BindList(player2.PlayedAttackCards, lstPlayedAttackCardsP2);
-                }
-                else
-                {
-                    if (player1.PerformAttack(player2.PlayedAttackCard(atkCardName)) == Constants.AttackResult.AttackSuccededDamagedAndKilled)
-                    {
-                        Player1.BackColor = Color.Red;
-                    }
-                    txtPlayer1Value.Text = player1.Value.ToString();
-                    BindList(player2.PlayedAttackCards, lstPlayedAttackCardsP2);
-
+                    Player1.BackColor = Color.Red;
                 }
 
+                txtPlayer1Value.Text = player1.Value.ToString();
+
+                BindList(player1.PlayedDefenseCards, lstPlayedDefenseCardsP1);
+                BindList(player2.PlayedAttackCards, lstPlayedAttackCardsP2);
             }
         }
 
         private void lstPlayedDefenseCardsP1_DragDrop(object sender, DragEventArgs e)
         {
-            string defCardName = e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim();
+            DefenseCard defCard = player1.DefenseCard(e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim());
 
-            if (player1.DefenseCard(defCardName)!= null)
+            if (defCard!= null)
             {
-                player1.PlayCard(player1.DefenseCard(defCardName));
+                player1.PlayCard(defCard);
+
                 BindList(player1.PlayedDefenseCards, lstPlayedDefenseCardsP1);
                 BindList(player1.DefenseCardDeck, lstDefenseCardDeckP1);
             }
@@ -313,11 +294,11 @@ namespace HeroSchoolUI
 
         private void lstPlayedDefenseCardsP2_DragDrop(object sender, DragEventArgs e)
         {
-            string defCardName = e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim();
+            DefenseCard defCard = player2.DefenseCard(e.Data.GetData(DataFormats.StringFormat).ToString().Split('(')[0].Trim());
 
-            if (player2.DefenseCard(defCardName) != null)
+            if (defCard != null)
             {
-                player2.PlayCard(player2.DefenseCard(defCardName));
+                player2.PlayCard(defCard);
                 BindList(player2.PlayedDefenseCards, lstPlayedDefenseCardsP2);
                 BindList(player2.DefenseCardDeck, lstDefenseCardDeckP2);
             }

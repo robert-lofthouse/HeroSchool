@@ -45,10 +45,13 @@
     <Compile Include="Card.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DefenseCard.cs" />
-    <Compile Include="IActionCard.cs" />
     <Compile Include="ModifierCard.cs" />
+    <Compile Include="PlayableCard.cs" />
     <Compile Include="PlayerCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="HeroSchool.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
