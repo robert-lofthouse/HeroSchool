@@ -7,10 +7,10 @@ namespace HeroSchool
     public abstract class ActionCard :  PlayableCard
     {
 
-        private PlayerCard playerCard;
+        private HeroCard playerCard;
         private List<ModifierCard> appliedModifierCards;
 
-        public PlayerCard PlayerCard { get => playerCard; set => playerCard = value; }
+        public HeroCard HeroCard { get => playerCard; set => playerCard = value; }
         
         public ActionCard(string p_name, int p_value, Constants.CardType p_cardType) : base(p_name, p_value, p_cardType)
         {
@@ -23,10 +23,11 @@ namespace HeroSchool
         {
             try
             {
-                appliedModifierCards.Add(p_modifierCard);
-
-                Value = Value + p_modifierCard.Value;
-
+                if (p_modifierCard.ModifierType == Constants.ModifierType.Value)
+                    Value = Value + p_modifierCard.Value;
+                else
+                    appliedModifierCards.Add(p_modifierCard);
+                
                 return true;
             }
             catch (System.Exception ex)

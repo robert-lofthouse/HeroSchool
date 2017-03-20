@@ -13,8 +13,8 @@ namespace HeroSchoolUI
 {
     public partial class Form1 : Form
     {
-        PlayerCard player1;
-        PlayerCard player2;
+        HeroCard player1;
+        HeroCard player2;
 
         public Form1()
         {
@@ -28,33 +28,33 @@ namespace HeroSchoolUI
         }
         public void CreatePlayer2()
         {
-            player2 = new PlayerCard("Alan", 10);
-            player2.AddAttackCard("Laserblast", 3);
-            player2.AddAttackCard("Bazooka", 6);
-            player2.AddAttackCard("Punch", 1);
+            player2 = new HeroCard("Alan", 10);
+            player2.AddCardtoAttackCollection("Laserblast", 3);
+            player2.AddCardtoAttackCollection("Bazooka", 6);
+            player2.AddCardtoAttackCollection("Punch", 1);
 
-            player2.AddDefenseCard("Parry", 3);
-            player2.AddDefenseCard("Duck", 2);
-            player2.AddDefenseCard("Rockstand", 1);
+            player2.AddCardtoDefenseCollection("Parry", 3);
+            player2.AddCardtoDefenseCollection("Duck", 2);
+            player2.AddCardtoDefenseCollection("Rockstand", 1);
 
-            player2.ModifierCardDeck.Add(new ModifierCard("Concentate", 1));
-            player2.ModifierCardDeck.Add(new ModifierCard("Anger", 2));
-            player2.ModifierCardDeck.Add(new ModifierCard("Destroy", 50));
+            player2.ModifierCardCollection.Add(new ModifierCard("Concentate", 1));
+            player2.ModifierCardCollection.Add(new ModifierCard("Anger", 2));
+            player2.ModifierCardCollection.Add(new ModifierCard("Destroy", 50));
         }
         public void CreatePlayer1()
         {
-            player1 = new PlayerCard("Rob", 10);
-            player1.AddAttackCard("Lightning", 3);
-            player1.AddAttackCard("Fireball", 6);
-            player1.AddAttackCard("Stone", 1);
+            player1 = new HeroCard("Rob", 10);
+            player1.AddCardtoAttackCollection("Lightning", 3);
+            player1.AddCardtoAttackCollection("Fireball", 6);
+            player1.AddCardtoAttackCollection("Stone", 1);
 
-            player1.AddDefenseCard("Block", 3);
-            player1.AddDefenseCard("Dodge", 2);
-            player1.AddDefenseCard("Turtle", 1);
+            player1.AddCardtoDefenseCollection("Block", 3);
+            player1.AddCardtoDefenseCollection("Dodge", 2);
+            player1.AddCardtoDefenseCollection("Turtle", 1);
 
-            player1.ModifierCardDeck.Add(new ModifierCard("Focus", 1));
-            player1.ModifierCardDeck.Add(new ModifierCard("Rage", 2));
-            player1.ModifierCardDeck.Add(new ModifierCard("Nuke", 50));
+            player1.ModifierCardCollection.Add(new ModifierCard("Focus", 1));
+            player1.ModifierCardCollection.Add(new ModifierCard("Rage", 2));
+            player1.ModifierCardCollection.Add(new ModifierCard("Nuke", 50));
 
         }
         public void ResetPlayers()
@@ -68,12 +68,12 @@ namespace HeroSchoolUI
             Player1.BackColor = SystemColors.Control;
             Player2.BackColor = SystemColors.Control;
 
-            BindList(player1.DefenseCardDeck, lstDefenseCardDeckP1);
-            BindList(player1.AttackCardDeck, lstAttackCardDeckP1);
+            BindList(player1.DefenseCardCollection, lstDefenseCardDeckP1);
+            BindList(player1.AttackCardCollection, lstAttackCardDeckP1);
             BindList(player1.PlayedAttackCards, lstPlayedAttackCardsP1);
             BindList(player1.PlayedDefenseCards, lstPlayedDefenseCardsP1);
-            BindList(player2.DefenseCardDeck, lstDefenseCardDeckP2);
-            BindList(player2.AttackCardDeck, lstAttackCardDeckP2);
+            BindList(player2.DefenseCardCollection, lstDefenseCardDeckP2);
+            BindList(player2.AttackCardCollection, lstAttackCardDeckP2);
             BindList(player2.PlayedAttackCards, lstPlayedAttackCardsP2);
             BindList(player2.PlayedDefenseCards, lstPlayedDefenseCardsP2);
 
@@ -106,10 +106,10 @@ namespace HeroSchoolUI
 
             if (atkCard != null)
             {
-                player1.PlayCard(atkCard);
+                player1.PlayCardfromDeck(atkCard);
 
                 BindList(player1.PlayedAttackCards, lstPlayedAttackCardsP1);
-                BindList(player1.AttackCardDeck, lstAttackCardDeckP1);
+                BindList(player1.AttackCardCollection, lstAttackCardDeckP1);
             }
         }
         private void lstPlayedAttackCardsP1_DragOver(object sender, DragEventArgs e)
@@ -162,9 +162,9 @@ namespace HeroSchoolUI
 
             if (player2.AttackCard(atkCardName) != null)
             {
-                player2.PlayCard(player2.AttackCard(atkCardName));
+                player2.PlayCardfromDeck(player2.AttackCard(atkCardName));
                 BindList(player2.PlayedAttackCards, lstPlayedAttackCardsP2);
-                BindList(player2.AttackCardDeck, lstAttackCardDeckP2);
+                BindList(player2.AttackCardCollection, lstAttackCardDeckP2);
             }
 
         }
@@ -284,10 +284,10 @@ namespace HeroSchoolUI
 
             if (defCard!= null)
             {
-                player1.PlayCard(defCard);
+                player1.PlayCardfromDeck(defCard);
 
                 BindList(player1.PlayedDefenseCards, lstPlayedDefenseCardsP1);
-                BindList(player1.DefenseCardDeck, lstDefenseCardDeckP1);
+                BindList(player1.DefenseCardCollection, lstDefenseCardDeckP1);
             }
 
         }
@@ -298,9 +298,9 @@ namespace HeroSchoolUI
 
             if (defCard != null)
             {
-                player2.PlayCard(defCard);
+                player2.PlayCardfromDeck(defCard);
                 BindList(player2.PlayedDefenseCards, lstPlayedDefenseCardsP2);
-                BindList(player2.DefenseCardDeck, lstDefenseCardDeckP2);
+                BindList(player2.DefenseCardCollection, lstDefenseCardDeckP2);
             }
 
         }

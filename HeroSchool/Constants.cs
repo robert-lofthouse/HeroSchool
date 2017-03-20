@@ -2,6 +2,23 @@
 {
     public static class Constants
     {
+        public enum ModifierType
+        {
+            Value = 1,
+            Action = 2
+        }
+
+        public enum ModifierScope
+        {
+            OneOff = 1,
+            Permanent = 2
+        }
+
+        public enum ModifierIgnoreDefenseType
+        {
+            FirstDefenseCard = 1,
+            AllDefenseCards = 2
+        }
         public enum CardType
         {
             Attack = 1,

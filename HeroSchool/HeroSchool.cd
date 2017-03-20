@@ -15,14 +15,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="HeroSchool.Card">
-    <Position X="8" Y="0.5" Width="1.5" />
+    <Position X="8" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAQAAAAAAAAAAQAgAAAAAAA=</HashCode>
       <FileName>Card.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="HeroSchool.Constants" Collapsed="true">
-    <Position X="18" Y="0.5" Width="1.5" />
+    <Position X="19" Y="0.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
@@ -38,18 +38,11 @@
       <FileName>DefenseCard.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="HeroSchool.ModifierCard" Collapsed="true">
-    <Position X="15.5" Y="3.5" Width="1.5" />
+  <Class Name="HeroSchool.ModifierCard">
+    <Position X="15.5" Y="3.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAhAAAAgAgAACAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ModifierCard.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="HeroSchool.PlayerCard">
-    <Position X="9" Y="5.25" Width="5.75" />
-    <TypeIdentifier>
-      <HashCode>ACNQIAAAAAAAIAAAAgEAgAEBCAEAIQABQAAAlAACAAA=</HashCode>
-      <FileName>PlayerCard.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="HeroSchool.PlayableCard">
@@ -57,6 +50,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>PlayableCard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeroSchool.HeroCard">
+    <Position X="9" Y="5.25" Width="5.75" />
+    <TypeIdentifier>
+      <HashCode>AAFQAAAAgIAAAAAAAAEAgAABGAAABQAAQAAAhAAAAAA=</HashCode>
+      <FileName>HeroCard.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

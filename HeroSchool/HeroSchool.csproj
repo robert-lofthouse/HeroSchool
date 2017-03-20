@@ -47,8 +47,10 @@
     <Compile Include="DefenseCard.cs" />
     <Compile Include="ModifierCard.cs" />
     <Compile Include="PlayableCard.cs" />
-    <Compile Include="PlayerCard.cs" />
+    <Compile Include="HeroCard.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="School.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="HeroSchool.cd" />
