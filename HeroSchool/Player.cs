@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeroSchool
 {
-    public class Player
+    public class Player : IPlayer
     {
         #region Private variables
 
