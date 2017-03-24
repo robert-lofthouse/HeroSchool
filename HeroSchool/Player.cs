@@ -14,7 +14,7 @@ namespace HeroSchool
         private List<AttackCard> attackCardCollection;
         private List<DefenseCard> defenseCardCollection;
         private List<ModifierCard> modifierCardCollection;
-        private List<HeroCard> heroes;
+        private List<Hero> heroes;
         #endregion
         
         /// <summary>
@@ -35,7 +35,7 @@ namespace HeroSchool
         /// <summary>
         /// Collection of Heroes that the player can battle with
         /// </summary>
-        public List<HeroCard> Heroes { get => heroes; set => heroes = value; }
+        public List<Hero> Heroes { get => heroes; set => heroes = value; }
 
         //Player's Name
         public string PlayerName { get => playerName; set => playerName = value; }

@@ -13,8 +13,8 @@ namespace HeroSchoolUI
 {
     public partial class Form1 : Form
     {
-        HeroCard player1;
-        HeroCard player2;
+        Hero player1;
+        Hero player2;
 
         public Form1()
         {
@@ -28,7 +28,7 @@ namespace HeroSchoolUI
         }
         public void CreatePlayer2()
         {
-            player2 = new HeroCard("Alan", 10);
+            player2 = new Hero("Alan", 10);
             player2.AddCardtoAttackCollection("Laserblast", 3);
             player2.AddCardtoAttackCollection("Bazooka", 6);
             player2.AddCardtoAttackCollection("Punch", 1);
@@ -43,7 +43,7 @@ namespace HeroSchoolUI
         }
         public void CreatePlayer1()
         {
-            player1 = new HeroCard("Rob", 10);
+            player1 = new Hero("Rob", 10);
             player1.AddCardtoAttackCollection("Lightning", 3);
             player1.AddCardtoAttackCollection("Fireball", 6);
             player1.AddCardtoAttackCollection("Stone", 1);

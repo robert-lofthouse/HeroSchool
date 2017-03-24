@@ -6,7 +6,7 @@ namespace HeroSchool
     {
         List<AttackCard> AttackCardCollection { get; set; }
         List<DefenseCard> DefenseCardCollection { get; set; }
-        List<HeroCard> Heroes { get; set; }
+        List<Hero> Heroes { get; set; }
         List<ModifierCard> ModifierCardCollection { get; set; }
         string PlayerName { get; set; }
 

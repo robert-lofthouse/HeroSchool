@@ -4,17 +4,25 @@ using System.Linq;
 
 namespace HeroSchool
 {
+    
     public abstract class Card 
     {
-        public string Name { get; set; }
-        public int Value { get; set; }
-        public Constants.CardType Type { get; set; }
+        private int energy;
+        private string name;
+        private int value;
+        private Constants.CardType type;
 
-        public Card(string p_name, int p_value, Constants.CardType p_cardType)
+        public string Name { get => name; }
+        public int Value { get => value; }
+        public Constants.CardType Type { get => type;  }
+        public int Energy { get => energy; }
+
+        public Card(string p_name, int p_value, int p_energy, Constants.CardType p_cardType)
         {
-            Name = p_name;
-            Value = p_value;
-            Type = p_cardType;
+            name = p_name;
+            value = p_value;
+            energy = p_energy;
+            type = p_cardType;
         }
 
         public override string ToString()

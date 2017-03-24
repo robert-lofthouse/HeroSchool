@@ -4,35 +4,35 @@
     {
         public enum ModifierType
         {
-            Value = 1,
-            Action = 2
+            Value = 'V',
+            Action = 'A'
         }
 
         public enum ModifierScope
         {
-            OneOff = 1,
-            Permanent = 2
+            OneOff = 'O',
+            Permanent = 'P'
         }
 
         public enum ModifierIgnoreDefenseType
         {
-            FirstDefenseCard = 1,
-            AllDefenseCards = 2
+            FirstDefenseCard = 'F',
+            AllDefenseCards = 'A'
         }
         public enum CardType
         {
-            Attack = 1,
-            Defense = 2,
-            Modifier = 3,
-            Player = 4
+            Attack = 'A',
+            Defense = 'D',
+            Modifier = 'M',
+            Hero = 'H'
         }
 
         public enum AttackResult
         {
-            AttackSuccededDamagedNotKilled = 1,
-            AttackSuccededDamagedAndKilled = 2,
-            AttackSuccededNotDamaged = 3,
-            AttackFailed = 100
+            AttackSuccededDamagedNotKilled = 'S',
+            AttackSuccededDamagedAndKilled = 'K',
+            AttackSuccededNotDamaged = 'M',
+            AttackFailed = 'F'
         }
     }
 }

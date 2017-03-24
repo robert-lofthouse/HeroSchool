@@ -53,7 +53,7 @@
     <Compile Include="ISchool.cs" />
     <Compile Include="ModifierCard.cs" />
     <Compile Include="PlayableCard.cs" />
-    <Compile Include="HeroCard.cs" />
+    <Compile Include="Hero.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayersMaster.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

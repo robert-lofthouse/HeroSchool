@@ -16,20 +16,20 @@ namespace HeroSchool
         /// <param name="p_value"></param>
         /// <param name="p_cardType"></param>
         /// <returns></returns>
-        public bool CreateCard(string p_name, int p_value, Constants.CardType p_cardType)
+        public bool CreateCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType)
         {
             try
             {
                 switch (p_cardType)
                 {
                     case Constants.CardType.Attack:
-                        this.Add(new AttackCard(p_name, p_value));
+                        Add(new AttackCard(p_name, p_value,p_energy));
                         break;
                     case Constants.CardType.Defense:
-                        this.Add(new DefenseCard(p_name, p_value));
+                        Add(new DefenseCard(p_name, p_value, p_energy));
                         break;
                     case Constants.CardType.Modifier:
-                        this.Add(new ModifierCard(p_name, p_value));
+                        Add(new ModifierCard(p_name, p_value, p_energy));
                         break;
                     default:
                         return false;
