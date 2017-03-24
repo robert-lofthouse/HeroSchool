@@ -6,14 +6,19 @@ using System.Threading.Tasks;
 
 namespace HeroSchool
 {
-    public class School : ISchool
+
+    class School : ISchool
     {
         private List<Player> players;
+        private string schoolName;
 
         public List<Player> Players { get => players; }
 
-        public School()
+        public string Name { get => schoolName;  }
+
+        public School(string p_name)
         {
+            schoolName = p_name;
             players = new List<Player>();
         }
                 
