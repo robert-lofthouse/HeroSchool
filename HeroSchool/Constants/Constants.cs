@@ -34,5 +34,11 @@
             AttackSuccededNotDamaged = 'M',
             AttackFailed = 'F'
         }
+
+        public enum RepositoryType
+        {
+            Player = 'P',
+            Card = 'C'
+        }
     }
 }

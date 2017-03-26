@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HeroSchool.Interfaces
 {
-    public interface IBattle
+    public interface IBattle : IHSObject
     {
         bool Start();
         void AddFirstHero(Hero p_hero);

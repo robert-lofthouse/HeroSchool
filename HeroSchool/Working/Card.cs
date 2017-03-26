@@ -5,7 +5,7 @@ using System.Linq;
 namespace HeroSchool
 {
     
-    public abstract class Card 
+    public abstract class Card : IHSObject
     {
         private int energy;
         private string name;

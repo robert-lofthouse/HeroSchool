@@ -2,9 +2,8 @@
 
 namespace HeroSchool.Interfaces
 {
-    public interface ISchool
+    public interface ISchool : IHSObject
     {
-        string Name { get; }
         List<IPlayer> Players { get; }
 
         bool AddPlayer(IPlayer p_player);

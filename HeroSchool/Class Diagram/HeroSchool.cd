@@ -13,6 +13,7 @@
       <HashCode>AAAAAAAAAAAAAAQEAAAEAAQAAAAFACAAAQAgAAAAAAA=</HashCode>
       <FileName>Card.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="HeroSchool.ModifierCard">
     <Position X="7" Y="4.5" Width="3.75" />

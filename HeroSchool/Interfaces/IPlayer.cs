@@ -2,13 +2,12 @@
 
 namespace HeroSchool.Interfaces
 {
-    public interface IPlayer
+    public interface IPlayer : IHSObject
     {
         List<ActionCard> AttackCardCollection { get; set; }
         List<ActionCard> DefenseCardCollection { get; set; }
         List<Hero> Heroes { get; set; }
         List<ModifierCard> ModifierCardCollection { get; set; }
-        string PlayerName { get; set; }
 
         void AddCardtoAttackCollection(ActionCard atkCard);
         void AddCardtoDefenseCollection(ActionCard defCard);

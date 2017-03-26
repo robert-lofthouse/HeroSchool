@@ -15,20 +15,13 @@ namespace HeroSchool.Factories
         /// <param name="p_Playername"></param>
         /// <param name="p_playerList"></param>
         /// <returns></returns>
-        static public IPlayer CreatePlayer(string p_Playername, List<IPlayer> p_playerList)
+        public static IPlayer CreatePlayer(string p_Playername)
         {
             try
             {
-                IPlayer newPlayer = null;
-                if (p_playerList.Exists(c => c.PlayerName == p_Playername))
-                {
-                    throw new Exception(string.Format("{0} already exists in the player list", p_Playername));
-                }
-                else
-                {
-                    newPlayer = new Player(p_Playername);
-                    p_playerList.Add(newPlayer);
-                }
+                IPlayer newPlayer;
+                newPlayer = new Player(p_Playername);
+
                 return newPlayer;
             }
             catch (Exception ex)
