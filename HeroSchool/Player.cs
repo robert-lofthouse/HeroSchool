@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeroSchool.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,8 @@ namespace HeroSchool
         #region Private variables
 
         private string playerName;
-        private List<AttackCard> attackCardCollection;
-        private List<DefenseCard> defenseCardCollection;
+        private List<ActionCard> attackCardCollection;
+        private List<ActionCard> defenseCardCollection;
         private List<ModifierCard> modifierCardCollection;
         private List<Hero> heroes;
         #endregion
@@ -20,12 +21,12 @@ namespace HeroSchool
         /// <summary>
         /// Collection of attack cards owned by the player
         /// </summary>
-        public List<AttackCard> AttackCardCollection { get => attackCardCollection; set => attackCardCollection = value; }
+        public List<ActionCard> AttackCardCollection { get => attackCardCollection; set => attackCardCollection = value; }
 
         /// <summary>
         /// Collection of Defense cards owned by the player
         /// </summary>
-        public List<DefenseCard> DefenseCardCollection { get => defenseCardCollection; set => defenseCardCollection = value; }
+        public List<ActionCard> DefenseCardCollection { get => defenseCardCollection; set => defenseCardCollection = value; }
 
         /// <summary>
         /// Collection of Modifier cards owned by the player
@@ -43,8 +44,8 @@ namespace HeroSchool
         //Constructore
         public Player(string p_playerName)
         {
-            AttackCardCollection = new List<AttackCard>();
-            DefenseCardCollection = new List<DefenseCard>();
+            AttackCardCollection = new List<ActionCard>();
+            DefenseCardCollection = new List<ActionCard>();
             ModifierCardCollection = new List<ModifierCard>();
 
             playerName = p_playerName;
@@ -55,7 +56,7 @@ namespace HeroSchool
         /// </summary>
         /// <param name="cardName"></param>
         /// <returns></returns>
-        public AttackCard AttackCard(string cardName)
+        public ActionCard GetAttackCard(string cardName)
         {
             return attackCardCollection.Find(x => x.Name == cardName);
         }
@@ -65,7 +66,7 @@ namespace HeroSchool
         /// </summary>
         /// <param name="cardName"></param>
         /// <returns></returns>
-        public DefenseCard DefenseCard(string cardName)
+        public ActionCard GetDefenseCard(string cardName)
         {
             return defenseCardCollection.Find(x => x.Name == cardName);
         }
@@ -75,7 +76,7 @@ namespace HeroSchool
         /// </summary>
         /// <param name="cardName"></param>
         /// <returns></returns>
-        public ModifierCard ModifierCard(string cardName)
+        public ModifierCard GetModifierCard(string cardName)
         {
             return modifierCardCollection.Find(x => x.Name == cardName);
         }
@@ -84,7 +85,7 @@ namespace HeroSchool
         /// Adds an attack card to the attack card collection for the player
         /// </summary>
         /// <param name="atkCard"></param>
-        public void AddCardtoAttackCollection(AttackCard atkCard)
+        public void AddCardtoAttackCollection(ActionCard atkCard)
         {
             attackCardCollection.Add(atkCard);
 
@@ -95,7 +96,7 @@ namespace HeroSchool
         /// </summary>
         /// <param name="p_name"></param>
         /// <param name="p_value"></param>
-        public void AddCardtoDefenseCollection(DefenseCard defCard)
+        public void AddCardtoDefenseCollection(ActionCard defCard)
         {
             defenseCardCollection.Add(defCard);
 

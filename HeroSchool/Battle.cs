@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeroSchool.Interfaces;
+using System;
 
 namespace HeroSchool
 {

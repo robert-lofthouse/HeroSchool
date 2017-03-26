@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroSchool", "HeroSchool\He
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroSchoolTest", "HeroSchoolTest\HeroSchoolTest.csproj", "{B0B3C08B-ECC7-4AC1-8721-CB004DB20711}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroSchoolUI", "HeroSchoolUI\HeroSchoolUI.csproj", "{3FB78479-076A-40EA-858E-562F3EEAA7DF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{B0B3C08B-ECC7-4AC1-8721-CB004DB20711}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0B3C08B-ECC7-4AC1-8721-CB004DB20711}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0B3C08B-ECC7-4AC1-8721-CB004DB20711}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3FB78479-076A-40EA-858E-562F3EEAA7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3FB78479-076A-40EA-858E-562F3EEAA7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3FB78479-076A-40EA-858E-562F3EEAA7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3FB78479-076A-40EA-858E-562F3EEAA7DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

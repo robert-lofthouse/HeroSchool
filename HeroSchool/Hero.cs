@@ -7,18 +7,18 @@ namespace HeroSchool
     /// <summary>
     /// 
     /// </summary>
-    public class Hero : PlayableCard
+    public class Hero : DefenseCard
     {
 
         //Cards currently in play        
-        private List<Card> playedCards;
+        private List<ActionCard> playedCards;
 
         //Cards drawn from the deck that can be playd
         private List<Card> playableCards;
 
         //Cards in the deck, selected from the collection, can consist of Attack, Defense or Modifier Cards
         private List<Card> cardDeck;
-        
+
         /// <summary>
         /// Deck of cards selected for the match
         /// </summary>
@@ -27,7 +27,7 @@ namespace HeroSchool
         /// <summary>
         /// Cards that have been played / are currently in play
         /// </summary>
-        public List<Card> PlayedCards { get => playedCards; set => playedCards = value; }
+        public List<ActionCard> PlayedCards { get => playedCards; set => playedCards = value; }
 
         /// <summary>
         /// Cards drawn from the deck that can be played or held
@@ -39,7 +39,7 @@ namespace HeroSchool
         {
 
             CardDeck = new List<Card>();
-            PlayedCards = new List<Card>();
+            PlayedCards = new List<ActionCard>();
 
         }
 
@@ -82,7 +82,7 @@ namespace HeroSchool
         {
             return cardDeck.Take(NumberofCards).ToList();
         }
-        
+
         /// <summary>
         /// Reorders the card deck (shuffles the deck)
         /// </summary>
@@ -113,7 +113,7 @@ namespace HeroSchool
         /// Takes a card from the deck and adds it to the playing area
         /// </summary>
         /// <param name="actionCard"></param>
-        public void PlayCardfromDeck(Card actionCard)
+        public void PlayCardfromDeck(ActionCard actionCard)
         {
             cardDeck.Remove(actionCard);
             playedCards.Add(actionCard);
@@ -124,7 +124,7 @@ namespace HeroSchool
         /// </summary>
         /// <param name="opponentAttackCard"></param>
         /// <returns></returns>
-        public Constants.AttackResult PerformAttack(AttackCard opponentAttackCard)
+        public Constants.AttackResult PerformAttack(ActionCard opponentAttackCard)
         {
             if (opponentAttackCard == null)
             {
@@ -133,13 +133,13 @@ namespace HeroSchool
             }
             else
             {
-                if (playedCards.Where(x=>x.Type== Constants.CardType.Defense).ToList().Count != 0)
+                if (playedCards.Where(x => x.Type == Constants.CardType.Defense).ToList().Count != 0)
                 {
                     DefenseCard defCard = (DefenseCard)playedCards.Where(x => x.Type == Constants.CardType.Defense).ToList()[0];
                     //If there are any defense cards played, attack them first
 
                     //todo - figure out how the defense card value must be manipulated.
-                    defCard.Value -= opponentAttackCard.Value;
+                    defCard.ApplyAttack(opponentAttackCard);
 
                     if (defCard.Value <= 0)
                     {
@@ -150,13 +150,13 @@ namespace HeroSchool
                 {
                     //If there are no defense cards played, 
                     //set the new value of the defense card based on the result of the attack
-                    Value -= opponentAttackCard.Value;
-                    
+                    ApplyAttack(opponentAttackCard);
+
                 }
 
                 //Remove the attack card from the attacker's prepared cards list
                 opponentAttackCard.HeroCard.playedCards.Remove(opponentAttackCard);
-                
+
                 // return the attack result
                 if (Value <= 0)
                 {

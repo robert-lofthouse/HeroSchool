@@ -1,4 +1,6 @@
-﻿namespace HeroSchool
+﻿using HeroSchool.Interfaces;
+
+namespace HeroSchool
 {
     public static class BattleFactory
     {

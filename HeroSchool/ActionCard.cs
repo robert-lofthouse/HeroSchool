@@ -4,7 +4,7 @@ using System;
 
 namespace HeroSchool
 {
-    public abstract class ActionCard :  PlayableCard
+    public class ActionCard : Card
     {
 
         private Hero playerCard;

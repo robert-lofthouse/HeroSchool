@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeroSchool.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,20 +10,21 @@ namespace HeroSchool
 
     class School : ISchool
     {
-        private List<Player> players;
+        private List<IPlayer> players;
         private string schoolName;
 
-        public List<Player> Players { get => players; }
+        public List<IPlayer> Players { get => players; }
 
         public string Name { get => schoolName;  }
 
         public School(string p_name)
         {
             schoolName = p_name;
-            players = new List<Player>();
+            players = new List<IPlayer>();
         }
                 
-        public bool AddPlayer(Player p_player)
+
+        public bool AddPlayer(IPlayer p_player)
         {
             try
             {
@@ -37,9 +39,10 @@ namespace HeroSchool
             }
         }
 
-        public Player GetPlayer(string p_playerName)
+        public IPlayer GetPlayer(string p_playerName)
         {
             return players.Find(x => x.PlayerName == p_playerName);
         }
+
     }
 }

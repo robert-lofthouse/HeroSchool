@@ -1,69 +1,106 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="HeroSchool.ActionCard">
-    <Position X="2.25" Y="5.25" Width="4.25" />
+    <Position X="1.25" Y="4.5" Width="4.25" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAACgAAAGAAAAAAAABAAAAAAAAA=</HashCode>
       <FileName>ActionCard.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="HeroSchool.AttackCard">
-    <Position X="0.5" Y="8.75" Width="3.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>AttackCard.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="HeroSchool.Card">
-    <Position X="8" Y="0.5" Width="2.5" />
+    <Position X="3.75" Y="0.5" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAQAAAAAAAAAAQAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQEAAAEAAQAAAAFACAAAQAgAAAAAAA=</HashCode>
       <FileName>Card.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="HeroSchool.DefenseCard">
-    <Position X="4.5" Y="8.75" Width="3.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DefenseCard.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="HeroSchool.ModifierCard">
-    <Position X="15.5" Y="3.5" Width="2.5" />
+    <Position X="7" Y="4.5" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAhAAAAgAgAACAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ModifierCard.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="HeroSchool.PlayableCard">
-    <Position X="6" Y="3.5" Width="3" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>PlayableCard.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="HeroSchool.Hero">
-    <Position X="9" Y="5.25" Width="5.75" />
+    <Position X="0.5" Y="11.25" Width="5.75" />
     <TypeIdentifier>
       <HashCode>EABQAAAAgIAAAAAAADEAgAAhEAAABAAAAAAAgAAAAAA=</HashCode>
       <FileName>Hero.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="HeroSchool.School" BaseTypeListCollapsed="true">
-    <Position X="0.5" Y="0.5" Width="4.75" />
+  <Class Name="HeroSchool.School" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAQAAABgAAAAIAgAAAAAAAA=</HashCode>
       <FileName>School.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="HeroSchool.Player" BaseTypeListCollapsed="true">
-    <Position X="15.75" Y="6.5" Width="4.5" />
+  <Class Name="HeroSchool.Player" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQEACAAAAACAAAAACwEAgCEAAAAgAEAgAAAAAAAAAAg=</HashCode>
+      <HashCode>AQEACAAAAACAAAAACQEAACAACAAgAEAgAAADAAAAAAg=</HashCode>
       <FileName>Player.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
+  <Class Name="HeroSchool.Constants" Collapsed="true">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="HeroSchool.Constants.ModifierType">
+        <TypeIdentifier>
+          <NewMemberFileName>Constants.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="HeroSchool.Constants.ModifierScope">
+        <TypeIdentifier>
+          <NewMemberFileName>Constants.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="HeroSchool.Constants.ModifierIgnoreDefenseType">
+        <TypeIdentifier>
+          <NewMemberFileName>Constants.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="HeroSchool.Constants.CardType">
+        <TypeIdentifier>
+          <NewMemberFileName>Constants.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="HeroSchool.Constants.AttackResult">
+        <TypeIdentifier>
+          <NewMemberFileName>Constants.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeroSchool.DefenseCard">
+    <Position X="1.25" Y="8.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEABAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>DefenseCard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="HeroSchool.Interfaces.ISchool" Collapsed="true">
+    <Position X="13.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAQAAAAgAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Interfaces\ISchool.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="HeroSchool.Interfaces.IPlayer" Collapsed="true">
+    <Position X="11.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQEAAAAAAACAAAAAAAAAACAACAAAAEAgAAADAAAAAAg=</HashCode>
+      <FileName>Interfaces\IPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
