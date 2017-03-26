@@ -15,7 +15,7 @@ namespace HeroSchool
         private IEnumerable<ActionCard> attackCardCollection = new List<ActionCard>();
         private IEnumerable<ActionCard> defenseCardCollection = new List<ActionCard>();
         private IEnumerable<ModifierCard> modifierCardCollection = new List<ModifierCard>();
-        private IEnumerable<Hero> heroes = new List<Hero>();
+        private IEnumerable<HeroCard> heroes = new List<HeroCard>();
         #endregion
         
         /// <summary>
@@ -36,7 +36,7 @@ namespace HeroSchool
         /// <summary>
         /// Collection of Heroes that the player can battle with
         /// </summary>
-        public IEnumerable<Hero> Heroes { get => heroes; set => heroes = value; }
+        public IEnumerable<HeroCard> Heroes { get => heroes; set => heroes = value; }
 
         //Player's Name
         public string Name { get => name; set => throw new NotImplementedException(); }

@@ -8,8 +8,8 @@ namespace HeroSchool.Interfaces
     public interface IBattle : IHSObject
     {
         bool Start();
-        void AddFirstHero(Hero p_hero);
-        void AddSecondHero(Hero p_hero);
+        void AddFirstHero(HeroCard p_hero);
+        void AddSecondHero(HeroCard p_hero);
         
     }
 

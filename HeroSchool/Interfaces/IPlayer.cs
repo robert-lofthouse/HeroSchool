@@ -6,7 +6,7 @@ namespace HeroSchool.Interfaces
     {
         IEnumerable<ActionCard> AttackCardCollection { get; set; }
         IEnumerable<ActionCard> DefenseCardCollection { get; set; }
-        IEnumerable<Hero> Heroes { get; set; }
+        IEnumerable<HeroCard> Heroes { get; set; }
         IEnumerable<ModifierCard> ModifierCardCollection { get; set; }
 
         void AddCardtoAttackCollection(ActionCard atkCard);

@@ -26,6 +26,11 @@ namespace HeroSchool
             energy = p_energy;
             type = p_cardType;
         }
+        public Card(string p_name, int p_value, int p_energy, Constants.CardType p_cardType, int x) 
+            : this (p_name, p_value, p_energy, p_cardType)
+        {
+                
+        }
 
         public override string ToString()
         {

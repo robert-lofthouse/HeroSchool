@@ -4,7 +4,7 @@ namespace HeroSchool
 {
     public static class BattleFactory
     {
-        static IBattle CreateBattle(Hero p_hero1, Hero p_hero2)
+        static IBattle CreateBattle(HeroCard p_hero1, HeroCard p_hero2)
         {
             IBattle battle = new Battle();
 

@@ -40,11 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Working\ActionCard.cs" />
-    <Compile Include="Working\Battle.cs" />
-    <Compile Include="Working\DefenseCard.cs" />
+    <Compile Include="Cards\ActionCard.cs" />
+    <Compile Include="Battle.cs" />
+    <Compile Include="Cards\DefenseCard.cs" />
     <Compile Include="Factories\BattleFactory.cs" />
-    <Compile Include="Working\Card.cs" />
+    <Compile Include="Cards\Card.cs" />
     <Compile Include="Factories\CardFactory.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />
     <Compile Include="Factories\RepositoryFactory.cs" />
@@ -55,12 +55,12 @@
     <Compile Include="Interfaces\IBattle.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\ISchool.cs" />
-    <Compile Include="Working\ModifierCard.cs" />
-    <Compile Include="Working\Hero.cs" />
-    <Compile Include="Working\Player.cs" />
+    <Compile Include="Cards\ModifierCard.cs" />
+    <Compile Include="Cards\HeroCard.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Repositories\PlayerRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Working\School.cs" />
+    <Compile Include="School.cs" />
     <Compile Include="Factories\SchoolFactory.cs" />
   </ItemGroup>
   <ItemGroup>
