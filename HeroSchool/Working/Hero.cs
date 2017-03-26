@@ -11,37 +11,40 @@ namespace HeroSchool
     {
 
         //Cards currently in play        
-        private List<ActionCard> playedCards;
+        private IEnumerable<ActionCard> playedCards = new List<ActionCard>();
 
         //Cards drawn from the deck that can be playd
-        private List<Card> playableCards;
+        private IEnumerable<Card> playableCards;
 
         //Cards in the deck, selected from the collection, can consist of Attack, Defense or Modifier Cards
-        private List<Card> cardDeck;
+        private IEnumerable<Card> cardDeck = new List<Card>();
+
+        private int EnergyUsed = 0;
+        private int EnergyReturned = 0;
 
         /// <summary>
         /// Deck of cards selected for the match
         /// </summary>
-        public List<Card> CardDeck { get => cardDeck; set => cardDeck = value; }
+        public IEnumerable<Card> CardDeck { get => cardDeck; set => cardDeck = value; }
 
         /// <summary>
         /// Cards that have been played / are currently in play
         /// </summary>
-        public List<ActionCard> PlayedCards { get => playedCards; set => playedCards = value; }
+        public IEnumerable<ActionCard> PlayedCards { get => playedCards; set => playedCards = value; }
 
         /// <summary>
         /// Cards drawn from the deck that can be played or held
         /// </summary>
-        public List<Card> PlayableCards { get => playableCards; set => playableCards = value; }
+        public IEnumerable<Card> PlayableCards { get => playableCards; set => playableCards = value; }
 
         //Constructor
-        public Hero(string p_name, int p_value, int p_energy, Constants.CardType p_cardType = Constants.CardType.Hero) : base(p_name, p_value, p_energy, Constants.CardType.Hero)
-        {
+        public Hero(string p_name, int p_value, int p_energy, Constants.CardType p_cardType = Constants.CardType.Hero) : base(p_name, p_value, p_energy, Constants.CardType.Hero) {  }
 
-            CardDeck = new List<Card>();
-            PlayedCards = new List<ActionCard>();
-
-        }
+        /// <summary>
+        /// Energy is calculated from the base energy of the hero minus the accumulative energy of all the cards played so far
+        /// </summary>
+        public override int Energy { get => Energy - EnergyUsed + EnergyReturned; }
+           
 
         /// <summary>
         /// Returns an Attack Card from the Played Attack Cards List matching the parameter name
@@ -50,7 +53,7 @@ namespace HeroSchool
         /// <returns></returns>
         public Card PlayedCard(string cardName)
         {
-            return playedCards.Find(x => x.Name == cardName);
+            return playedCards.ToList().Find(x => x.Name == cardName);
         }
 
         /// <summary>
@@ -60,7 +63,7 @@ namespace HeroSchool
         /// <returns></returns>
         public Card Card(string cardName)
         {
-            return cardDeck.Find(x => x.Name == cardName);
+            return cardDeck.ToList().Find(x => x.Name == cardName);
         }
 
         /// <summary>
@@ -70,7 +73,7 @@ namespace HeroSchool
         /// <returns></returns>
         public Card PlayableCard(string cardName)
         {
-            return playableCards.Find(x => x.Name == cardName);
+            return playableCards.ToList().Find(x => x.Name == cardName);
         }
 
         /// <summary>
@@ -78,7 +81,7 @@ namespace HeroSchool
         /// </summary>
         /// <param name="NumberofCards"></param>
         /// <returns></returns>
-        public List<Card> DrawCards(int NumberofCards)
+        public IEnumerable<Card> DrawCards(int NumberofCards)
         {
             return cardDeck.Take(NumberofCards).ToList();
         }
@@ -104,7 +107,7 @@ namespace HeroSchool
                 ActionCard actCard = (ActionCard)card;
                 actCard.HeroCard = this;
             }
-            cardDeck.Add(card);
+            cardDeck.ToList().Add(card);
 
             ShuffleDeck();
         }
@@ -115,8 +118,17 @@ namespace HeroSchool
         /// <param name="actionCard"></param>
         public void PlayCardfromDeck(ActionCard actionCard)
         {
-            cardDeck.Remove(actionCard);
-            playedCards.Add(actionCard);
+            // check if energy requirments are met
+            if (MeetsEnergyRequirement)
+            {
+                cardDeck.ToList().Remove(actionCard);
+                playedCards.ToList().Add(actionCard);
+                EnergyUsed += actionCard.Energy;
+            }
+            else
+            {
+                throw new Exception("Energy requirement not met, unable to add to deck");
+            }
         }
 
         /// <summary>
@@ -143,7 +155,7 @@ namespace HeroSchool
 
                     if (defCard.Value <= 0)
                     {
-                        playedCards.Remove(defCard);
+                        playedCards.ToList().Remove(defCard);
                     }
                 }
                 else
@@ -151,11 +163,10 @@ namespace HeroSchool
                     //If there are no defense cards played, 
                     //set the new value of the defense card based on the result of the attack
                     ApplyAttack(opponentAttackCard);
-
                 }
 
                 //Remove the attack card from the attacker's prepared cards list
-                opponentAttackCard.HeroCard.playedCards.Remove(opponentAttackCard);
+                opponentAttackCard.HeroCard.playedCards.ToList().Remove(opponentAttackCard);
 
                 // return the attack result
                 if (Value <= 0)

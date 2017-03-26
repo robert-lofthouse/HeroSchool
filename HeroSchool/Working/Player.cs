@@ -11,44 +11,41 @@ namespace HeroSchool
     {
         #region Private variables
 
-        private string playerName;
-        private List<ActionCard> attackCardCollection;
-        private List<ActionCard> defenseCardCollection;
-        private List<ModifierCard> modifierCardCollection;
-        private List<Hero> heroes;
+        private string name;
+        private IEnumerable<ActionCard> attackCardCollection = new List<ActionCard>();
+        private IEnumerable<ActionCard> defenseCardCollection = new List<ActionCard>();
+        private IEnumerable<ModifierCard> modifierCardCollection = new List<ModifierCard>();
+        private IEnumerable<Hero> heroes = new List<Hero>();
         #endregion
         
         /// <summary>
         /// Collection of attack cards owned by the player
         /// </summary>
-        public List<ActionCard> AttackCardCollection { get => attackCardCollection; set => attackCardCollection = value; }
+        public IEnumerable<ActionCard> AttackCardCollection { get => attackCardCollection; set => attackCardCollection = value; }
 
         /// <summary>
         /// Collection of Defense cards owned by the player
         /// </summary>
-        public List<ActionCard> DefenseCardCollection { get => defenseCardCollection; set => defenseCardCollection = value; }
+        public IEnumerable<ActionCard> DefenseCardCollection { get => defenseCardCollection; set => defenseCardCollection = value; }
 
         /// <summary>
         /// Collection of Modifier cards owned by the player
         /// </summary>
-        public List<ModifierCard> ModifierCardCollection { get => modifierCardCollection; set => modifierCardCollection = value; }
+        public IEnumerable<ModifierCard> ModifierCardCollection { get => modifierCardCollection; set => modifierCardCollection = value; }
 
         /// <summary>
         /// Collection of Heroes that the player can battle with
         /// </summary>
-        public List<Hero> Heroes { get => heroes; set => heroes = value; }
+        public IEnumerable<Hero> Heroes { get => heroes; set => heroes = value; }
 
         //Player's Name
-        public string PlayerName { get => playerName; set => playerName = value; }
+        public string Name { get => name; set => throw new NotImplementedException(); }
 
         //Constructore
         public Player(string p_playerName)
         {
-            AttackCardCollection = new List<ActionCard>();
-            DefenseCardCollection = new List<ActionCard>();
-            ModifierCardCollection = new List<ModifierCard>();
 
-            playerName = p_playerName;
+            name = p_playerName;
         }
 
         /// <summary>
@@ -58,7 +55,7 @@ namespace HeroSchool
         /// <returns></returns>
         public ActionCard GetAttackCard(string cardName)
         {
-            return attackCardCollection.Find(x => x.Name == cardName);
+            return attackCardCollection.ToList().Find(x => x.Name == cardName);
         }
 
         /// <summary>
@@ -68,7 +65,7 @@ namespace HeroSchool
         /// <returns></returns>
         public ActionCard GetDefenseCard(string cardName)
         {
-            return defenseCardCollection.Find(x => x.Name == cardName);
+            return defenseCardCollection.ToList().Find(x => x.Name == cardName);
         }
 
         /// <summary>
@@ -78,7 +75,7 @@ namespace HeroSchool
         /// <returns></returns>
         public ModifierCard GetModifierCard(string cardName)
         {
-            return modifierCardCollection.Find(x => x.Name == cardName);
+            return modifierCardCollection.ToList().Find(x => x.Name == cardName);
         }
 
         /// <summary>
@@ -87,7 +84,7 @@ namespace HeroSchool
         /// <param name="atkCard"></param>
         public void AddCardtoAttackCollection(ActionCard atkCard)
         {
-            attackCardCollection.Add(atkCard);
+            attackCardCollection.ToList().Add(atkCard);
 
         }
         
@@ -98,7 +95,7 @@ namespace HeroSchool
         /// <param name="p_value"></param>
         public void AddCardtoDefenseCollection(ActionCard defCard)
         {
-            defenseCardCollection.Add(defCard);
+            defenseCardCollection.ToList().Add(defCard);
 
         }
     }

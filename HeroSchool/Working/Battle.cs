@@ -8,10 +8,9 @@ namespace HeroSchool
         private Hero Hero1;
         private Hero Hero2;
 
-        public Battle()
-        {
+        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        }
+        public Battle() { }
 
         public void AddFirstHero(Hero p_hero)
         {

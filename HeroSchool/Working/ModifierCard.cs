@@ -9,9 +9,7 @@
         public bool Immunity { get; set; }
         public bool FollowThroughAttack { get; set; }
         
-        public ModifierCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType = Constants.CardType.Modifier) : base(p_name, p_value,p_energy, Constants.CardType.Modifier)
-        {
-        }
+        public ModifierCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType = Constants.CardType.Modifier) : base(p_name, p_value,p_energy, Constants.CardType.Modifier) { }
     }
 
 }
