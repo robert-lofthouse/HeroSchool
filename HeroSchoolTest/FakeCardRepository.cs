@@ -1,4 +1,6 @@
-﻿using HeroSchool.Interfaces;
+﻿using HeroSchool;
+using HeroSchool.Factories;
+using HeroSchool.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +9,25 @@ using System.Threading.Tasks;
 
 namespace HeroSchoolTest
 {
-    class FakeCardRepository : IRepository
+    public class FakeCardRepository : IRepository
     {
+        private List<Card> cardList;
+
+        public FakeCardRepository()
+        {
+            cardList = new List<Card>()
+            {
+                CardFactory.CreateCard("Fireball", 1, 1, Constants.CardType.Attack),
+                CardFactory.CreateCard("Lightning Bolt", 2, 2, Constants.CardType.Attack, 1),
+                CardFactory.CreateCard("Block", 2, 1, Constants.CardType.Defense, 1),
+                CardFactory.CreateCard("Dodge", 3, 2, Constants.CardType.Defense, 1),
+                CardFactory.CreateCard("Boost", 1, 1, Constants.CardType.Modifier)
+            };
+        }
+
         public void Add(IHSObject p_new)
         {
-            throw new NotImplementedException();
+            cardList.Add((Card)p_new);
         }
 
         public void Delete(IHSObject p_del)
@@ -21,7 +37,7 @@ namespace HeroSchoolTest
 
         public IEnumerable<IHSObject> Get()
         {
-            throw new NotImplementedException();
+            return cardList;
         }
 
         public IHSObject Get(IHSObject p_get)

@@ -1,4 +1,5 @@
-﻿using HeroSchool.Interfaces;
+﻿using HeroSchool;
+using HeroSchool.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,28 @@ using System.Threading.Tasks;
 
 namespace HeroSchoolTest
 {
-    class FakeHeroRepository : IRepository
+    public class FakeSchoolRepository : IRepository
     {
+        private List<School> SchoolList;
+
+        public FakeSchoolRepository()
+        {
+            SchoolList = new List<School>()
+            {
+                new School("Ogilvie"),
+                new School("Buck"),
+                new School("Lofthouse")
+            };
+
+            SchoolList[0].AddPlayer(new Player("Peter"));
+            SchoolList[1].AddPlayer(new Player("Alan"));
+            SchoolList[2].AddPlayer(new Player("Robert"));
+
+        }
+
         public void Add(IHSObject p_new)
         {
-            throw new NotImplementedException();
+            SchoolList.Add((School)p_new);
         }
 
         public void Delete(IHSObject p_del)
@@ -21,7 +39,7 @@ namespace HeroSchoolTest
 
         public IEnumerable<IHSObject> Get()
         {
-            throw new NotImplementedException();
+            return SchoolList;
         }
 
         public IHSObject Get(IHSObject p_get)

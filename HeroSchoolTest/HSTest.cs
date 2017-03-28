@@ -13,9 +13,11 @@ namespace HeroSchoolTest
     [TestClass]
     public class HSTest
     {
+        private FakeSchoolRepository schoolRepo = new FakeSchoolRepository();
+        private FakeCardRepository cardRepo = new FakeCardRepository();
 
-        private List<Card> CardList = new List<Card>();
-        private List<ISchool> SchoolList = new List<ISchool>();
+        
+
         private IBattle Battle;
 
         ///tests
@@ -24,44 +26,67 @@ namespace HeroSchoolTest
         [TestMethod]
         public void CreateNewSchools()
         {
-            ISchool buckSchool = SchoolFactory.CreateSchool("Buck");
-            ISchool lofthouseSchool = SchoolFactory.CreateSchool("Lofthouse");
+            List<School> SchoolList;
 
-            SchoolList.Add(buckSchool);
-            SchoolList.Add(lofthouseSchool);
+            ISchool NewSchool = SchoolFactory.CreateSchool("NewSchool");
 
-            Assert.IsTrue(SchoolList.ToList().Count == 2);
-            Assert.IsTrue(SchoolList.ToList()[0].Name == "Buck");
-            Assert.IsTrue(SchoolList.ToList()[1].Name == "Lofthouse");
+            schoolRepo.Add(NewSchool);
+
+            SchoolList = (List<School>)schoolRepo.Get();
+
+            Assert.IsTrue(SchoolList.Count == 4);
+            Assert.IsTrue(SchoolList[3].Name == "NewSchool");
 
         }
         ///2 - Create a card using factorym , add to a general list of cards
         [TestMethod]
         public void CreateNewCards()
         {
+            List<Card> CardList;
+        
             //create an attack, defense and modifier card
-            Card atkcard = CardFactory.CreateCard("Attack1", 1, 1, Constants.CardType.Attack);
-            Card atkcard2 = CardFactory.CreateCard("Attack2", 2, 2, Constants.CardType.Attack,1);
-            Card defcard = CardFactory.CreateCard("Defense1", 2, 2, Constants.CardType.Defense,1);
-            Card defcard2 = CardFactory.CreateCard("Defense2", 3, 2, Constants.CardType.Defense,1);
-            Card modCard = CardFactory.CreateCard("Modifier1", 1, 1, Constants.CardType.Modifier);
+            Card NewCard = CardFactory.CreateCard("NewCard", 1, 1, Constants.CardType.Attack);
 
-            CardList.Add(atkcard);
-            CardList.Add(atkcard2);
-            CardList.Add(defcard);
-            CardList.Add(defcard2);
-            CardList.Add(modCard);
+            cardRepo.Add(NewCard);
 
-            Assert.AreEqual(CardList.Count, 5);
-            ActionCard actcard = (ActionCard)CardList[2];
-            Assert.AreEqual(actcard.ReturnEnergy, 1);
-            Assert.AreEqual(actcard.Energy, 2);
+            CardList = (List<Card>)cardRepo.Get();
+
+            Assert.AreEqual(CardList.Count, 6);
+            ActionCard actcard = (ActionCard)CardList[5];
+            Assert.AreEqual(actcard.ReturnEnergy, 0);
+            Assert.AreEqual(actcard.Energy, 1);
+            Assert.AreEqual(actcard.Name, "NewCard");
 
         }
         ///3 - Create a player using factory, add to a general list of players
+        [TestMethod]
+        public void CreateNewPlayers()
+        {
+            List<School> SchoolList = (List<School>)schoolRepo.Get();
+
+            School buckSchool = SchoolList.Find(x => x.Name == "Buck");
+            School lofthouseSchool = SchoolList.Find(x => x.Name == "Lofthouse");
+            School ogilvieSchool = SchoolList.Find(x => x.Name == "Ogilvie");
+
+            buckSchool.AddPlayer(PlayerFactory.CreatePlayer("Aidan"));
+            lofthouseSchool.AddPlayer(PlayerFactory.CreatePlayer("David"));
+            ogilvieSchool.AddPlayer(PlayerFactory.CreatePlayer("Simon"));
+
+            Assert.AreEqual(buckSchool.Players.Count(), 2);
+            Assert.AreEqual(lofthouseSchool.Players.Count(), 2);
+            Assert.AreEqual(ogilvieSchool.Players.Count(), 2);
+
+            List<IPlayer> buckSchoolPlayers = buckSchool.Players.ToList();
+            List<IPlayer> lofthouseSchoolPlayers = lofthouseSchool.Players.ToList();
+            List<IPlayer> ogilvieSchoolPlayers = ogilvieSchool.Players.ToList();
+
+            Assert.AreEqual(buckSchoolPlayers[1].Name, "Aidan");
+            Assert.AreEqual(lofthouseSchoolPlayers[1].Name, "David");
+            Assert.AreEqual(ogilvieSchoolPlayers[1].Name, "Simon");
+        }
+
         ///4 - Retrieve schools into general list of schools
         ///5 - Retrieve Cards into general list of cards
-        ///6 - Retrieve players into general list of players
         ///7 - Create heros in school
         ///8 - Add cards to player collection
         ///9 - Add cards from collection to a hero

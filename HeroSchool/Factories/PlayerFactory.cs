@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HeroSchool.Factories
 {
-    static class PlayerFactory
+    public static class PlayerFactory
     {
         /// <summary>
         /// Create a new player object and add it to the players collection

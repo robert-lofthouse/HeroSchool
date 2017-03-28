@@ -10,7 +10,7 @@ namespace HeroSchool
 
     public class School : ISchool
     {
-        private IEnumerable<IPlayer> players;
+        private List<IPlayer> players;
         private string schoolName;
 
         public IEnumerable<IPlayer> Players { get => players; }
@@ -28,7 +28,8 @@ namespace HeroSchool
         {
             try
             {
-                players.ToList().Add(p_player);
+                players.Add(p_player);
+
                 return true;
 
             }
