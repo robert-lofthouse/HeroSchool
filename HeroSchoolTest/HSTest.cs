@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using HeroSchool.Interfaces;
 using HeroSchool.Factories;
 using System.Linq;
+using System;
 
 namespace HeroSchoolTest
 {
@@ -15,8 +16,6 @@ namespace HeroSchoolTest
     {
         private FakeSchoolRepository schoolRepo = new FakeSchoolRepository();
         private FakeCardRepository cardRepo = new FakeCardRepository();
-
-        
 
         private IBattle Battle;
 
@@ -84,10 +83,29 @@ namespace HeroSchoolTest
             Assert.AreEqual(lofthouseSchoolPlayers[1].Name, "David");
             Assert.AreEqual(ogilvieSchoolPlayers[1].Name, "Simon");
         }
+        ///7 - Create heros for a player
+        [TestMethod]
+        public void CreateNewHero()
+        {
+            List<School> schoolList = (List<School>)schoolRepo.Get();
+            School school = schoolList[0];
 
-        ///4 - Retrieve schools into general list of schools
-        ///5 - Retrieve Cards into general list of cards
-        ///7 - Create heros in school
+            Player player = (Player)school.Players.ToList()[new Random().Next(school.Players.Count()-1)];
+            FakeHeroRepository heroRepo = new FakeHeroRepository(player);
+
+            Assert.AreEqual(player.Heroes.Count(), 1);
+
+            heroRepo.Add("MyHero", 14, 4);
+
+            var myhero = player.Heroes.ToList().Find(x => x.Name == "MyHero");
+
+            Assert.IsNotNull(myhero);
+            Assert.AreEqual(player.Heroes.Count(), 2);
+            Assert.AreEqual(myhero.Value, 14);
+            Assert.AreEqual(myhero.Energy, 4);
+            Assert.AreEqual(myhero.Type, Constants.CardType.Hero);
+
+        }
         ///8 - Add cards to player collection
         ///9 - Add cards from collection to a hero
         ///10- Create a battle between 2 heros from opposing schools

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FakeCardRepository.cs" />
+    <Compile Include="FakeHeroRepository.cs" />
     <Compile Include="FakeSchoolRepository.cs" />
     <Compile Include="HSTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

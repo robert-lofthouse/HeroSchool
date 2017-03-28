@@ -9,7 +9,7 @@ namespace HeroSchool
     /// </summary>
     public class HeroCard : DefenseCard
     {
-
+        private int baseEnergy;
         //Cards currently in play        
         private IEnumerable<ActionCard> playedCards = new List<ActionCard>();
 
@@ -38,12 +38,15 @@ namespace HeroSchool
         public IEnumerable<Card> PlayableCards { get => playableCards; set => playableCards = value; }
 
         //Constructor
-        public HeroCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType = Constants.CardType.Hero) : base(p_name, p_value, p_energy, Constants.CardType.Hero) {  }
+        public HeroCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType = Constants.CardType.Hero) : base(p_name, p_value, p_energy, p_cardType)
+        {
+            baseEnergy = p_energy;
+        }
 
         /// <summary>
         /// Energy is calculated from the base energy of the hero minus the accumulative energy of all the cards played so far
         /// </summary>
-        public override int Energy { get => Energy - EnergyUsed + EnergyReturned; }
+        public override int Energy { get => baseEnergy - EnergyUsed + EnergyReturned; }
            
 
         /// <summary>

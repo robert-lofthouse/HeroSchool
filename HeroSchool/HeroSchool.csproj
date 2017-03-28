@@ -46,6 +46,7 @@
     <Compile Include="Factories\BattleFactory.cs" />
     <Compile Include="Cards\Card.cs" />
     <Compile Include="Factories\CardFactory.cs" />
+    <Compile Include="Factories\HeroFactory.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />
     <Compile Include="Factories\RepositoryFactory.cs" />
     <Compile Include="Interfaces\IHSObject.cs" />

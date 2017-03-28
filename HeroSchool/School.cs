@@ -23,7 +23,6 @@ namespace HeroSchool
             players = new List<IPlayer>();
         }
                 
-
         public bool AddPlayer(IPlayer p_player)
         {
             try
