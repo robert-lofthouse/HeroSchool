@@ -58,6 +58,7 @@
     <Compile Include="Cards\ModifierCard.cs" />
     <Compile Include="Cards\HeroCard.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Repositories\HeroRepository.cs" />
     <Compile Include="Repositories\PlayerRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="School.cs" />

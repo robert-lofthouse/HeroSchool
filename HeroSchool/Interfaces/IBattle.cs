@@ -7,10 +7,9 @@ namespace HeroSchool.Interfaces
 {
     public interface IBattle : IHSObject
     {
-        bool Start();
-        void AddFirstHero(HeroCard p_hero);
-        void AddSecondHero(HeroCard p_hero);
-        
+        Constants.AttackResult DoAttack();
+        HeroCard AttackingHero { get; }
+        HeroCard DefendingHero { get; }
     }
 
 }

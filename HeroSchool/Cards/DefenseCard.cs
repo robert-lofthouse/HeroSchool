@@ -17,6 +17,10 @@ namespace HeroSchool
             attacks.ToList().Add(attack);
         }
 
+        public void RemoveAttacks()
+        {
+            attacks.ToList().Clear();
+        }
 
     }
 

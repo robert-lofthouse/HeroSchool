@@ -155,7 +155,11 @@ namespace HeroSchool
 
                     if (defCard.Value <= 0)
                     {
+                        //Remove the attack card from the attacker's prepared cards list and add it back to the bottom of the deck
                         playedCards.ToList().Remove(defCard);
+                        defCard.RemoveModifiers();
+                        defCard.RemoveAttacks();
+                        CardDeck.ToList().Insert(cardDeck.Count(), defCard);
                     }
                 }
                 else
@@ -165,8 +169,10 @@ namespace HeroSchool
                     ApplyAttack(opponentAttackCard);
                 }
 
-                //Remove the attack card from the attacker's prepared cards list
+                //Remove the attack card from the attacker's prepared cards list and add it back to the bottom of the deck
                 opponentAttackCard.HeroCard.playedCards.ToList().Remove(opponentAttackCard);
+                opponentAttackCard.RemoveModifiers();
+                opponentAttackCard.HeroCard.CardDeck.ToList().Insert(opponentAttackCard.HeroCard.CardDeck.Count(), opponentAttackCard);
 
                 // return the attack result
                 if (Value <= 0)

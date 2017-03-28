@@ -1,10 +1,10 @@
 ﻿using HeroSchool.Interfaces;
 
-namespace HeroSchool
+namespace HeroSchool.Factories
 {
     public static class SchoolFactory
     {
-        static ISchool CreateSchool(string p_schoolName)
+        public static ISchool CreateSchool(string p_schoolName)
         {
             return new School(p_schoolName);
         }

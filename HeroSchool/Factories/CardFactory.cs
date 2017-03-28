@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeroSchool.Factories
 {
-    static class CardFactory
+    public static class CardFactory
     {
         /// <summary>
         /// Creates a new card and adds it to the master cards collection 
@@ -15,7 +15,7 @@ namespace HeroSchool.Factories
         /// <param name="p_value"></param>
         /// <param name="p_cardType"></param>
         /// <returns></returns>
-        static public Card CreateCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType)
+        static public Card CreateCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType, int p_returnEnergy = 0)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace HeroSchool.Factories
                     case Constants.CardType.Modifier:
                         return new ModifierCard(p_name, p_value, p_energy);
                     default:
-                        return new ActionCard(p_name, p_value, p_energy, p_cardType);
+                        return new ActionCard(p_name, p_value, p_energy, p_cardType, p_returnEnergy);
                 }
             }
             catch (Exception ex)

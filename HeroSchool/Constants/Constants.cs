@@ -1,4 +1,6 @@
-﻿namespace HeroSchool
+﻿using System.Collections.Generic;
+
+namespace HeroSchool
 {
     public static class Constants
     {

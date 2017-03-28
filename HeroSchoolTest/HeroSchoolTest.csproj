@@ -48,6 +48,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FakeHeroRepository.cs" />
+    <Compile Include="FakePlayerRepository.cs" />
+    <Compile Include="FakeCardRepository.cs" />
     <Compile Include="HSTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

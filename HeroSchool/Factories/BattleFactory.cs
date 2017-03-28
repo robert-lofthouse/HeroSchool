@@ -6,10 +6,7 @@ namespace HeroSchool
     {
         static IBattle CreateBattle(HeroCard p_hero1, HeroCard p_hero2)
         {
-            IBattle battle = new Battle();
-
-            battle.AddFirstHero(p_hero1);
-            battle.AddSecondHero(p_hero2);
+            IBattle battle = new Battle(p_hero1,p_hero2);
 
             return battle;
         }

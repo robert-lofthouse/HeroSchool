@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace HeroSchool
 {
 
-    class School : ISchool
+    public class School : ISchool
     {
         private IEnumerable<IPlayer> players;
         private string schoolName;
