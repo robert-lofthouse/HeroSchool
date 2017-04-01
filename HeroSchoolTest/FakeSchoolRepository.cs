@@ -1,4 +1,5 @@
 ﻿using HeroSchool;
+using HeroSchool.Factories;
 using HeroSchool.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,51 +9,51 @@ using System.Threading.Tasks;
 
 namespace HeroSchoolTest
 {
-    public class FakeSchoolRepository : IRepository
+    public class FakeSchoolRepository : IRepository<ISchool>
     {
-        private IList<IHeroSchool> SchoolList;
+        private IList<ISchool> SchoolList;
 
         public FakeSchoolRepository()
         {
-            SchoolList = new List<IHeroSchool>()
+            SchoolList = new List<ISchool>()
             {
-                new School("Ogilvie"),
-                new School("Buck"),
-                new School("Lofthouse")
+                SchoolFactory.CreateSchool("Ogilvie"),
+                SchoolFactory.CreateSchool("Buck"),
+                SchoolFactory.CreateSchool("Lofthouse")
             };
 
-            ((ISchool)SchoolList[0]).AddPlayer(new Player("Peter"));
-            ((ISchool)SchoolList[1]).AddPlayer(new Player("Alan"));
-            ((ISchool)SchoolList[2]).AddPlayer(new Player("Robert"));
+            (SchoolList[0]).AddPlayer(PlayerFactory.CreatePlayer("Peter"));
+            (SchoolList[1]).AddPlayer(PlayerFactory.CreatePlayer("Alan"));
+            (SchoolList[2]).AddPlayer(PlayerFactory.CreatePlayer("Robert"));
 
         }
 
-        public void Add(IHeroSchool p_new)
+        public void Add(ISchool p_new)
         {
-            SchoolList.Add((School)p_new);
+            SchoolList.Add(p_new);
         }
 
-        public void Delete(IHeroSchool p_del)
+        public void Delete(ISchool p_del)
         {
             throw new NotImplementedException();
         }
 
-        public IList<IHeroSchool> Get()
+        public IList<ISchool> Get()
         {
             return SchoolList;
         }
 
-        public IHeroSchool Get(IHeroSchool p_get)
+        public ISchool Get(ISchool p_get)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IHeroSchool p_upd)
+        public void Update(ISchool p_upd)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IList<IHeroSchool> p_upds)
+        public void Update(IList<ISchool> p_upds)
         {
             throw new NotImplementedException();
         }

@@ -6,16 +6,16 @@ namespace HeroSchool
 {
     public class Battle : IBattle
     {
-        private HeroCard _hero1;
-        private HeroCard _hero2;
-        private HeroCard _defendingHero;
+        private IHero _hero1;
+        private IHero _hero2;
+        private IHero _defendingHero;
 
         public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public HeroCard AttackingHero { get => _defendingHero == _hero1 ? _hero1 : _hero2; }
-        public HeroCard DefendingHero { get => _defendingHero; }
+        public IHero AttackingHero { get => _defendingHero != _hero1 ? _hero1 : _hero2; }
+        public IHero DefendingHero { get => _defendingHero; }
 
-        public Battle(HeroCard p_hero1, HeroCard p_hero2)
+        public Battle(IHero p_hero1, IHero p_hero2)
         {
             _hero1 = p_hero1;
             _hero2 = p_hero2;
@@ -26,7 +26,7 @@ namespace HeroSchool
         {
             Constants.AttackResult atkres;
 
-            List<ActionCard> attackerPlayedCards = (List<ActionCard>)AttackingHero.PlayedCards();
+            List<IActionable> attackerPlayedCards = (List<IActionable>)AttackingHero.PlayedCards;
             
             atkres = DefendingHero.PerformAttack(attackerPlayedCards.Find(x => x.Type == Constants.CardType.Attack));
 
@@ -39,15 +39,16 @@ namespace HeroSchool
         {
             Random rand = new Random();
             
-            switch (rand.Next(2))
+            switch (rand.Next(1))
             {
-                case 1:
+                case 0:
                     _defendingHero = _hero1;
                     break;
-                case 2:
+                case 1:
                     _defendingHero = _hero2;
                     break;
                 default:
+                    _defendingHero = _hero2;
                     break;
             }
 

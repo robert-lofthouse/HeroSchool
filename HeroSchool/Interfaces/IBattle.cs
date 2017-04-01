@@ -8,8 +8,8 @@ namespace HeroSchool.Interfaces
     public interface IBattle : IHeroSchool
     {
         Constants.AttackResult DoAttack();
-        HeroCard AttackingHero { get; }
-        HeroCard DefendingHero { get; }
+        IHero AttackingHero { get; }
+        IHero DefendingHero { get; }
     }
 
 }

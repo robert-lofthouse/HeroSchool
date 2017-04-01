@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeroSchool.Interfaces;
+using System;
 
 namespace HeroSchool.Factories
 {
@@ -11,11 +12,12 @@ namespace HeroSchool.Factories
         /// <param name="p_value"></param>
         /// <param name="p_energy"></param>
         /// <returns></returns>
-        public static HeroCard CreateHero(string p_heroName, int p_value, int p_energy)
+        public static IHero CreateHero(string p_heroName, int p_value, int p_energy)
         {
             try
             {
-                return new HeroCard(p_heroName, p_value, p_energy);
+                IHero newHero = new HeroCard(p_heroName, p_value, p_energy);
+                return newHero;
             }
             catch (Exception ex)
             {

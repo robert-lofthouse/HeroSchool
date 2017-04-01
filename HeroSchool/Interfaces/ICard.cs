@@ -1,6 +1,4 @@
-﻿using HeroSchool.Interfaces;
-
-namespace HeroSchool
+﻿namespace HeroSchool.Interfaces
 {
     public interface ICard : IHeroSchool
     {

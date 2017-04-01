@@ -1,4 +1,4 @@
-﻿namespace HeroSchool
+﻿namespace HeroSchool.Interfaces
 {
     public interface IDefendable : IActionable
     {

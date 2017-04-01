@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HeroSchool
+namespace HeroSchool.Interfaces
 {
     public interface IActionable : ICard
     {
@@ -10,7 +10,7 @@ namespace HeroSchool
         new int Value { get; }
 
         bool ApplyModifierCard(IModifier p_modifierCard);
-        IList<IModifier> ModifierCards();
+        IReadOnlyCollection<IModifier> ModifierCards { get; }
         void RemoveModifiers();
     }
 }

@@ -1,44 +1,44 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using System;
+using HeroSchool.Interfaces;
+using System.Collections.ObjectModel;
 
 namespace HeroSchool
 { 
     
     public class ActionCard : Card, IActionable
     {
-        private IHero hero;
-        private IList<IModifier> appliedModifierCards = new List<IModifier>();
-        private int returnEnergy;
+        private IHero _hero;
+        private int _returnEnergy;
+        private readonly List<IModifier> _modifierCards = new List<IModifier>();
 
-        public IHero HeroCard { get => hero; set => hero = value; }
-        public int ReturnEnergy { get => returnEnergy; }
+        public IHero HeroCard { get => _hero; set => _hero = value; }
+        public int ReturnEnergy { get => _returnEnergy; }
 
-        public IList<IModifier> ModifierCards()
-        {
-            return appliedModifierCards;
-        }
-
-        public bool MeetsEnergyRequirement { get => hero.Energy >= Energy; }
-        public override int Value { get => Value + appliedModifierCards.Where(x=>x.ModifierType == Constants.ModifierType.Value).Sum(x => x.Value); }
+        public IReadOnlyCollection<IModifier> ModifierCards { get ; }
+        
+        public bool MeetsEnergyRequirement { get => _hero.Energy >= Energy; }
+        public override int Value { get => Value + _modifierCards.Where(x=>x.ModifierType == Constants.ModifierType.Value).Sum(x => x.Value); }
 
         public ActionCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType) : base(p_name, p_value, p_energy, p_cardType) { }
 
         public ActionCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType, int p_returnEnergy) : base(p_name, p_value, p_energy, p_cardType)
         {
-            returnEnergy = p_returnEnergy;
+            ModifierCards = _modifierCards.AsReadOnly();
+            _returnEnergy = p_returnEnergy;
         }
 
         public void RemoveModifiers()
         {
-            appliedModifierCards.ToList().Clear();
+            _modifierCards.Clear();
         }
 
         public bool ApplyModifierCard(IModifier p_modifierCard)
         {
             try
             {
-                appliedModifierCards.ToList().Add(p_modifierCard);
+                _modifierCards.Add(p_modifierCard);
                 
                 return true;
             }

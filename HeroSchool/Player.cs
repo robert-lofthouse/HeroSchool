@@ -11,46 +11,47 @@ namespace HeroSchool
     {
         #region Private variables
 
-        private string name;
-        private IList<IActionable> attackCardCollection = new List<IActionable>();
-        private IList<IActionable> defenseCardCollection = new List<IActionable>();
-        private IList<IModifier> modifierCardCollection = new List<IModifier>();
-        private IList<IHeroSchool> heroes = new List<IHeroSchool>();
+        private string _name;
+        private IList<IActionable> _attackCardCollection = new List<IActionable>();
+        private IList<IActionable> _defenseCardCollection = new List<IActionable>();
+        private IList<IModifier> _modifierCardCollection = new List<IModifier>();
+        private IList<IHero> _heroes = new List<IHero>();
 
         #endregion
         public IList<IActionable> AttackCardCollection()
         {
-            return attackCardCollection;
+            return _attackCardCollection;
         }
 
         public IList<IActionable> DefenseCardCollection()
         {
-            return defenseCardCollection;
+            return _defenseCardCollection;
         }
 
         public IList<IModifier> ModifierCardCollection()
         {
-            return modifierCardCollection;
+            return _modifierCardCollection;
         }
 
-        public IList<IHeroSchool> Heroes()
+        public IList<IHero> Heroes()
         {
-            return heroes;
+            return _heroes;
         }
 
-        public void AddHero(HeroCard p_hero)
+        public void AddHero(IHero p_hero)
         {
-            heroes.Add(p_hero);
+            p_hero.SetPlayer(this);
+            _heroes.Add(p_hero);
         }
 
         //Player's Name
-        public string Name { get => name; set => throw new NotImplementedException(); }
+        public string Name { get => _name; set => throw new NotImplementedException(); }
 
         //Constructore
         public Player(string p_playerName)
         {
 
-            name = p_playerName;
+            _name = p_playerName;
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace HeroSchool
         /// <returns></returns>
         public IActionable GetAttackCard(string cardName)
         {
-            return attackCardCollection.ToList().Find(x => x.Name == cardName);
+            return _attackCardCollection.ToList().Find(x => x.Name == cardName);
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace HeroSchool
         /// <returns></returns>
         public IActionable GetDefenseCard(string cardName)
         {
-            return defenseCardCollection.ToList().Find(x => x.Name == cardName);
+            return _defenseCardCollection.ToList().Find(x => x.Name == cardName);
         }
 
         /// <summary>
@@ -80,11 +81,11 @@ namespace HeroSchool
         /// <returns></returns>
         public IModifier GetModifierCard(string cardName)
         {
-            return modifierCardCollection.ToList().Find(x => x.Name == cardName);
+            return _modifierCardCollection.ToList().Find(x => x.Name == cardName);
         }
 
         /// <summary>
-        /// Adds an attack card to the attack card collection for the player
+        /// Adds an attack, defense or Modifier card to the card collection for the player
         /// </summary>
         /// <param name="atkCard"></param>
         public void AddCardtoCollection(ICard p_card)
@@ -92,13 +93,13 @@ namespace HeroSchool
             switch (p_card.Type)     
             {
                 case Constants.CardType.Attack:
-                    attackCardCollection.Insert(0, (IActionable)p_card);
+                    _attackCardCollection.Insert(0, (IActionable)p_card);
                     break;
                 case Constants.CardType.Defense:
-                    defenseCardCollection.Insert(0, (IActionable)p_card);
+                    _defenseCardCollection.Insert(0, (IActionable)p_card);
                     break;
                 case Constants.CardType.Modifier:
-                    modifierCardCollection.Insert(0, (IModifier)p_card);
+                    _modifierCardCollection.Insert(0, (IModifier)p_card);
                     break;
                 default:
                     break;

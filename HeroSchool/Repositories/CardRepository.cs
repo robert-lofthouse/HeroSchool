@@ -8,34 +8,34 @@ using System.Threading.Tasks;
 
 namespace HeroSchool.Repositories
 {
-    public class CardRepository : IRepository
+    public class CardRepository : IRepository<ICard>
     {
-        public void Add(IHeroSchool p_new)
+        public void Add(ICard p_new)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(IHeroSchool p_del)
+        public void Delete(ICard p_del)
         {
             throw new NotImplementedException();
         }
 
-        public IList<IHeroSchool> Get()
+        public IList<ICard> Get()
         {
             throw new NotImplementedException();
         }
 
-        public IHeroSchool Get(IHeroSchool p_get)
+        public ICard Get(ICard p_get)
         {
             throw new NotImplementedException();
         }
         
-        public void Update(IHeroSchool p_upd)
+        public void Update(ICard p_upd)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IList<IHeroSchool> p_upds)
+        public void Update(IList<ICard> p_upds)
         {
             throw new NotImplementedException();
         }

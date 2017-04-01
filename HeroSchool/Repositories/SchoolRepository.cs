@@ -7,39 +7,34 @@ using System.Threading.Tasks;
 
 namespace HeroSchool.Repositories
 {
-    public class PlayerRepository : IRepository<IPlayer>
+    class SchoolRepository : IRepository<ISchool>
     {
-        public void Add(IPlayer p_new)
+        public void Add(ISchool p_new)
         {
             throw new NotImplementedException();
         }
 
-        public void CreatePlayer(string v)
+        public void Delete(ISchool p_del)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(IPlayer p_del)
+        public IList<ISchool> Get()
         {
             throw new NotImplementedException();
         }
 
-        public IList<IPlayer> Get()
+        public ISchool Get(ISchool p_get)
         {
             throw new NotImplementedException();
         }
 
-        public IPlayer Get(IPlayer p_get)
+        public void Update(ISchool p_upd)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IPlayer p_upd)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(IList<IPlayer> p_upds)
+        public void Update(IList<ISchool> p_upds)
         {
             throw new NotImplementedException();
         }

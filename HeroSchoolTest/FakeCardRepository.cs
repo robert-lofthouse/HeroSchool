@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace HeroSchoolTest
 {
-    public class FakeCardRepository : IRepository
+    public class FakeCardRepository : IRepository<ICard>
     {
-        private IList<IHeroSchool> cardList;
+        private IList<ICard> cardList;
 
         public FakeCardRepository()
         {
-            cardList = new List<IHeroSchool>()
+            cardList = new List<ICard>()
             {
                 CardFactory.CreateCard("Fireball", 1, 1, Constants.CardType.Attack),
                 CardFactory.CreateCard("Lightning Bolt", 2, 2, Constants.CardType.Attack, 1),
@@ -25,32 +25,32 @@ namespace HeroSchoolTest
             };
         }
 
-        public void Add(IHeroSchool p_new)
+        public void Add(ICard p_new)
         {
-            cardList.Add((Card)p_new);
+            cardList.Add(p_new);
         }
 
-        public void Delete(IHeroSchool p_del)
+        public void Delete(ICard p_del)
         {
             throw new NotImplementedException();
         }
 
-        public IList<IHeroSchool> Get()
+        public IList<ICard> Get()
         {
             return cardList;
         }
 
-        public IHeroSchool Get(IHeroSchool p_get)
+        public ICard Get(ICard p_get)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IHeroSchool p_upd)
+        public void Update(ICard p_upd)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IList<IHeroSchool> p_upds)
+        public void Update(IList<ICard> p_upds)
         {
             throw new NotImplementedException();
         }

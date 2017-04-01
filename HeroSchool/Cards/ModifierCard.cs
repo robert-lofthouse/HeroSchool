@@ -1,5 +1,8 @@
-﻿namespace HeroSchool
+﻿using HeroSchool.Interfaces;
+
+namespace HeroSchool
 {
+
     public class ModifierCard : Card, IModifier
     {
         public Constants.ModifierType ModifierType { get; set; }

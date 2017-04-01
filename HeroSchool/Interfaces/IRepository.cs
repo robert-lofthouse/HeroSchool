@@ -6,18 +6,20 @@ using System.Threading.Tasks;
 
 namespace HeroSchool.Interfaces
 {
-    public interface IRepository
+
+    public interface IRepository<T> where T : IHeroSchool
     {
-        void Add(IHeroSchool p_new);
+        void Add(T p_new);
 
-        IList<IHeroSchool> Get();
+        IList<T> Get();
 
-        IHeroSchool Get(IHeroSchool p_get);
+        T Get(T p_get);
 
-        void Update(IHeroSchool p_upd);
+        void Update(T p_upd);
 
-        void Update(IList<IHeroSchool> p_upds);
+        void Update(IList<T> p_upds);
 
-        void Delete(IHeroSchool p_del);
+        void Delete(T p_del);
     }
+
 }

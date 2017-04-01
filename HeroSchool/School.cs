@@ -10,27 +10,25 @@ namespace HeroSchool
 
     public class School : ISchool
     {
-        private List<IPlayer> players;
-        private string schoolName;
+        private List<IPlayer> _players;
+        private string _schoolName;
 
-        public List<IPlayer> Players()
-        {
-            return players;
-        }
+        public IReadOnlyCollection<IPlayer> Players { get; }
 
-        public string Name { get => schoolName; set => schoolName = value; }
+        public string Name { get => _schoolName; set => _schoolName = value; }
 
         public School(string p_name)
         {
-            schoolName = p_name;
-            players = new List<IPlayer>();
+            _schoolName = p_name;
+            _players = new List<IPlayer>();
+            Players = _players.AsReadOnly();
         }
                 
         public bool AddPlayer(IPlayer p_player)
         {
             try
             {
-                players.Add(p_player);
+                _players.Add(p_player);
 
                 return true;
 
@@ -44,7 +42,7 @@ namespace HeroSchool
 
         public Player GetPlayer(string p_playerName)
         {
-            return (Player)players.Find(x => x.Name == p_playerName);
+            return (Player)_players.Find(x => x.Name == p_playerName);
         }
 
     }

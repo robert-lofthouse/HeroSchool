@@ -1,21 +1,25 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 
-namespace HeroSchool
+namespace HeroSchool.Interfaces
 {
     public interface IHero : IDefendable
     {
         new int Energy { get; }
+        IPlayer GetPlayer();
 
         void AddCardtoDeck(ICard card);
-        IList<ICard> CardDeck();
+        IReadOnlyCollection<ICard> CardDeck { get; }
+        IReadOnlyCollection<ICard> PlayableCards { get; }
+        IReadOnlyCollection<IActionable> PlayedCards { get; }
+
         IList<ICard> DrawCards(int NumberofCards);
         ICard GetCard(string cardName);
         ICard GetPlayableCard(string cardName);
         ICard GetPlayedCard(string cardName);
-        Constants.AttackResult PerformAttack(IActionable opponentAttackCard);
-        IList<ICard> PlayableCards();
         void PlayCardfromDeck(IActionable actionCard);
-        IList<IActionable> PlayedCards();
         void RemoveCardFromPlayedDeck(IActionable p_card);
+        void SetPlayer(IPlayer value);
+        Constants.AttackResult PerformAttack(IActionable opponentAttackCard);
     }
 }
