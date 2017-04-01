@@ -7,35 +7,36 @@ namespace HeroSchool
     /// <summary>
     /// 
     /// </summary>
-    public class HeroCard : DefenseCard
+    public class HeroCard : DefenseCard, IHero
     {
         private int baseEnergy;
         //Cards currently in play        
-        private IEnumerable<ActionCard> playedCards = new List<ActionCard>();
+        private IList<IActionable> playedCards = new List<IActionable>();
 
         //Cards drawn from the deck that can be playd
-        private IEnumerable<Card> playableCards;
+        private IList<ICard> playableCards = new List<ICard>();
 
         //Cards in the deck, selected from the collection, can consist of Attack, Defense or Modifier Cards
-        private IEnumerable<Card> cardDeck = new List<Card>();
+        private IList<ICard> cardDeck = new List<ICard>();
 
         private int EnergyUsed = 0;
         private int EnergyReturned = 0;
 
-        /// <summary>
-        /// Deck of cards selected for the match
-        /// </summary>
-        public IEnumerable<Card> CardDeck { get => cardDeck; set => cardDeck = value; }
+        public IList<ICard> CardDeck()
+        {
+            return cardDeck;
+        }
 
-        /// <summary>
-        /// Cards that have been played / are currently in play
-        /// </summary>
-        public IEnumerable<ActionCard> PlayedCards { get => playedCards; set => playedCards = value; }
+        public IList<IActionable> PlayedCards()
+        {
+            return playedCards;
+        }
 
-        /// <summary>
-        /// Cards drawn from the deck that can be played or held
-        /// </summary>
-        public IEnumerable<Card> PlayableCards { get => playableCards; set => playableCards = value; }
+        public IList<ICard> PlayableCards()
+        {
+            return playableCards;
+        }
+
 
         //Constructor
         public HeroCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType = Constants.CardType.Hero) : base(p_name, p_value, p_energy, p_cardType)
@@ -54,9 +55,9 @@ namespace HeroSchool
         /// </summary>
         /// <param name="cardName"></param>
         /// <returns></returns>
-        public Card PlayedCard(string cardName)
+        public ICard GetPlayedCard(string cardName)
         {
-            return playedCards.ToList().Find(x => x.Name == cardName);
+            return playedCards.Where(x => x.Name == cardName).First();
         }
 
         /// <summary>
@@ -64,9 +65,9 @@ namespace HeroSchool
         /// </summary>
         /// <param name="cardName"></param>
         /// <returns></returns>
-        public Card Card(string cardName)
+        public ICard GetCard(string cardName)
         {
-            return cardDeck.ToList().Find(x => x.Name == cardName);
+            return cardDeck.Where(x => x.Name == cardName).First();
         }
 
         /// <summary>
@@ -74,9 +75,9 @@ namespace HeroSchool
         /// </summary>
         /// <param name="cardName"></param>
         /// <returns></returns>
-        public Card PlayableCard(string cardName)
+        public ICard GetPlayableCard(string cardName)
         {
-            return playableCards.ToList().Find(x => x.Name == cardName);
+            return playableCards.Where(x => x.Name == cardName).First();
         }
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace HeroSchool
         /// </summary>
         /// <param name="NumberofCards"></param>
         /// <returns></returns>
-        public IEnumerable<Card> DrawCards(int NumberofCards)
+        public IList<ICard> DrawCards(int NumberofCards)
         {
             return cardDeck.Take(NumberofCards).ToList();
         }
@@ -103,14 +104,14 @@ namespace HeroSchool
         /// Adds an existing card to the players playing deck 
         /// </summary>
         /// <param name="card"></param>
-        public void AddCardtoDeck(Card card)
+        public void AddCardtoDeck(ICard card)
         {
             if (card.Type == Constants.CardType.Attack || card.Type == Constants.CardType.Defense)
             {
-                ActionCard actCard = (ActionCard)card;
+                IActionable actCard = (IActionable)card;
                 actCard.HeroCard = this;
             }
-            cardDeck.ToList().Add(card);
+            cardDeck.Add(card);
 
             ShuffleDeck();
         }
@@ -119,13 +120,13 @@ namespace HeroSchool
         /// Takes a card from the deck and adds it to the playing area
         /// </summary>
         /// <param name="actionCard"></param>
-        public void PlayCardfromDeck(ActionCard actionCard)
+        public void PlayCardfromDeck(IActionable actionCard)
         {
             // check if energy requirments are met
             if (MeetsEnergyRequirement)
             {
-                cardDeck.ToList().Remove(actionCard);
-                playedCards.ToList().Add(actionCard);
+                cardDeck.Remove(actionCard);
+                playedCards.Add(actionCard);
                 EnergyUsed += actionCard.Energy;
             }
             else
@@ -139,7 +140,7 @@ namespace HeroSchool
         /// </summary>
         /// <param name="opponentAttackCard"></param>
         /// <returns></returns>
-        public Constants.AttackResult PerformAttack(ActionCard opponentAttackCard)
+        public Constants.AttackResult PerformAttack(IActionable opponentAttackCard)
         {
             if (opponentAttackCard == null)
             {
@@ -159,10 +160,7 @@ namespace HeroSchool
                     if (defCard.Value <= 0)
                     {
                         //Remove the attack card from the attacker's prepared cards list and add it back to the bottom of the deck
-                        playedCards.ToList().Remove(defCard);
-                        defCard.RemoveModifiers();
-                        defCard.RemoveAttacks();
-                        CardDeck.ToList().Insert(cardDeck.Count(), defCard);
+                        RemoveCardFromPlayedDeck(defCard);
                     }
                 }
                 else
@@ -173,9 +171,7 @@ namespace HeroSchool
                 }
 
                 //Remove the attack card from the attacker's prepared cards list and add it back to the bottom of the deck
-                opponentAttackCard.HeroCard.playedCards.ToList().Remove(opponentAttackCard);
-                opponentAttackCard.RemoveModifiers();
-                opponentAttackCard.HeroCard.CardDeck.ToList().Insert(opponentAttackCard.HeroCard.CardDeck.Count(), opponentAttackCard);
+                opponentAttackCard.HeroCard.RemoveCardFromPlayedDeck(opponentAttackCard);
 
                 // return the attack result
                 if (Value <= 0)
@@ -187,6 +183,15 @@ namespace HeroSchool
                     return Constants.AttackResult.AttackSuccededDamagedNotKilled;
                 }
             }
+        }
+
+        public void RemoveCardFromPlayedDeck(IActionable p_card)
+        {
+            playedCards.Remove(p_card);
+            cardDeck.Insert(cardDeck.Count(), p_card);
+            p_card.RemoveModifiers();
+
+            if (p_card.Type == Constants.CardType.Defense) ((IDefendable)p_card).RemoveAttacks();
         }
     }
 

@@ -25,13 +25,13 @@ namespace HeroSchoolTest
         [TestMethod]
         public void CreateNewSchools()
         {
-            List<School> SchoolList;
+            IList<IHeroSchool> SchoolList;
 
             ISchool NewSchool = SchoolFactory.CreateSchool("NewSchool");
 
             schoolRepo.Add(NewSchool);
 
-            SchoolList = (List<School>)schoolRepo.Get();
+            SchoolList = schoolRepo.Get();
 
             Assert.IsTrue(SchoolList.Count == 4);
             Assert.IsTrue(SchoolList[3].Name == "NewSchool");
@@ -41,17 +41,17 @@ namespace HeroSchoolTest
         [TestMethod]
         public void CreateNewCards()
         {
-            List<Card> CardList;
+            IList<IHeroSchool> CardList;
         
             //create an attack, defense and modifier card
-            Card NewCard = CardFactory.CreateCard("NewCard", 1, 1, Constants.CardType.Attack);
+            ICard NewCard = CardFactory.CreateCard("NewCard", 1, 1, Constants.CardType.Attack);
 
             cardRepo.Add(NewCard);
 
-            CardList = (List<Card>)cardRepo.Get();
+            CardList = cardRepo.Get();
 
             Assert.AreEqual(CardList.Count, 6);
-            ActionCard actcard = (ActionCard)CardList[5];
+            IActionable actcard = (ActionCard)CardList[5];
             Assert.AreEqual(actcard.ReturnEnergy, 0);
             Assert.AreEqual(actcard.Energy, 1);
             Assert.AreEqual(actcard.Name, "NewCard");
@@ -59,53 +59,47 @@ namespace HeroSchoolTest
         }
         ///3 - Create a player using factory, add to a general list of players
         [TestMethod]
-        public void CreateNewPlayers()
+        public void CreateNewPlayer()
         {
-            List<School> SchoolList = (List<School>)schoolRepo.Get();
+            IList<IHeroSchool> SchoolList = schoolRepo.Get();
 
-            School buckSchool = SchoolList.Find(x => x.Name == "Buck");
-            School lofthouseSchool = SchoolList.Find(x => x.Name == "Lofthouse");
-            School ogilvieSchool = SchoolList.Find(x => x.Name == "Ogilvie");
+            School lofthouseSchool = SchoolList.Where(x => x.Name == "Lofthouse").First() as School;
 
-            buckSchool.AddPlayer(PlayerFactory.CreatePlayer("Aidan"));
             lofthouseSchool.AddPlayer(PlayerFactory.CreatePlayer("David"));
-            ogilvieSchool.AddPlayer(PlayerFactory.CreatePlayer("Simon"));
 
-            Assert.AreEqual(buckSchool.Players.Count(), 2);
-            Assert.AreEqual(lofthouseSchool.Players.Count(), 2);
-            Assert.AreEqual(ogilvieSchool.Players.Count(), 2);
+            Assert.AreEqual(lofthouseSchool.Players().Count(), 2);
 
-            List<IPlayer> buckSchoolPlayers = buckSchool.Players.ToList();
-            List<IPlayer> lofthouseSchoolPlayers = lofthouseSchool.Players.ToList();
-            List<IPlayer> ogilvieSchoolPlayers = ogilvieSchool.Players.ToList();
+            List<IPlayer> lofthouseSchoolPlayers = lofthouseSchool.Players().ToList();
 
-            Assert.AreEqual(buckSchoolPlayers[1].Name, "Aidan");
             Assert.AreEqual(lofthouseSchoolPlayers[1].Name, "David");
-            Assert.AreEqual(ogilvieSchoolPlayers[1].Name, "Simon");
         }
         ///7 - Create heros for a player
         [TestMethod]
         public void CreateNewHero()
         {
-            List<School> schoolList = (List<School>)schoolRepo.Get();
-            School school = schoolList[0];
+            IList<IHeroSchool> schoolList = schoolRepo.Get();
+            //grab a random school from the repository
+            School school = schoolList[new Random().Next(schoolList.Count() - 1)] as School;
 
-            Player player = (Player)school.Players.ToList()[new Random().Next(school.Players.Count()-1)];
+            // grab a random player from the schools player list
+            Player player = (Player)school.Players().ToList()[new Random().Next(school.Players().Count()-1)];
             FakeHeroRepository heroRepo = new FakeHeroRepository(player);
 
-            Assert.AreEqual(player.Heroes.Count(), 1);
+            Assert.AreEqual(player.Heroes().Count(), 1);
 
             heroRepo.Add("MyHero", 14, 4);
 
-            var myhero = player.Heroes.ToList().Find(x => x.Name == "MyHero");
+            IList<IHeroSchool> heroes = heroRepo.Get();
+
+            HeroCard myhero = (HeroCard)heroes.Where(x => x.Name == "MyHero").First();
 
             Assert.IsNotNull(myhero);
-            Assert.AreEqual(player.Heroes.Count(), 2);
+            Assert.AreEqual(player.Heroes().Count(), 2);
             Assert.AreEqual(myhero.Value, 14);
             Assert.AreEqual(myhero.Energy, 4);
             Assert.AreEqual(myhero.Type, Constants.CardType.Hero);
-
         }
+
         ///8 - Add cards to player collection
         ///9 - Add cards from collection to a hero
         ///10- Create a battle between 2 heros from opposing schools

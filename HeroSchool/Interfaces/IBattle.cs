@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HeroSchool.Interfaces
 {
-    public interface IBattle : IHSObject
+    public interface IBattle : IHeroSchool
     {
         Constants.AttackResult DoAttack();
         HeroCard AttackingHero { get; }

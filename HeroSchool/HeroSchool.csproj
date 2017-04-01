@@ -43,13 +43,18 @@
     <Compile Include="Cards\ActionCard.cs" />
     <Compile Include="Battle.cs" />
     <Compile Include="Cards\DefenseCard.cs" />
+    <Compile Include="Interfaces\IModifier.cs" />
+    <Compile Include="Interfaces\IActionable.cs" />
+    <Compile Include="Interfaces\ICard.cs" />
+    <Compile Include="Interfaces\IDefendable.cs" />
+    <Compile Include="Interfaces\IHero.cs" />
     <Compile Include="Factories\BattleFactory.cs" />
     <Compile Include="Cards\Card.cs" />
     <Compile Include="Factories\CardFactory.cs" />
     <Compile Include="Factories\HeroFactory.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />
     <Compile Include="Factories\RepositoryFactory.cs" />
-    <Compile Include="Interfaces\IHSObject.cs" />
+    <Compile Include="Interfaces\IHeroSchool.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Repositories\CardRepository.cs" />
     <Compile Include="Constants\Constants.cs" />
@@ -66,7 +71,7 @@
     <Compile Include="Factories\SchoolFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Class Diagram\HeroSchool.cd" />
+    <None Include="Class Diagram\ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

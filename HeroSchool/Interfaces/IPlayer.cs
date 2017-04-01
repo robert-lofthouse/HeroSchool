@@ -2,17 +2,18 @@
 
 namespace HeroSchool.Interfaces
 {
-    public interface IPlayer : IHSObject
+    public interface IPlayer : IHeroSchool
     {
-        IEnumerable<ActionCard> AttackCardCollection { get; set; }
-        IEnumerable<ActionCard> DefenseCardCollection { get; set; }
-        IEnumerable<HeroCard> Heroes { get; set; }
-        IEnumerable<ModifierCard> ModifierCardCollection { get; set; }
+        IList<IActionable> AttackCardCollection();
 
-        void AddCardtoAttackCollection(ActionCard atkCard);
-        void AddCardtoDefenseCollection(ActionCard defCard);
-        ActionCard GetAttackCard(string cardName);
-        ActionCard GetDefenseCard(string cardName);
-        ModifierCard GetModifierCard(string cardName);
+        IList<IActionable> DefenseCardCollection();
+        IList<IHeroSchool> Heroes();
+        IList<IModifier> ModifierCardCollection();
+
+        void AddCardtoCollection(ICard p_card);
+
+        IActionable GetAttackCard(string cardName);
+        IActionable GetDefenseCard(string cardName);
+        IModifier GetModifierCard(string cardName);
     }
 }

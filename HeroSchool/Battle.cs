@@ -26,7 +26,7 @@ namespace HeroSchool
         {
             Constants.AttackResult atkres;
 
-            List<ActionCard> attackerPlayedCards = (List<ActionCard>)AttackingHero.PlayedCards;
+            List<ActionCard> attackerPlayedCards = (List<ActionCard>)AttackingHero.PlayedCards();
             
             atkres = DefendingHero.PerformAttack(attackerPlayedCards.Find(x => x.Type == Constants.CardType.Attack));
 

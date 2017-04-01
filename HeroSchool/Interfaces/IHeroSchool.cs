@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeroSchool.Interfaces
 {
-    public interface IHSObject
+    public interface IHeroSchool
     {
         string Name { get; set; }
     }

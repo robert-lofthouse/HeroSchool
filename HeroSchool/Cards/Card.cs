@@ -1,12 +1,11 @@
-﻿using HeroSchool.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace HeroSchool
 {
-    
-    public abstract class Card : IHSObject
+
+    public abstract class Card : ICard
     {
         private int energy;
         private string name;

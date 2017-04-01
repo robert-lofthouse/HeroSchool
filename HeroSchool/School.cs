@@ -13,7 +13,10 @@ namespace HeroSchool
         private List<IPlayer> players;
         private string schoolName;
 
-        public IEnumerable<IPlayer> Players { get => players; }
+        public List<IPlayer> Players()
+        {
+            return players;
+        }
 
         public string Name { get => schoolName; set => schoolName = value; }
 
@@ -39,9 +42,9 @@ namespace HeroSchool
             }
         }
 
-        public IPlayer GetPlayer(string p_playerName)
+        public Player GetPlayer(string p_playerName)
         {
-            return players.ToList().Find(x => x.Name == p_playerName);
+            return (Player)players.Find(x => x.Name == p_playerName);
         }
 
     }

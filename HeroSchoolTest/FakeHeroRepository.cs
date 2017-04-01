@@ -11,7 +11,6 @@ namespace HeroSchoolTest
 {
     public class FakeHeroRepository : IRepository
     {
-        private List<HeroCard> heroList;
         private Player player;
         string[] HeroNames = { "The Grunter", "Pizzahead", "Hammernose", "Teddybear", "Walljumper", "Itchy_Scratchy", "Neuroticum", "The Blabbermouth", "Crusty", "Smelly" };
         
@@ -19,43 +18,41 @@ namespace HeroSchoolTest
         {
             Random rand = new Random();
             player = p_player;
-            player.Heroes = new List<HeroCard>()
-            {
-                HeroFactory.CreateHero(HeroNames[rand.Next(10)],rand.Next(8,18),rand.Next(3,6))
-            };
+            player.AddHero(HeroFactory.CreateHero(HeroNames[rand.Next(10)], rand.Next(8, 18), rand.Next(3, 6)));
         }
 
-        public void Add(IHSObject p_new)
+        public void Add(IHeroSchool p_new)
         {
-            ((List<HeroCard>)player.Heroes).Add((HeroCard)p_new);
+            player.Heroes().Add((HeroCard)p_new);
         }
 
         public void Add(string p_name, int p_value, int p_energy)
         {
-            ((List<HeroCard>)player.Heroes).Add(HeroFactory.CreateHero(p_name, p_value, p_energy));
+            player.Heroes().Add(HeroFactory.CreateHero(p_name, p_value, p_energy));
         }
 
-        public void Delete(IHSObject p_del)
+        public void Delete(IHeroSchool p_del)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IHSObject> Get()
+        public IList<IHeroSchool> Get()
         {
-            return (List<HeroCard>)player.Heroes;
+            IList<IHeroSchool> heroes = player.Heroes() as IList<IHeroSchool>;
+            return heroes;
         }
 
-        public IHSObject Get(IHSObject p_get)
+        public IHeroSchool Get(IHeroSchool p_get)
         {
-            return ((List<HeroCard>)player.Heroes).Find(x => x.Name == ((HeroCard)p_get).Name);
+            return player.Heroes().Where(x => x.Name == ((HeroCard)p_get).Name).First();
         }
 
-        public void Update(IHSObject p_upd)
+        public void Update(IHeroSchool p_upd)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IEnumerable<IHSObject> p_upds)
+        public void Update(IList<IHeroSchool> p_upds)
         {
             throw new NotImplementedException();
         }

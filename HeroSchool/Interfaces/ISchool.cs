@@ -2,12 +2,12 @@
 
 namespace HeroSchool.Interfaces
 {
-    public interface ISchool : IHSObject
+    public interface ISchool : IHeroSchool
     {
-        IEnumerable<IPlayer> Players { get; }
+        List<IPlayer> Players();
 
         bool AddPlayer(IPlayer p_player);
-        IPlayer GetPlayer(string p_playerName);
+        Player GetPlayer(string p_playerName);
 
     }
 }

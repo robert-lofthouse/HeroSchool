@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using System;
 
 namespace HeroSchool
-{
-    public class ActionCard : Card
+{ 
+    
+    public class ActionCard : Card, IActionable
     {
-        private HeroCard hero;
-        private IEnumerable<ModifierCard> appliedModifierCards = new List<ModifierCard>();
+        private IHero hero;
+        private IList<IModifier> appliedModifierCards = new List<IModifier>();
         private int returnEnergy;
 
-        public HeroCard HeroCard { get => hero; set => hero = value; }
+        public IHero HeroCard { get => hero; set => hero = value; }
         public int ReturnEnergy { get => returnEnergy; }
 
-        public IEnumerable<ModifierCard> ModifierCards { get => appliedModifierCards; }
-        public bool MeetsEnergyRequirement { get => hero.Energy >= this.Energy; }
+        public IList<IModifier> ModifierCards()
+        {
+            return appliedModifierCards;
+        }
+
+        public bool MeetsEnergyRequirement { get => hero.Energy >= Energy; }
         public override int Value { get => Value + appliedModifierCards.Where(x=>x.ModifierType == Constants.ModifierType.Value).Sum(x => x.Value); }
 
         public ActionCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType) : base(p_name, p_value, p_energy, p_cardType) { }
@@ -29,7 +34,7 @@ namespace HeroSchool
             appliedModifierCards.ToList().Clear();
         }
 
-        public bool ApplyModifierCard(ModifierCard p_modifierCard)
+        public bool ApplyModifierCard(IModifier p_modifierCard)
         {
             try
             {

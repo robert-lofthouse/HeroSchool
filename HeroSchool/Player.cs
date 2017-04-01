@@ -12,31 +12,36 @@ namespace HeroSchool
         #region Private variables
 
         private string name;
-        private IEnumerable<ActionCard> attackCardCollection = new List<ActionCard>();
-        private IEnumerable<ActionCard> defenseCardCollection = new List<ActionCard>();
-        private IEnumerable<ModifierCard> modifierCardCollection = new List<ModifierCard>();
-        private IEnumerable<HeroCard> heroes = new List<HeroCard>();
+        private IList<IActionable> attackCardCollection = new List<IActionable>();
+        private IList<IActionable> defenseCardCollection = new List<IActionable>();
+        private IList<IModifier> modifierCardCollection = new List<IModifier>();
+        private IList<IHeroSchool> heroes = new List<IHeroSchool>();
+
         #endregion
-        
-        /// <summary>
-        /// Collection of attack cards owned by the player
-        /// </summary>
-        public IEnumerable<ActionCard> AttackCardCollection { get => attackCardCollection; set => attackCardCollection = value; }
+        public IList<IActionable> AttackCardCollection()
+        {
+            return attackCardCollection;
+        }
 
-        /// <summary>
-        /// Collection of Defense cards owned by the player
-        /// </summary>
-        public IEnumerable<ActionCard> DefenseCardCollection { get => defenseCardCollection; set => defenseCardCollection = value; }
+        public IList<IActionable> DefenseCardCollection()
+        {
+            return defenseCardCollection;
+        }
 
-        /// <summary>
-        /// Collection of Modifier cards owned by the player
-        /// </summary>
-        public IEnumerable<ModifierCard> ModifierCardCollection { get => modifierCardCollection; set => modifierCardCollection = value; }
+        public IList<IModifier> ModifierCardCollection()
+        {
+            return modifierCardCollection;
+        }
 
-        /// <summary>
-        /// Collection of Heroes that the player can battle with
-        /// </summary>
-        public IEnumerable<HeroCard> Heroes { get => heroes; set => heroes = value; }
+        public IList<IHeroSchool> Heroes()
+        {
+            return heroes;
+        }
+
+        public void AddHero(HeroCard p_hero)
+        {
+            heroes.Add(p_hero);
+        }
 
         //Player's Name
         public string Name { get => name; set => throw new NotImplementedException(); }
@@ -53,7 +58,7 @@ namespace HeroSchool
         /// </summary>
         /// <param name="cardName"></param>
         /// <returns></returns>
-        public ActionCard GetAttackCard(string cardName)
+        public IActionable GetAttackCard(string cardName)
         {
             return attackCardCollection.ToList().Find(x => x.Name == cardName);
         }
@@ -63,7 +68,7 @@ namespace HeroSchool
         /// </summary>
         /// <param name="cardName"></param>
         /// <returns></returns>
-        public ActionCard GetDefenseCard(string cardName)
+        public IActionable GetDefenseCard(string cardName)
         {
             return defenseCardCollection.ToList().Find(x => x.Name == cardName);
         }
@@ -73,7 +78,7 @@ namespace HeroSchool
         /// </summary>
         /// <param name="cardName"></param>
         /// <returns></returns>
-        public ModifierCard GetModifierCard(string cardName)
+        public IModifier GetModifierCard(string cardName)
         {
             return modifierCardCollection.ToList().Find(x => x.Name == cardName);
         }
@@ -82,21 +87,25 @@ namespace HeroSchool
         /// Adds an attack card to the attack card collection for the player
         /// </summary>
         /// <param name="atkCard"></param>
-        public void AddCardtoAttackCollection(ActionCard atkCard)
+        public void AddCardtoCollection(ICard p_card)
         {
-            attackCardCollection.ToList().Add(atkCard);
+            switch (p_card.Type)     
+            {
+                case Constants.CardType.Attack:
+                    attackCardCollection.Insert(0, (IActionable)p_card);
+                    break;
+                case Constants.CardType.Defense:
+                    defenseCardCollection.Insert(0, (IActionable)p_card);
+                    break;
+                case Constants.CardType.Modifier:
+                    modifierCardCollection.Insert(0, (IModifier)p_card);
+                    break;
+                default:
+                    break;
+            }
+            
 
         }
-        
-        /// <summary>
-        ///  Adds a defense card to the defense card collection for the player
-        /// </summary>
-        /// <param name="p_name"></param>
-        /// <param name="p_value"></param>
-        public void AddCardtoDefenseCollection(ActionCard defCard)
-        {
-            defenseCardCollection.ToList().Add(defCard);
 
-        }
     }
 }

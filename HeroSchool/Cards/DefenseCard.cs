@@ -5,9 +5,9 @@ using System.Text;
 
 namespace HeroSchool
 {
-    public class DefenseCard : ActionCard
+    public class DefenseCard : ActionCard, IDefendable
     {
-        private IEnumerable<ActionCard> attacks = new List<ActionCard>();
+        private IList<IActionable> attacks = new List<IActionable>();
         private int baseValue;
 
         public override int Value { get => baseValue - attacks.Sum(x => x.Value); }
@@ -17,14 +17,14 @@ namespace HeroSchool
             baseValue = p_value;
         }
 
-        public void ApplyAttack(ActionCard attack)
+        public void ApplyAttack(IActionable attack)
         {
-            attacks.ToList().Add(attack);
+            attacks.Add(attack);
         }
 
         public void RemoveAttacks()
         {
-            attacks.ToList().Clear();
+            attacks.Clear();
         }
 
     }

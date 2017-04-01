@@ -11,11 +11,11 @@ namespace HeroSchoolTest
 {
     public class FakeCardRepository : IRepository
     {
-        private List<Card> cardList;
+        private IList<IHeroSchool> cardList;
 
         public FakeCardRepository()
         {
-            cardList = new List<Card>()
+            cardList = new List<IHeroSchool>()
             {
                 CardFactory.CreateCard("Fireball", 1, 1, Constants.CardType.Attack),
                 CardFactory.CreateCard("Lightning Bolt", 2, 2, Constants.CardType.Attack, 1),
@@ -25,32 +25,32 @@ namespace HeroSchoolTest
             };
         }
 
-        public void Add(IHSObject p_new)
+        public void Add(IHeroSchool p_new)
         {
             cardList.Add((Card)p_new);
         }
 
-        public void Delete(IHSObject p_del)
+        public void Delete(IHeroSchool p_del)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IHSObject> Get()
+        public IList<IHeroSchool> Get()
         {
             return cardList;
         }
 
-        public IHSObject Get(IHSObject p_get)
+        public IHeroSchool Get(IHeroSchool p_get)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IHSObject p_upd)
+        public void Update(IHeroSchool p_upd)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IEnumerable<IHSObject> p_upds)
+        public void Update(IList<IHeroSchool> p_upds)
         {
             throw new NotImplementedException();
         }

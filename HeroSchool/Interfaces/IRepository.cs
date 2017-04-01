@@ -8,16 +8,16 @@ namespace HeroSchool.Interfaces
 {
     public interface IRepository
     {
-        void Add(IHSObject p_new);
+        void Add(IHeroSchool p_new);
 
-        IEnumerable<IHSObject> Get();
+        IList<IHeroSchool> Get();
 
-        IHSObject Get(IHSObject p_get);
+        IHeroSchool Get(IHeroSchool p_get);
 
-        void Update(IHSObject p_upd);
+        void Update(IHeroSchool p_upd);
 
-        void Update(IEnumerable<IHSObject> p_upds);
+        void Update(IList<IHeroSchool> p_upds);
 
-        void Delete(IHSObject p_del);
+        void Delete(IHeroSchool p_del);
     }
 }

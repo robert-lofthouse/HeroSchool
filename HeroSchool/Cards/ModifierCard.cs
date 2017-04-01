@@ -1,6 +1,6 @@
 ﻿namespace HeroSchool
 {
-    public class ModifierCard : Card
+    public class ModifierCard : Card, IModifier
     {
         public Constants.ModifierType ModifierType { get; set; }
         public Constants.ModifierIgnoreDefenseType IgnoreDefense { get; set; }

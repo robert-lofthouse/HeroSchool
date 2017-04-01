@@ -10,32 +10,32 @@ namespace HeroSchool.Repositories
 {
     public class CardRepository : IRepository
     {
-        public void Add(IHSObject p_new)
+        public void Add(IHeroSchool p_new)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(IHSObject p_del)
+        public void Delete(IHeroSchool p_del)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IHSObject> Get()
+        public IList<IHeroSchool> Get()
         {
             throw new NotImplementedException();
         }
 
-        public IHSObject Get(IHSObject p_get)
+        public IHeroSchool Get(IHeroSchool p_get)
         {
             throw new NotImplementedException();
         }
         
-        public void Update(IHSObject p_upd)
+        public void Update(IHeroSchool p_upd)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IEnumerable<IHSObject> p_upds)
+        public void Update(IList<IHeroSchool> p_upds)
         {
             throw new NotImplementedException();
         }
