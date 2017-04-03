@@ -12,11 +12,11 @@ namespace HeroSchool.Factories
         /// <param name="p_value"></param>
         /// <param name="p_energy"></param>
         /// <returns></returns>
-        public static IHero CreateHero(string p_heroName, int p_value, int p_energy)
+        public static IHero CreateHero(string p_heroName, int p_value, int p_energy, IPlayer p_player)
         {
             try
             {
-                IHero newHero = new HeroCard(p_heroName, p_value, p_energy);
+                IHero newHero = new HeroCard(p_heroName, p_value, p_energy, p_player);
                 return newHero;
             }
             catch (Exception ex)

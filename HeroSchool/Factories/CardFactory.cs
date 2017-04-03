@@ -23,8 +23,13 @@ namespace HeroSchool.Factories
                 {
                     case Constants.CardType.Modifier:
                         return new ModifierCard(p_name, p_value, p_energy);
-                    default:
+                    case Constants.CardType.Attack:
                         return new ActionCard(p_name, p_value, p_energy, p_cardType, p_returnEnergy);
+                    case Constants.CardType.Defense:
+                        return new DefenseCard(p_name, p_value, p_energy, p_cardType);
+                    default:
+                        return null;
+                        break;
                 }
             }
             catch (Exception ex)

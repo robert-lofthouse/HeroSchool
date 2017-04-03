@@ -40,7 +40,6 @@ namespace HeroSchool
 
         public void AddHero(IHero p_hero)
         {
-            p_hero.SetPlayer(this);
             _heroes.Add(p_hero);
         }
 

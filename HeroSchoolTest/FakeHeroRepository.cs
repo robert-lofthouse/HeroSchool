@@ -18,7 +18,7 @@ namespace HeroSchoolTest
         {
             Random rand = new Random();
             player = p_player;
-            player.AddHero(HeroFactory.CreateHero(HeroNames[rand.Next(10)], rand.Next(8, 18), rand.Next(3, 6)));
+            player.AddHero(HeroFactory.CreateHero(HeroNames[rand.Next(10)], rand.Next(8, 18), rand.Next(3, 6), player));
         }
 
         public void Add(IHero p_new)
@@ -28,7 +28,7 @@ namespace HeroSchoolTest
 
         public void Add(string p_name, int p_value, int p_energy)
         {
-            player.AddHero(HeroFactory.CreateHero(p_name, p_value, p_energy));
+            player.AddHero(HeroFactory.CreateHero(p_name, p_value, p_energy, player));
         }
 
         public void Delete(IHero p_del)

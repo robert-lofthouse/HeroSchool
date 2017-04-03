@@ -22,4 +22,8 @@ namespace HeroSchool.Interfaces
         void Delete(T p_del);
     }
 
+    public interface ICardPack<T> : IList<T> where T : ICard
+    {
+    }
+
 }

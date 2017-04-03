@@ -17,10 +17,10 @@ namespace HeroSchoolTest
         {
             cardList = new List<ICard>()
             {
-                CardFactory.CreateCard("Fireball", 1, 1, Constants.CardType.Attack),
-                CardFactory.CreateCard("Lightning Bolt", 2, 2, Constants.CardType.Attack, 1),
-                CardFactory.CreateCard("Block", 2, 1, Constants.CardType.Defense, 1),
-                CardFactory.CreateCard("Dodge", 3, 2, Constants.CardType.Defense, 1),
+                CardFactory.CreateCard("Fireball", 2, 1, Constants.CardType.Attack),
+                CardFactory.CreateCard("Lightning Bolt", 3, 2, Constants.CardType.Attack, 1),
+                CardFactory.CreateCard("Block", 1, 1, Constants.CardType.Defense, 1),
+                CardFactory.CreateCard("Dodge", 2, 2, Constants.CardType.Defense, 1),
                 CardFactory.CreateCard("Boost", 1, 1, Constants.CardType.Modifier)
             };
         }

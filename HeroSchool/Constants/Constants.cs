@@ -4,6 +4,14 @@ namespace HeroSchool
 {
     public static class Constants
     {
+        public enum HeroType
+        {
+            Strength,
+            Elemental,
+            Technology,
+            Telekenesis,
+            Magic
+        }
         public enum ModifierType
         {
             Value = 'V',

@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,6 +44,8 @@
     <Compile Include="Cards\ActionCard.cs" />
     <Compile Include="Battle.cs" />
     <Compile Include="Cards\DefenseCard.cs" />
+    <Compile Include="Cards\HeroType.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Interfaces\IModifier.cs" />
     <Compile Include="Interfaces\IActionable.cs" />
     <Compile Include="Interfaces\ICard.cs" />
@@ -70,10 +73,8 @@
     <Compile Include="Factories\SchoolFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Constants\ClassDiagram1.cd" />
+    <None Include="Class Diagram\ClassDiagram1.cd" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Class Diagram\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

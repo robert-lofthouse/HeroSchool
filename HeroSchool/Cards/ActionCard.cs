@@ -18,8 +18,8 @@ namespace HeroSchool
 
         public IReadOnlyCollection<IModifier> ModifierCards { get ; }
         
-        public bool MeetsEnergyRequirement { get => _hero.Energy >= Energy; }
-        public override int Value { get => Value + _modifierCards.Where(x=>x.ModifierType == Constants.ModifierType.Value).Sum(x => x.Value); }
+        public bool MeetsEnergyRequirement { get => _hero != null ? _hero.Energy >= Energy : false; }
+        public override int Value { get => base.Value + _modifierCards.Where(x=>x.ModifierType == Constants.ModifierType.Value).Sum(x => x.Value); }
 
         public ActionCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType) : base(p_name, p_value, p_energy, p_cardType) { }
 

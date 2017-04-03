@@ -6,6 +6,7 @@ using HeroSchool.Interfaces;
 using HeroSchool.Factories;
 using System.Linq;
 using System;
+using System.Diagnostics;
 
 namespace HeroSchoolTest
 {
@@ -23,7 +24,7 @@ namespace HeroSchoolTest
 
         ///1 - Create a school using factory, add to a general list of schools
         [TestMethod]
-        public void CreateNewSchools()
+        public void testCreateNewSchools()
         {
             IList<ISchool> SchoolList;
 
@@ -39,7 +40,7 @@ namespace HeroSchoolTest
         }
         ///2 - Create a card using factorym , add to a general list of cards
         [TestMethod]
-        public void CreateNewCards()
+        public void testCreateNewCards()
         {
             IList<ICard> CardList;
         
@@ -59,7 +60,7 @@ namespace HeroSchoolTest
         }
         ///3 - Create a player using factory, add to a general list of players
         [TestMethod]
-        public void CreateNewPlayer()
+        public void testCreateNewPlayer()
         {
             IList<ISchool> SchoolList = _schoolRepo.Get();
 
@@ -75,7 +76,7 @@ namespace HeroSchoolTest
         }
         ///7 - Create heros for a player
         [TestMethod]
-        public void CreateNewHero()
+        public void testCreateNewHero()
         {
             IList<ISchool> schoolList = _schoolRepo.Get();
             //grab a random school from the repository
@@ -102,7 +103,7 @@ namespace HeroSchoolTest
 
         ///8 - Add cards to player collection
         [TestMethod]
-        public void AddCardsToPlayer()
+        public void testAddCardsToPlayer()
         {
             IList<ISchool> schoolList = _schoolRepo.Get();
             IList<ICard> cardList = _cardRepo.Get();
@@ -129,7 +130,7 @@ namespace HeroSchoolTest
 
         ///9 - Add cards from collection to a hero
         [TestMethod]
-        public void AddCardsToHero()
+        public void testAddCardsToHero()
         {
             IList<ISchool> schoolList = _schoolRepo.Get();
             IList<ICard> cardList = _cardRepo.Get();
@@ -166,8 +167,9 @@ namespace HeroSchoolTest
         }
         ///10- Create a battle between 2 heros from opposing schools
         [TestMethod]
-        public void CreateBattle()
+        public void testCreateBattle()
         {
+
             //prepare
             IList<ISchool> schoolList = _schoolRepo.Get();
             IList<ICard> cardList = _cardRepo.Get();
@@ -211,9 +213,109 @@ namespace HeroSchoolTest
 
         }
         ///11- draw 3 cards from player deck (into PlayableCards)
+        [TestMethod]
+        public void testDrawCards()
+        {
+            IPlayer player;
+            IList<ICard> cardList = _cardRepo.Get();
+
+            testCreateBattle();
+            
+            IHero ha = _battle.AttackingHero;
+
+            ha.AddCardtoDeck(cardList.Where(x => x.Name == "Fireball").First());
+            ha.AddCardtoDeck(cardList.Where(x => x.Name == "Block").First());
+
+            IHero hd = _battle.DefendingHero;
+
+            hd.AddCardtoDeck(cardList.Where(x => x.Name == "Lightning Bolt").First());
+            hd.AddCardtoDeck(cardList.Where(x => x.Name == "Dodge").First());
+            
+            ha.DrawCards(1);
+            hd.DrawCards(1);
+
+            Assert.AreEqual(ha.PlayableCards.Count, 1);
+            Assert.AreEqual(hd.PlayableCards.Count, 1);
+
+            ha.DrawCards(1);
+            hd.DrawCards(1);
+
+            Assert.AreEqual(_battle.AttackingHero.PlayableCards.Count, 2);
+            Assert.AreEqual(_battle.DefendingHero.PlayableCards.Count, 2);
+
+        }
         ///12- play cards (into PlayedCards - must be able to play based on energy)
+        [TestMethod]
+        public void testPlayCards()
+        {
+            testDrawCards();
+
+            IHero ha = _battle.AttackingHero;
+            IHero hd = _battle.DefendingHero;
+
+            int haenergy = ha.Energy;
+            int hdenergy = hd.Energy;
+
+            ha.PlayCard((IActionable)ha.PlayableCards.Where(x => x.Type == Constants.CardType.Attack).First());
+            hd.PlayCard((IActionable)hd.PlayableCards.Where(x => x.Type == Constants.CardType.Defense).First());
+
+            Assert.AreEqual(ha.Energy, haenergy - ha.PlayableCards.ToList()[0].Energy);
+            Assert.AreEqual(ha.PlayedCards.Count, 1);
+            Assert.AreEqual(ha.PlayableCards.Count, 1);
+
+            Assert.AreEqual(hd.Energy, hdenergy - hd.PlayableCards.ToList()[0].Energy);
+            Assert.AreEqual(hd.PlayedCards.Count, 1);
+            Assert.AreEqual(hd.PlayableCards.Count, 1);
+        }
         ///13- execute attack (call doattack on the battle)
+        [TestMethod]
+        public void testTestExecuteAttack()
+        {
+
+            testPlayCards();
+
+            IHero ha1 = _battle.AttackingHero;
+            IHero hd1 = _battle.DefendingHero;
+            int aplayedcount = ha1.PlayedCards.Count;
+
+            _battle.DoAttack();
+
+            IHero ha2 = _battle.AttackingHero;
+            IHero hd2 = _battle.DefendingHero;
+
+            Assert.AreNotEqual(ha1.Name, ha2.Name);
+            Assert.AreNotEqual(hd1.Name, hd2.Name);
+
+            Assert.AreEqual(ha1.Name, hd2.Name);
+            Assert.AreEqual(hd1.Name, ha2.Name);
+
+            Assert.AreNotEqual(aplayedcount, hd2.PlayedCards.Count);
+
+        }
         ///14- Repeat from 11 until one hero's health is less than 1
+        [TestMethod]
+        public void testCompleteBattle()
+        {
+            testPlayCards();
+
+            while (_battle.AttackingHero.Value > 0 && _battle.DefendingHero.Value > 0)
+            {
+                Trace.WriteLine(string.Format("Before Attack; Attacking Hero - {0}, Defending Hero - {1}", _battle.AttackingHero.ToString(), _battle.DefendingHero.ToString()));
+                _battle.DoAttack();
+                Trace.WriteLine(string.Format("After Attack; Attacking Hero - {0}, Defending Hero - {1}", _battle.AttackingHero.ToString(), _battle.DefendingHero.ToString()));
+
+                // Draw cards
+                _battle.AttackingHero.DrawCards(1);
+                _battle.DefendingHero.DrawCards(1);
+
+                // Play Cards
+                _battle.AttackingHero.PlayCard((IActionable)_battle.AttackingHero.PlayableCards.Where(x => x.Type == Constants.CardType.Attack).First());
+                _battle.DefendingHero.PlayCard((IActionable)_battle.DefendingHero.PlayableCards.Where(x => x.Type == Constants.CardType.Defense).FirstOrDefault());
+
+            }
+            Trace.WriteLine(string.Format("Battle finished - Winner : {0}", _battle.AttackingHero.Value > 0 ? _battle.AttackingHero : _battle.DefendingHero));
+
+        }
 
     }
 }
