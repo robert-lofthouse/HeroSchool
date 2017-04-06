@@ -13,6 +13,7 @@ namespace HeroSchool
         #region Private variables
 
         private string _name;
+        private Guid _id;
         private IList<ICard> _cardCollection = new List<ICard>();
         private List<IHero> _heroes = new List<IHero>();
         private IRepository<ICard> _cardRepository;
@@ -34,9 +35,12 @@ namespace HeroSchool
             set => throw new NotImplementedException();
         }
 
+        public Guid ID { get => _id; }
+
         //Constructore
         public Player(string p_playerName, IRepository<ICard> p_cardRepository)
         {
+            _id = Guid.NewGuid();
             _name = p_playerName;
             _cardRepository = p_cardRepository;
         }

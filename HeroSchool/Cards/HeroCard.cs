@@ -11,7 +11,9 @@ namespace HeroSchool
     /// </summary>
     public class HeroCard : DefenseCard, IHero
     {
-        private IPlayer _player;
+        private Guid _playerID;
+        private IRepository<ICard> _cardRepo;
+        private IRepository<ISchool> _schoolRepo;
         private int _energyUsed = 0;
         private int _energyReturned = 0;
         private int _level = 1;
@@ -55,12 +57,13 @@ namespace HeroSchool
             return string.Format("{0} ({1})", Name, Value);
         }
 
-        public IPlayer Player { get => _player; }
 
         //Constructor
-        public HeroCard(string p_name, int p_value, int p_energy, IPlayer p_player, IHeroArchetype p_heroArchetype, Constants.CardType p_cardType = Constants.CardType.Hero) : base(p_name, p_value, p_energy, p_cardType)
+        public HeroCard(string p_name, int p_value, int p_energy, Guid p_playerID, IHeroArchetype p_heroArchetype, IRepository<ICard> p_cardRepo, IRepository<ISchool> p_schoolRepo, Constants.CardType p_cardType = Constants.CardType.Hero) : base(p_name, p_value, p_energy, p_cardType)
         {
-            _player = p_player;
+            _cardRepo = p_cardRepo;
+            _schoolRepo = p_schoolRepo;
+            _playerID = p_playerID;
             _heroArchetype = p_heroArchetype;
         }
 
@@ -69,8 +72,11 @@ namespace HeroSchool
         /// </summary>
         /// <param name="card"></param>
         /// <param name="p_shuffle"></param>
-        public void AddCardtoDeck(ICard card, bool p_shuffle = true)
+        public void AddCardtoDeck(ICard card,  bool p_shuffle = true)
         {
+            IList<ISchool> _schoolList = _schoolRepo.Get();
+            IPlayer _player = (from _school in _schoolList from player in _school.Players select player).FirstOrDefault(x => x.ID == _playerID);
+
             if (_player.GetCard(card.ID) == null)
             {
                 throw new Exception("Can't add card to deck, player doesn't have card in collection");

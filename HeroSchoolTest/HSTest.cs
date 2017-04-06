@@ -188,7 +188,7 @@ namespace HeroSchoolTest
 
             // grab a random player from the schools player list
             IPlayer player = school.Players.ElementAt(new Random().Next(school.Players.Count()-1));
-            player.AddHero(HeroFactory.CreateHero("MyHero", 14, 4,player,new HeroArchetype(20,Constants.HeroClass.Strength)));
+            player.AddHero(HeroFactory.CreateHero("MyHero", 14, 4,player.ID,new HeroArchetype(20,Constants.HeroClass.Strength),_cardRepo,_schoolRepo));
 
             Assert.AreEqual(player.Heroes.Count(), 2);
 

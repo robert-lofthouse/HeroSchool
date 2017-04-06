@@ -9,6 +9,7 @@ namespace HeroSchool
         private IHero _hero1;
         private IHero _hero2;
         private IHero _defendingHero;
+        private Guid _id;
 
         public string Name
         {
@@ -19,8 +20,11 @@ namespace HeroSchool
         public IHero AttackingHero { get => _defendingHero != _hero1 ? _hero1 : _hero2; }
         public IHero DefendingHero { get => _defendingHero; }
 
+        public Guid ID { get => _id; }
+
         public Battle(IHero p_hero1, IHero p_hero2)
         {
+            _id = Guid.NewGuid();
             _hero1 = p_hero1;
             _hero2 = p_hero2;
             FlipCoin();
