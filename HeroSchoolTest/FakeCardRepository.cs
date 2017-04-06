@@ -42,7 +42,7 @@ namespace HeroSchoolTest
 
         public ICard Get(ICard p_get)
         {
-            throw new NotImplementedException();
+            return cardList.FirstOrDefault(x => x.ID == p_get.ID);
         }
 
         public void Update(ICard p_upd)

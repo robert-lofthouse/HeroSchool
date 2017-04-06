@@ -1,4 +1,5 @@
 ﻿using HeroSchool.Interfaces;
+using HeroSchool.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,100 +13,53 @@ namespace HeroSchool
         #region Private variables
 
         private string _name;
-        private IList<IActionable> _attackCardCollection = new List<IActionable>();
-        private IList<IActionable> _defenseCardCollection = new List<IActionable>();
-        private IList<IModifier> _modifierCardCollection = new List<IModifier>();
-        private IList<IHero> _heroes = new List<IHero>();
+        private IList<ICard> _cardCollection = new List<ICard>();
+        private List<IHero> _heroes = new List<IHero>();
+        private IRepository<ICard> _cardRepository;
 
         #endregion
-        public IList<IActionable> AttackCardCollection()
+        public IList<ICard> CardCollection()
         {
-            return _attackCardCollection;
+            return _cardCollection;
         }
 
-        public IList<IActionable> DefenseCardCollection()
-        {
-            return _defenseCardCollection;
-        }
+        public IReadOnlyCollection<IHero> Heroes { get => _heroes; }
 
-        public IList<IModifier> ModifierCardCollection()
-        {
-            return _modifierCardCollection;
-        }
-
-        public IList<IHero> Heroes()
-        {
-            return _heroes;
-        }
-
-        public void AddHero(IHero p_hero)
-        {
-            _heroes.Add(p_hero);
-        }
+        public void AddHero(IHero p_hero) => _heroes.Add(p_hero);
 
         //Player's Name
-        public string Name { get => _name; set => throw new NotImplementedException(); }
+        public string Name
+        {
+            get => _name;
+            set => throw new NotImplementedException();
+        }
 
         //Constructore
-        public Player(string p_playerName)
+        public Player(string p_playerName, IRepository<ICard> p_cardRepository)
         {
-
             _name = p_playerName;
+            _cardRepository = p_cardRepository;
         }
 
         /// <summary>
-        /// Returns an Attack Card from the Attack Cards Collection owned by the player
+        /// Returns a Card from the Cards Collection owned by the player
         /// </summary>
         /// <param name="cardName"></param>
+        /// <param name="p_ID"></param>
         /// <returns></returns>
-        public IActionable GetAttackCard(string cardName)
+        public ICard GetCard(Guid p_ID)
         {
-            return _attackCardCollection.ToList().Find(x => x.Name == cardName);
-        }
-
-        /// <summary>
-        /// Returns a Defense Card from the Defense Card Collection matching the parameter name
-        /// </summary>
-        /// <param name="cardName"></param>
-        /// <returns></returns>
-        public IActionable GetDefenseCard(string cardName)
-        {
-            return _defenseCardCollection.ToList().Find(x => x.Name == cardName);
-        }
-
-        /// <summary>
-        /// Returns a Modifier Card from the Modifier Card Collection matching the parameter name
-        /// </summary>
-        /// <param name="cardName"></param>
-        /// <returns></returns>
-        public IModifier GetModifierCard(string cardName)
-        {
-            return _modifierCardCollection.ToList().Find(x => x.Name == cardName);
+            return _cardCollection.FirstOrDefault(x => x.ID == p_ID);
         }
 
         /// <summary>
         /// Adds an attack, defense or Modifier card to the card collection for the player
         /// </summary>
-        /// <param name="atkCard"></param>
+        /// <param name="p_card"></param>
         public void AddCardtoCollection(ICard p_card)
         {
-            switch (p_card.Type)     
-            {
-                case Constants.CardType.Attack:
-                    _attackCardCollection.Insert(0, (IActionable)p_card);
-                    break;
-                case Constants.CardType.Defense:
-                    _defenseCardCollection.Insert(0, (IActionable)p_card);
-                    break;
-                case Constants.CardType.Modifier:
-                    _modifierCardCollection.Insert(0, (IModifier)p_card);
-                    break;
-                default:
-                    break;
-            }
-            
-
+            if (_cardRepository.Get(p_card) != null)
+                _cardCollection.Insert(0, p_card);
         }
-
     }
 }

@@ -8,6 +8,5 @@ namespace HeroSchool.Interfaces
 
         bool AddPlayer(IPlayer p_player);
         Player GetPlayer(string p_playerName);
-
     }
 }

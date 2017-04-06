@@ -11,5 +11,4 @@ namespace HeroSchool.Factories
             return battle;
         }
     }
-
 }

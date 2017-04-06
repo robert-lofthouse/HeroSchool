@@ -29,7 +29,7 @@ namespace HeroSchool.Repositories
         {
             throw new NotImplementedException();
         }
-        
+
         public void Update(ICard p_upd)
         {
             throw new NotImplementedException();
@@ -40,5 +40,4 @@ namespace HeroSchool.Repositories
             throw new NotImplementedException();
         }
     }
-
 }

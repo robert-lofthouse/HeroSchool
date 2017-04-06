@@ -10,5 +10,4 @@ namespace HeroSchool.Interfaces
         int Value { get; }
         Constants.CardType Type { get; }
     }
-
 }

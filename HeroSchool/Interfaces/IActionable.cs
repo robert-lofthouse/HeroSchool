@@ -4,8 +4,8 @@ namespace HeroSchool.Interfaces
 {
     public interface IActionable : ICard
     {
-        IHero HeroCard { get; set; }
-        bool MeetsEnergyRequirement { get; }
+        //        IHero HeroCard { get; set; }
+        bool MeetsEnergyRequirement(IHero p_hero);
         int ReturnEnergy { get; }
         new int Value { get; }
 

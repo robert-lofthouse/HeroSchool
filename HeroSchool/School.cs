@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace HeroSchool
 {
-
     public class School : ISchool
     {
         private List<IPlayer> _players;
@@ -23,7 +22,7 @@ namespace HeroSchool
             _players = new List<IPlayer>();
             Players = _players.AsReadOnly();
         }
-                
+
         public bool AddPlayer(IPlayer p_player)
         {
             try
@@ -31,7 +30,6 @@ namespace HeroSchool
                 _players.Add(p_player);
 
                 return true;
-
             }
             catch (Exception ex)
             {
@@ -44,6 +42,5 @@ namespace HeroSchool
         {
             return (Player)_players.Find(x => x.Name == p_playerName);
         }
-
     }
 }

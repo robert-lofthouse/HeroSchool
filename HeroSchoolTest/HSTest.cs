@@ -10,227 +10,298 @@ using System.Diagnostics;
 
 namespace HeroSchoolTest
 {
-
-
     [TestClass]
     public class HSTest
     {
-        private FakeSchoolRepository _schoolRepo = new FakeSchoolRepository();
-        private FakeCardRepository _cardRepo = new FakeCardRepository();
+        IList<ISchool> _schoolList;
+        IList<ICard> _cardList;
+
+        private FakeCardRepository _cardRepo;
+        private FakeSchoolRepository _schoolRepo;
 
         private IBattle _battle;
 
-        ///tests
-
-        ///1 - Create a school using factory, add to a general list of schools
-        [TestMethod]
-        public void testCreateNewSchools()
+        private void BasicData()
         {
-            IList<ISchool> SchoolList;
+            _cardRepo = new FakeCardRepository();
+            _schoolRepo = new FakeSchoolRepository(_cardRepo);
+
+            _schoolList = _schoolRepo.Get();
+            _cardList = _cardRepo.Get();
+
+            foreach (ISchool school in _schoolList)
+            {
+                foreach (IPlayer player in school.Players)
+                {
+                    foreach (ICard card in _cardList)
+                    {
+                        player.AddCardtoCollection(card);
+
+                        foreach (IHero hero in player.Heroes)
+                        {
+                            hero.AddCardtoDeck(card);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void BattleData()
+        {
+            BasicData();
+
+            Random rand = new Random();
+            int s1rand = rand.Next(_schoolList.Count - 1);
+            int s2rand = rand.Next(_schoolList.Count - 1);
+
+            while (s1rand == s2rand)
+            {
+                s2rand = rand.Next(_schoolList.Count - 1);
+            }
+
+            ISchool s1 = _schoolList[s1rand];
+            IPlayer p1 = s1.Players.ElementAt(rand.Next(s1.Players.Count - 1));
+            IHero h1 = p1.Heroes.ElementAt(rand.Next(p1.Heroes.Count - 1));
+
+            ISchool s2 = _schoolList[s2rand];
+            IPlayer p2 = s2.Players.ElementAt(rand.Next(s2.Players.Count - 1));
+            IHero h2 = p2.Heroes.ElementAt(rand.Next(p2.Heroes.Count - 1));
+
+            for (int i = 0; h1.Name == h2.Name; i++)
+            {
+                h2 = p2.Heroes.ElementAt(i);
+            }
+
+            _battle = BattleFactory.CreateBattle(h1, h2);
+        }
+
+        private void BattleCardsDrawnData()
+        {
+            BattleData();
+            IHero ha = _battle.AttackingHero;
+            IHero hd = _battle.DefendingHero;
+
+            while (ha.CardDeck.Count > 0)
+            {
+                ha.DrawCards(1);
+            }
+            while (hd.CardDeck.Count > 0)
+            {
+                hd.DrawCards(1);
+            }
+        }
+
+        private void BattleCardsPlayedData()
+        {
+            BattleCardsDrawnData();
+            IHero ha = _battle.AttackingHero;
+            IHero hd = _battle.DefendingHero;
+
+            ha.PlayCard(ha.PlayableCards.OfType<IActionable>().FirstOrDefault(x => x.Type == Constants.CardType.Attack));
+            hd.PlayCard(hd.PlayableCards.OfType<IDefendable>().FirstOrDefault());
+        }
+
+        private void BattleCardsModifiedData()
+        {
+            BattleCardsPlayedData();
+
+            IHero ha = _battle.AttackingHero;
+            IHero hd = _battle.DefendingHero;
+
+            if (ha.PlayedCards.OfType<IActionable>().Any())
+            {
+                IActionable atkHeroAtkCard = ha.PlayedCards.OfType<IActionable>().First();
+                if (ha.PlayableCards.OfType<IModifier>().Any())
+                {
+                    IModifier atkHeroModCard = ha.PlayableCards.OfType<IModifier>().First();
+                    atkHeroAtkCard.ApplyModifierCard(atkHeroModCard);
+                }
+            }
+
+            if (hd.PlayedCards.OfType<IDefendable>().Any())
+            {
+                IDefendable defHeroDefCard = hd.PlayedCards.OfType<IDefendable>().First();
+                if (hd.PlayedCards.OfType<IDefendable>().Any())
+                {
+                    IModifier defHeroModCard = hd.PlayableCards.OfType<IModifier>().First();
+                    defHeroDefCard.ApplyModifierCard(defHeroModCard);
+                }
+            }
+        }
+
+        //tests
+
+        //1 - Create a school using factory, add to a general list of schools
+        [TestMethod]
+        public void TestCreateNewSchools()
+        {
+            BasicData();
 
             ISchool NewSchool = SchoolFactory.CreateSchool("NewSchool");
 
             _schoolRepo.Add(NewSchool);
 
-            SchoolList = _schoolRepo.Get();
+            _schoolList = _schoolRepo.Get();
 
-            Assert.IsTrue(SchoolList.Count == 4);
-            Assert.IsTrue(SchoolList[3].Name == "NewSchool");
-
+            Assert.IsTrue(_schoolList.Count == 4);
+            Assert.IsTrue(_schoolList[3].Name == "NewSchool");
         }
-        ///2 - Create a card using factorym , add to a general list of cards
+        //2 - Create a card using factorym , add to a general list of cards
         [TestMethod]
-        public void testCreateNewCards()
+        public void TestCreateNewCards()
         {
-            IList<ICard> CardList;
-        
+            BasicData();
+
             //create an attack, defense and modifier card
             ICard NewCard = CardFactory.CreateCard("NewCard", 1, 1, Constants.CardType.Attack);
 
             _cardRepo.Add(NewCard);
 
-            CardList = _cardRepo.Get();
+            _cardList = _cardRepo.Get();
 
-            Assert.AreEqual(CardList.Count, 6);
-            IActionable actcard = (ActionCard)CardList[5];
+            Assert.AreEqual(_cardList.Count, 6);
+            IActionable actcard = (ActionCard)_cardList[5];
             Assert.AreEqual(actcard.ReturnEnergy, 0);
             Assert.AreEqual(actcard.Energy, 1);
             Assert.AreEqual(actcard.Name, "NewCard");
-
         }
-        ///3 - Create a player using factory, add to a general list of players
+        //3 - Create a player using factory, add to a general list of players
         [TestMethod]
-        public void testCreateNewPlayer()
+        public void TestCreateNewPlayer()
         {
-            IList<ISchool> SchoolList = _schoolRepo.Get();
+            BasicData();
 
-            School lofthouseSchool = SchoolList.Where(x => x.Name == "Lofthouse").First() as School;
+            School lofthouseSchool = _schoolList.First(x => x.Name == "Lofthouse")as School;
 
-            lofthouseSchool.AddPlayer(PlayerFactory.CreatePlayer("David"));
+            lofthouseSchool.AddPlayer(PlayerFactory.CreatePlayer("David", _cardRepo));
 
             Assert.AreEqual(lofthouseSchool.Players.Count(), 2);
-
-            List<IPlayer> lofthouseSchoolPlayers = lofthouseSchool.Players.ToList();
-
-            Assert.AreEqual(lofthouseSchoolPlayers[1].Name, "David");
+            Assert.AreEqual(lofthouseSchool.Players.ElementAt(1).Name, "David");
         }
-        ///7 - Create heros for a player
+        //7 - Create heros for a player
         [TestMethod]
-        public void testCreateNewHero()
+        public void TestCreateNewHero()
         {
-            IList<ISchool> schoolList = _schoolRepo.Get();
+            BasicData();
             //grab a random school from the repository
-            School school = schoolList[new Random().Next(schoolList.Count() - 1)] as School;
+            ISchool school = _schoolList[new Random().Next(_schoolList.Count - 1)];
 
             // grab a random player from the schools player list
-            IPlayer player = school.Players.ToList()[new Random().Next(school.Players.Count()-1)];
-            FakeHeroRepository heroRepo = new FakeHeroRepository(player);
+            IPlayer player = school.Players.ElementAt(new Random().Next(school.Players.Count()-1));
+            player.AddHero(HeroFactory.CreateHero("MyHero", 14, 4,player,new HeroArchetype(20,Constants.HeroClass.Strength)));
 
-            Assert.AreEqual(player.Heroes().Count(), 1);
+            Assert.AreEqual(player.Heroes.Count(), 2);
 
-            heroRepo.Add("MyHero", 14, 4);
-
-            IList<IHero> heroes = heroRepo.Get();
-
-            HeroCard myhero = (HeroCard)heroes.Where(x => x.Name == "MyHero").First();
+            IHero myhero = player.Heroes.FirstOrDefault(x => x.Name == "MyHero");
 
             Assert.IsNotNull(myhero);
-            Assert.AreEqual(player.Heroes().Count(), 2);
+            Assert.AreEqual(player.Heroes.Count(), 2);
             Assert.AreEqual(myhero.Value, 14);
             Assert.AreEqual(myhero.Energy, 4);
             Assert.AreEqual(myhero.Type, Constants.CardType.Hero);
         }
 
-        ///8 - Add cards to player collection
+        //8 - Add cards to player collection
         [TestMethod]
-        public void testAddCardsToPlayer()
+        public void TestAddCardsToPlayer()
         {
-            IList<ISchool> schoolList = _schoolRepo.Get();
-            IList<ICard> cardList = _cardRepo.Get();
+            BasicData();
 
             //grab a random school from the repository
-            ISchool school = schoolList[new Random().Next(schoolList.Count() - 1)];
+            ISchool school = _schoolList[new Random().Next(_schoolList.Count - 1)];
 
             // grab a random player from the schools player list
-            IPlayer player = school.Players.ToList()[new Random().Next(school.Players.Count()-1)];
+            IPlayer player = school
+                .Players
+                .ElementAt(new Random().Next(school.Players.Count()-1));
 
+            ICard newAttackCard = CardFactory.CreateCard("New Attack", 1, 1, Constants.CardType.Attack);
+            _cardRepo.Add(newAttackCard);
+            ICard newDefenseCard = CardFactory.CreateCard("New Defense", 1, 1, Constants.CardType.Defense);
+            _cardRepo.Add(newDefenseCard);
+            ICard newModifierCard = CardFactory.CreateCard("New Modifier", 1, 1, Constants.CardType.Modifier);
+            _cardRepo.Add(newModifierCard);
 
-            player.AddCardtoCollection(cardList.Where(x => x.Name == "Fireball").First());
-            player.AddCardtoCollection(cardList.Where(x => x.Name == "Block").First());
-            player.AddCardtoCollection(cardList.Where(x => x.Name == "Boost").First());
+            player.AddCardtoCollection(newAttackCard);
+            player.AddCardtoCollection(newDefenseCard);
+            player.AddCardtoCollection(newModifierCard);
 
-            Assert.AreEqual(player.AttackCardCollection().Count, 1);
-            Assert.AreEqual(player.DefenseCardCollection().Count, 1);
-            Assert.AreEqual(player.ModifierCardCollection().Count, 1);
+            Assert.AreEqual(player.CardCollection().Count, 8);
 
-            Assert.AreEqual(player.ModifierCardCollection()[0].Name, "Boost");
-            Assert.AreEqual(player.DefenseCardCollection()[0].Name, "Block");
-            Assert.AreEqual(player.AttackCardCollection()[0].Name, "Fireball");
+            Assert.IsTrue(player.CardCollection().Any(x => x.Name == "New Modifier"));
+            Assert.IsTrue(player.CardCollection().Any(x => x.Name == "New Defense"));
+            Assert.IsTrue(player.CardCollection().Any(x => x.Name == "New Attack"));
         }
 
-        ///9 - Add cards from collection to a hero
+        //9 - Add cards from collection to a hero
         [TestMethod]
-        public void testAddCardsToHero()
+        public void TestAddCardsToHero()
         {
-            IList<ISchool> schoolList = _schoolRepo.Get();
-            IList<ICard> cardList = _cardRepo.Get();
+            BasicData();
 
             //grab a random school from the repository
-            ISchool school = schoolList[new Random().Next(schoolList.Count() - 1)];
+            ISchool school = _schoolList[new Random().Next(_schoolList.Count - 1)];
 
             // grab a random player from the schools player list
-            IPlayer player = school.Players.ToList()[new Random().Next(school.Players.Count() - 1)];
+            IPlayer player = school.Players.ElementAt(new Random().Next(school.Players.Count() - 1));
 
-            //add the cards to the player's collection
-            player.AddCardtoCollection(cardList.Where(x => x.Name == "Fireball").First());
-            player.AddCardtoCollection(cardList.Where(x => x.Name == "Block").First());
-            player.AddCardtoCollection(cardList.Where(x => x.Name == "Boost").First());            
-            
+            IHero myhero = player.Heroes.ElementAt(0);
 
-            //create a new hero and add it to the player hero collection
-            FakeHeroRepository heroRepo = new FakeHeroRepository(player);
-            heroRepo.Add("MyHero", 14, 4);
+            //add the fireball card to the hero deck, it should fail
+            myhero.AddCardtoDeck(_cardList.First(x => x.Name == "Fireball"));
 
-            IList<IHero> heroes = heroRepo.Get();
+            //create a new card and add it to the deck
+            int beforDeckCount = myhero.CardDeck.Count;
+            _cardRepo.Add(CardFactory.CreateCard("New Card", 4, 4, Constants.CardType.Attack));
+            _cardList = _cardRepo.Get();
+            player.AddCardtoCollection(_cardList.First(x => x.Name == "New Card"));
+            myhero.AddCardtoDeck(_cardList.First(x => x.Name == "New Card"));
 
-            IHero myhero = (IHero)heroes.Where(x => x.Name == "MyHero").First();
+            Assert.AreEqual(myhero.CardDeck.Count, beforDeckCount + 1);
+            Assert.AreNotEqual(myhero.CardDeck.First(x => x.Name == "New Card"), null);
 
-            //add the fireball and block card to the hero deck
-            myhero.AddCardtoDeck(cardList.Where(x => x.Name == "Fireball").First());
-            myhero.AddCardtoDeck(cardList.Where(x => x.Name == "Block").First());
-
-            Assert.AreEqual(myhero.CardDeck.Count, 2);
-            Assert.AreNotEqual(myhero.CardDeck.Where(x => x.Name == "Fireball").First(), null);
-            Assert.AreNotEqual(myhero.CardDeck.Where(x => x.Name == "Block").First(), null);
-
-            Assert.AreEqual(myhero.CardDeck.Where(x => x.Name == "Fireball").First(), player.GetAttackCard("Fireball") as ICard);
+            Assert.AreEqual(myhero.CardDeck.FirstOrDefault(x => x.Name == "New Card"), player.CardCollection().FirstOrDefault(x=>x.Name =="New Card"));
         }
-        ///10- Create a battle between 2 heros from opposing schools
+        //10- Create a battle between 2 heros from opposing schools
         [TestMethod]
-        public void testCreateBattle()
+        public void TestCreateBattle()
         {
-
+            Random rand = new Random();
             //prepare
-            IList<ISchool> schoolList = _schoolRepo.Get();
-            IList<ICard> cardList = _cardRepo.Get();
-            
-            //add the cards to the player's collection
-
-            foreach (ISchool school in schoolList)
-            {
-                foreach (IPlayer player in school.Players)
-                {
-                    foreach (ICard card in cardList)
-                    {
-                        player.AddCardtoCollection(card);
-                    }
-                }
-            }
+            BasicData();
 
             //create the battle
-            ISchool s1 = schoolList[0];
-            IPlayer p1 = s1.Players.ToList()[0];
-            FakeHeroRepository heroRepo1 = new FakeHeroRepository(p1);
-            IHero h1 = p1.Heroes()[0];
+            int s1rand = rand.Next(_schoolList.Count - 1);
+            int s2rand = rand.Next(_schoolList.Count - 1);
 
-            ISchool s2 = schoolList[1];
-            IPlayer p2 = s2.Players.ToList()[0];
-
-            FakeHeroRepository heroRepo2 = new FakeHeroRepository(p2);
-            IHero h2 = p2.Heroes()[0];
-
-            for (int i = 1; h1.Name == h2.Name; i++)
+            while (s1rand == s2rand)
             {
-                heroRepo2 = new FakeHeroRepository(p2);
-                h2 = p2.Heroes()[i];
+                s2rand = rand.Next(_schoolList.Count - 1);
             }
+
+            ISchool s1 = _schoolList[s1rand];
+            IPlayer p1 = s1.Players.ElementAt(rand.Next(s1.Players.Count - 1));
+            IHero h1 = p1.Heroes.ElementAt(rand.Next(p1.Heroes.Count - 1));
+
+            ISchool s2 = _schoolList[s2rand];
+            IPlayer p2 = s2.Players.ElementAt(rand.Next(s2.Players.Count - 1));
+            IHero h2 = p2.Heroes.ElementAt(rand.Next(p2.Heroes.Count - 1));
 
             _battle = BattleFactory.CreateBattle(h1, h2);
 
             Assert.AreNotEqual(_battle.AttackingHero, null);
             Assert.AreNotEqual(_battle.DefendingHero, null);
             Assert.AreNotEqual(_battle.DefendingHero, _battle.AttackingHero);
-
         }
-        ///11- draw 3 cards from player deck (into PlayableCards)
+        //11- draw 3 cards from player deck (into PlayableCards)
         [TestMethod]
-        public void testDrawCards()
+        public void TestDrawCards()
         {
-            IPlayer player;
-            IList<ICard> cardList = _cardRepo.Get();
+            BattleData();
 
-            testCreateBattle();
-            
             IHero ha = _battle.AttackingHero;
-
-            ha.AddCardtoDeck(cardList.Where(x => x.Name == "Fireball").First());
-            ha.AddCardtoDeck(cardList.Where(x => x.Name == "Block").First());
-
             IHero hd = _battle.DefendingHero;
 
-            hd.AddCardtoDeck(cardList.Where(x => x.Name == "Lightning Bolt").First());
-            hd.AddCardtoDeck(cardList.Where(x => x.Name == "Dodge").First());
-            
             ha.DrawCards(1);
             hd.DrawCards(1);
 
@@ -242,80 +313,131 @@ namespace HeroSchoolTest
 
             Assert.AreEqual(_battle.AttackingHero.PlayableCards.Count, 2);
             Assert.AreEqual(_battle.DefendingHero.PlayableCards.Count, 2);
-
         }
-        ///12- play cards (into PlayedCards - must be able to play based on energy)
+        //12- play cards (into PlayedCards - must be able to play based on energy)
         [TestMethod]
-        public void testPlayCards()
+        public void TestPlayCards()
         {
-            testDrawCards();
+            BattleCardsDrawnData();
 
             IHero ha = _battle.AttackingHero;
             IHero hd = _battle.DefendingHero;
 
             int haenergy = ha.Energy;
             int hdenergy = hd.Energy;
+            int haplayable = ha.PlayableCards.Count;
+            int haplayed = hd.PlayedCards.Count;
+            int hdplayable = ha.PlayableCards.Count;
+            int hdplayed = hd.PlayedCards.Count;
 
-            ha.PlayCard((IActionable)ha.PlayableCards.Where(x => x.Type == Constants.CardType.Attack).First());
-            hd.PlayCard((IActionable)hd.PlayableCards.Where(x => x.Type == Constants.CardType.Defense).First());
+            IActionable haplayablecard = ha.PlayableCards.OfType<IActionable>().FirstOrDefault();
+            ha.PlayCard(haplayablecard);
+            IDefendable hdplayablecard = hd.PlayableCards.OfType<IDefendable>().FirstOrDefault();
+            hd.PlayCard(hdplayablecard);
 
-            Assert.AreEqual(ha.Energy, haenergy - ha.PlayableCards.ToList()[0].Energy);
-            Assert.AreEqual(ha.PlayedCards.Count, 1);
-            Assert.AreEqual(ha.PlayableCards.Count, 1);
+            Assert.AreEqual(ha.Energy, haenergy - haplayablecard.Energy);
+            Assert.AreEqual(ha.PlayedCards.Count, haplayed + 1);
+            Assert.AreEqual(ha.PlayableCards.Count, haplayable - 1);
 
-            Assert.AreEqual(hd.Energy, hdenergy - hd.PlayableCards.ToList()[0].Energy);
-            Assert.AreEqual(hd.PlayedCards.Count, 1);
-            Assert.AreEqual(hd.PlayableCards.Count, 1);
+            Assert.AreEqual(hd.Energy, hdenergy - hdplayablecard.Energy);
+            Assert.AreEqual(hd.PlayedCards.Count, hdplayed + 1);
+            Assert.AreEqual(hd.PlayableCards.Count, hdplayable - 1);
         }
-        ///13- execute attack (call doattack on the battle)
+        //12.5 Apply Modifier
         [TestMethod]
-        public void testTestExecuteAttack()
+        public void TestApplyModifier()
         {
+            BattleCardsPlayedData();
 
-            testPlayCards();
+            IHero ha = _battle.AttackingHero;
+            IHero hd = _battle.DefendingHero;
 
-            IHero ha1 = _battle.AttackingHero;
-            IHero hd1 = _battle.DefendingHero;
-            int aplayedcount = ha1.PlayedCards.Count;
+            if (ha.PlayedCards.OfType<IActionable>().Any())
+            {
+                IActionable atkHeroAtkCard = ha.PlayedCards.OfType<IActionable>().First();
+                if (ha.PlayableCards.OfType<IModifier>().Any())
+                {
+                    IModifier atkHeroModCard = ha.PlayableCards.OfType<IModifier>().First();
+                    atkHeroAtkCard.ApplyModifierCard(atkHeroModCard);
+                }
+            }
+
+            if (hd.PlayedCards.OfType<IDefendable>().Any())
+            {
+                IDefendable defHeroDefCard = hd.PlayedCards.OfType<IDefendable>().First();
+                if (hd.PlayedCards.OfType<IDefendable>().Any())
+                {
+                    IModifier defHeroModCard = hd.PlayableCards.OfType<IModifier>().First();
+                    defHeroDefCard.ApplyModifierCard(defHeroModCard);
+                }
+            }
+        }
+
+        //13- execute attack (call doattack on the battle)
+        [TestMethod]
+        public void TestExecuteAttack()
+        {
+            BattleCardsModifiedData();
+
+            int attacker_before_playedcount = _battle.AttackingHero.PlayedCards.Count;
+            string attacker_before_name = _battle.AttackingHero.ToString();
+            int defender_before_playedcount = _battle.DefendingHero.PlayedCards.Count;
+            string defender_before_name = _battle.DefendingHero.ToString();
+
+            Debug.Print("*****Before Attack*****");
+            Debug.Print("**attacker_before_playedcount:{0}", attacker_before_playedcount.ToString());
+            Debug.Print("**attacker_before_name:{0}", attacker_before_name);
+            Debug.Print("**defender_before_playedcount:{0}", defender_before_playedcount.ToString());
+            Debug.Print("**defender_before_name:{0}", defender_before_name);
+            Debug.Print("***********************");
 
             _battle.DoAttack();
 
-            IHero ha2 = _battle.AttackingHero;
-            IHero hd2 = _battle.DefendingHero;
+            int attacker_after_playedcount = _battle.AttackingHero.PlayedCards.Count;
+            string attacker_after_name = _battle.AttackingHero.ToString();
+            int defender_after_playedcount = _battle.DefendingHero.PlayedCards.Count;
+            string defender_after_name = _battle.DefendingHero.ToString();
 
-            Assert.AreNotEqual(ha1.Name, ha2.Name);
-            Assert.AreNotEqual(hd1.Name, hd2.Name);
+            Debug.Print("*****After Attack*****");
+            Debug.Print("**attacker_after_playedcount:{0}", attacker_after_playedcount.ToString());
+            Debug.Print("**attacker_after_name:{0}", attacker_after_name);
+            Debug.Print("**defender_after_playedcount:{0}", defender_after_playedcount.ToString());
+            Debug.Print("**defender_after_name:{0}", defender_after_name);
+            Debug.Print("***********************");
 
-            Assert.AreEqual(ha1.Name, hd2.Name);
-            Assert.AreEqual(hd1.Name, ha2.Name);
+            Assert.AreNotEqual(attacker_before_name, attacker_after_name);
+            Assert.AreNotEqual(defender_before_name, defender_after_name);
 
-            Assert.AreNotEqual(aplayedcount, hd2.PlayedCards.Count);
+            Assert.AreEqual(attacker_before_name, defender_after_name );
+            Assert.AreEqual(defender_before_name, attacker_after_name);
 
+            Assert.AreNotEqual(attacker_before_playedcount, defender_after_playedcount);
         }
-        ///14- Repeat from 11 until one hero's health is less than 1
+        //14- Repeat from 11 until one hero's health is less than 1
         [TestMethod]
-        public void testCompleteBattle()
+        public void TestCompleteBattle()
         {
-            testPlayCards();
+            BattleCardsModifiedData();
 
             while (_battle.AttackingHero.Value > 0 && _battle.DefendingHero.Value > 0)
             {
-                Trace.WriteLine(string.Format("Before Attack; Attacking Hero - {0}, Defending Hero - {1}", _battle.AttackingHero.ToString(), _battle.DefendingHero.ToString()));
+                Debug.WriteLine(string.Format("Before Attack; Attacking Hero - {0}, Defending Hero - {1}", _battle.AttackingHero.ToString(), _battle.DefendingHero.ToString()));
                 _battle.DoAttack();
-                Trace.WriteLine(string.Format("After Attack; Attacking Hero - {0}, Defending Hero - {1}", _battle.AttackingHero.ToString(), _battle.DefendingHero.ToString()));
+                Debug.WriteLine(string.Format("After Attack; Attacking Hero - {0}, Defending Hero - {1}", _battle.AttackingHero.ToString(), _battle.DefendingHero.ToString()));
 
                 // Draw cards
                 _battle.AttackingHero.DrawCards(1);
                 _battle.DefendingHero.DrawCards(1);
 
                 // Play Cards
-                _battle.AttackingHero.PlayCard((IActionable)_battle.AttackingHero.PlayableCards.Where(x => x.Type == Constants.CardType.Attack).First());
-                _battle.DefendingHero.PlayCard((IActionable)_battle.DefendingHero.PlayableCards.Where(x => x.Type == Constants.CardType.Defense).FirstOrDefault());
-
+                _battle
+                    .AttackingHero
+                    .PlayCard(_battle.AttackingHero.PlayableCards.OfType<IActionable>().FirstOrDefault(x => x.Type == Constants.CardType.Attack));
+                _battle
+                    .DefendingHero
+                    .PlayCard(_battle.DefendingHero.PlayableCards.OfType<IDefendable>().FirstOrDefault());
             }
-            Trace.WriteLine(string.Format("Battle finished - Winner : {0}", _battle.AttackingHero.Value > 0 ? _battle.AttackingHero : _battle.DefendingHero));
-
+            Debug.WriteLine(string.Format("Battle finished - Winner : {0}", _battle.AttackingHero.Value > 0 ? _battle.AttackingHero : _battle.DefendingHero));
         }
-
     }
 }

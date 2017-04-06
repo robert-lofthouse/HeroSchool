@@ -1,21 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace HeroSchool.Interfaces
 {
     public interface IPlayer : IHeroSchool
     {
-        IList<IActionable> AttackCardCollection();
-
-        IList<IActionable> DefenseCardCollection();
-        IList<IHero> Heroes();
-        IList<IModifier> ModifierCardCollection();
+        IList<ICard> CardCollection();
 
         void AddCardtoCollection(ICard p_card);
 
-        IActionable GetAttackCard(string cardName);
-        IActionable GetDefenseCard(string cardName);
-        IModifier GetModifierCard(string cardName);
+        ICard GetCard(Guid p_ID);
 
+        IReadOnlyCollection<IHero> Heroes { get; }
         void AddHero(IHero p_hero);
     }
 }

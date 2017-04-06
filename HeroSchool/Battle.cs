@@ -10,7 +10,11 @@ namespace HeroSchool
         private IHero _hero2;
         private IHero _defendingHero;
 
-        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Name
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
 
         public IHero AttackingHero { get => _defendingHero != _hero1 ? _hero1 : _hero2; }
         public IHero DefendingHero { get => _defendingHero; }
@@ -27,8 +31,8 @@ namespace HeroSchool
             Constants.AttackResult atkres;
 
             List<IActionable> attackerPlayedCards = (List<IActionable>)AttackingHero.PlayedCards;
-            
-            atkres = DefendingHero.PerformAttack(attackerPlayedCards.Find(x => x.Type == Constants.CardType.Attack));
+
+            atkres = DefendingHero.PerformAttack(AttackingHero, attackerPlayedCards.Find(x => x.Type == Constants.CardType.Attack));
 
             _defendingHero = AttackingHero;
 
@@ -38,20 +42,16 @@ namespace HeroSchool
         private void FlipCoin()
         {
             Random rand = new Random();
-            
+
             switch (rand.Next(1))
             {
                 case 0:
                     _defendingHero = _hero1;
                     break;
-                case 1:
-                    _defendingHero = _hero2;
-                    break;
                 default:
                     _defendingHero = _hero2;
                     break;
             }
-
         }
     }
 }

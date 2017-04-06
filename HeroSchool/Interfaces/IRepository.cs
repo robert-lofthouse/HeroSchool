@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace HeroSchool.Interfaces
 {
-
     public interface IRepository<T> where T : IHeroSchool
     {
         void Add(T p_new);
@@ -21,9 +20,4 @@ namespace HeroSchool.Interfaces
 
         void Delete(T p_del);
     }
-
-    public interface ICardPack<T> : IList<T> where T : ICard
-    {
-    }
-
 }

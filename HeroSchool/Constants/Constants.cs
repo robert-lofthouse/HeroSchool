@@ -4,7 +4,7 @@ namespace HeroSchool
 {
     public static class Constants
     {
-        public enum HeroType
+        public enum HeroClass
         {
             Strength,
             Elemental,
@@ -14,8 +14,8 @@ namespace HeroSchool
         }
         public enum ModifierType
         {
-            Value = 'V',
-            Action = 'A'
+            Value,
+            Action
         }
 
         public enum ModifierScope

@@ -13,20 +13,17 @@ namespace HeroSchool.Factories
         /// Create a new player object and add it to the players collection
         /// </summary>
         /// <param name="p_Playername"></param>
+        /// <param name="p_cardRepo"></param>
         /// <param name="p_playerList"></param>
         /// <returns></returns>
-        public static IPlayer CreatePlayer(string p_Playername)
+        public static IPlayer CreatePlayer(string p_Playername, IRepository<ICard> p_cardRepo)
         {
             try
             {
-                IPlayer newPlayer;
-                newPlayer = new Player(p_Playername);
-
-                return newPlayer;
+                return new Player(p_Playername, p_cardRepo);
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }

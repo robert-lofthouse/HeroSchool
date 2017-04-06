@@ -11,5 +11,4 @@ namespace HeroSchool.Interfaces
         IHero AttackingHero { get; }
         IHero DefendingHero { get; }
     }
-
 }

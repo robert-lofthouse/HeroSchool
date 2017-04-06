@@ -27,8 +27,5 @@ namespace HeroSchool
         {
             _attacks.Clear();
         }
-
     }
-
-
 }

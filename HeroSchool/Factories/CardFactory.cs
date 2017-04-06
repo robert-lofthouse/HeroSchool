@@ -13,7 +13,9 @@ namespace HeroSchool.Factories
         /// </summary>
         /// <param name="p_name"></param>
         /// <param name="p_value"></param>
+        /// <param name="p_energy"></param>
         /// <param name="p_cardType"></param>
+        /// <param name="p_returnEnergy"></param>
         /// <returns></returns>
         static public Card CreateCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType, int p_returnEnergy = 0)
         {
@@ -29,7 +31,6 @@ namespace HeroSchool.Factories
                         return new DefenseCard(p_name, p_value, p_energy, p_cardType);
                     default:
                         return null;
-                        break;
                 }
             }
             catch (Exception ex)
@@ -38,7 +39,5 @@ namespace HeroSchool.Factories
                 throw;
             }
         }
-
-
     }
 }
