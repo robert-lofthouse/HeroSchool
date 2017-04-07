@@ -18,6 +18,6 @@ namespace HeroSchool.Interfaces
 
         void RemoveCardFromPlayedDeck(IActionable p_card);
 
-        Constants.AttackResult PerformAttack(IHero opponent, IActionable opponentAttackCard);
+        Global.AttackResult PerformAttack(IHero opponent, IActionable opponentAttackCard);
     }
 }

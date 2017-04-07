@@ -11,7 +11,7 @@ namespace HeroSchool
     /// </summary>
     public class HeroCard : DefenseCard, IHero
     {
-        private Guid _playerID;
+        private string _playerID;
         private IRepository<ICard> _cardRepo;
         private IRepository<ISchool> _schoolRepo;
         private int _energyUsed = 0;
@@ -57,9 +57,8 @@ namespace HeroSchool
             return string.Format("{0} ({1})", Name, Value);
         }
 
-
         //Constructor
-        public HeroCard(string p_name, int p_value, int p_energy, Guid p_playerID, IHeroArchetype p_heroArchetype, IRepository<ICard> p_cardRepo, IRepository<ISchool> p_schoolRepo, Constants.CardType p_cardType = Constants.CardType.Hero) : base(p_name, p_value, p_energy, p_cardType)
+        public HeroCard(string p_name, int p_value, int p_energy, string p_playerID, IHeroArchetype p_heroArchetype, IRepository<ICard> p_cardRepo, IRepository<ISchool> p_schoolRepo, Global.CardType p_cardType = Global.CardType.Hero, string p_id = "") : base(p_name, p_value, p_energy, p_cardType,p_id)
         {
             _cardRepo = p_cardRepo;
             _schoolRepo = p_schoolRepo;
@@ -75,14 +74,14 @@ namespace HeroSchool
         public void AddCardtoDeck(ICard card,  bool p_shuffle = true)
         {
             IList<ISchool> _schoolList = _schoolRepo.Get();
-            IPlayer _player = (from _school in _schoolList from player in _school.Players select player).FirstOrDefault(x => x.ID == _playerID);
+            IPlayer _player = (from _school in _schoolList from player in _school.Players select player).FirstOrDefault(x => x._id == _playerID);
 
-            if (_player.GetCard(card.ID) == null)
+            if (_player.GetCard(card._id) == null)
             {
                 throw new Exception("Can't add card to deck, player doesn't have card in collection");
             }
 
-            if (!_cardDeck.Any(x=>x.ID == card.ID))
+            if (!_cardDeck.Any(x=>x._id == card._id))
             {
                 _cardDeck.Add(card);
             }
@@ -145,12 +144,12 @@ namespace HeroSchool
         /// <param name="opponent"></param>
         /// <param name="opponentAttackCard"></param>
         /// <returns></returns>
-        public Constants.AttackResult PerformAttack(IHero opponent, IActionable opponentAttackCard)
+        public Global.AttackResult PerformAttack(IHero opponent, IActionable opponentAttackCard)
         {
             if (opponentAttackCard == null)
             {
                 // if no attack card was played, then the attack failed
-                return Constants.AttackResult.AttackFailed;
+                return Global.AttackResult.AttackFailed;
             }
             else
             {
@@ -181,11 +180,11 @@ namespace HeroSchool
                 // return the attack result
                 if (Value <= 0)
                 {
-                    return Constants.AttackResult.AttackSuccededDamagedAndKilled;
+                    return Global.AttackResult.AttackSuccededDamagedAndKilled;
                 }
                 else
                 {
-                    return Constants.AttackResult.AttackSuccededDamagedNotKilled;
+                    return Global.AttackResult.AttackSuccededDamagedNotKilled;
                 }
             }
         }
@@ -197,7 +196,7 @@ namespace HeroSchool
             p_card.RemoveModifiers();
             _energyReturned += p_card.Energy;
 
-            if (p_card.Type == Constants.CardType.Defense)
+            if (p_card.Type == Global.CardType.Defense)
             {
                 ((IDefendable)p_card).RemoveAttacks();
             }

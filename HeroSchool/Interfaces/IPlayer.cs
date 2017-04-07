@@ -9,7 +9,7 @@ namespace HeroSchool.Interfaces
 
         void AddCardtoCollection(ICard p_card);
 
-        ICard GetCard(Guid p_ID);
+        ICard GetCard(string p_ID);
 
         IReadOnlyCollection<IHero> Heroes { get; }
         void AddHero(IHero p_hero);

@@ -7,8 +7,9 @@ namespace HeroSchool.Interfaces
 {
     public interface IBattle : IHeroSchool
     {
-        Constants.AttackResult DoAttack();
+        Global.AttackResult DoAttack();
         IHero AttackingHero { get; }
         IHero DefendingHero { get; }
+        Battle.SaveableBattle GetSaveableVersion();
     }
 }

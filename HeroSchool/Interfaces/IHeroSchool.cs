@@ -9,6 +9,6 @@ namespace HeroSchool.Interfaces
     public interface IHeroSchool
     {
         string Name { get; set; }
-        Guid ID { get; }
+        string _id { get; }
     }
 }

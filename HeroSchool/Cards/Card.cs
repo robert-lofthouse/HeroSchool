@@ -7,25 +7,28 @@ namespace HeroSchool
 {
     public abstract class Card : ICard
     {
-        private Guid _id;
         private int _energy;
         private int _value;
-        private Constants.CardType _type;
+        private Global.CardType _type;
 
         public string Name { get; set; }
-        public Constants.CardType Type { get => _type; }
+        public Global.CardType Type { get => _type; }
         public virtual int Energy { get => _energy; }
         public virtual int Value { get => _value; }
 
-        public Guid ID { get => _id; }
+        public string _id { get; }
 
-        protected Card(string p_name, int p_value, int p_energy, Constants.CardType p_cardType, Guid p_id = new Guid())
+        protected Card ()
+        {
+
+        }
+        protected Card(string p_name, int p_value, int p_energy, Global.CardType p_cardType, string p_id = "")
         {
             Name = p_name;
             _value = p_value;
             _energy = p_energy;
             _type = p_cardType;
-            _id = p_id == Guid.Empty ? Guid.NewGuid() : p_id;
+            _id = p_id == "" ? Guid.NewGuid().ToString() : p_id;
         }
 
         public override string ToString()

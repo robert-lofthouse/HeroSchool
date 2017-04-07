@@ -17,18 +17,18 @@ namespace HeroSchool.Factories
         /// <param name="p_cardType"></param>
         /// <param name="p_returnEnergy"></param>
         /// <returns></returns>
-        static public Card CreateCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType, int p_returnEnergy = 0)
+        static public Card CreateCard(string p_name, int p_value, int p_energy, Global.CardType p_cardType, int p_returnEnergy = 0)
         {
             try
             {
                 switch (p_cardType)
                 {
-                    case Constants.CardType.Modifier:
+                    case Global.CardType.Modifier:
                         return new ModifierCard(p_name, p_value, p_energy);
-                    case Constants.CardType.Attack:
+                    case Global.CardType.Attack:
                         return new ActionCard(p_name, p_value, p_energy, p_cardType, p_returnEnergy);
-                    case Constants.CardType.Defense:
-                        return new DefenseCard(p_name, p_value, p_energy, p_cardType);
+                    case Global.CardType.Defense:
+                        return new DefenseCard(p_name, p_value, p_energy);
                     default:
                         return null;
                 }

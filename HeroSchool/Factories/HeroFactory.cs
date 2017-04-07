@@ -18,7 +18,7 @@ namespace HeroSchool.Factories
             string p_heroName,
             int p_value,
             int p_energy,
-            Guid p_player,
+            string p_player,
             IHeroArchetype p_heroArchetype,
             IRepository<ICard> p_cardRepo,
             IRepository<ISchool> p_schoolRepo)

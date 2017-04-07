@@ -12,8 +12,9 @@ namespace HeroSchool
         private int _baseValue;
 
         public override int Value { get => base.Value - _attacks.Sum(x => x.Value); }
+        public DefenseCard () { }
 
-        public DefenseCard(string p_name, int p_value, int p_energy, Constants.CardType p_cardType = Constants.CardType.Defense) : base(p_name, p_value,p_energy, p_cardType)
+        public DefenseCard(string p_name, int p_value, int p_energy, Global.CardType p_cardType = Global.CardType.Defense, string p_id = "") : base(p_name, p_value,p_energy, p_cardType,p_id)
         {
             _baseValue = p_value;
         }

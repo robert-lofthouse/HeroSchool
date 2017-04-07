@@ -58,6 +58,8 @@
     <Compile Include="Cards\ActionCard.cs" />
     <Compile Include="Battle.cs" />
     <Compile Include="Cards\DefenseCard.cs" />
+    <Compile Include="Converters\BattleConverter.cs" />
+    <Compile Include="Converters\CardConverter.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Interfaces\IHeroClass.cs" />
     <Compile Include="Class1.cs" />
@@ -74,7 +76,7 @@
     <Compile Include="Interfaces\IHeroSchool.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Repositories\CardRepository.cs" />
-    <Compile Include="Constants\Constants.cs" />
+    <Compile Include="Constants\Global.cs" />
     <Compile Include="Interfaces\IBattle.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\ISchool.cs" />

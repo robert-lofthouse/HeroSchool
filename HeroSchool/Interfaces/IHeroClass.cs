@@ -9,6 +9,6 @@ namespace HeroSchool.Interfaces
     public interface IHeroArchetype
     {
         int HeroPoints { get; }
-        Constants.HeroClass HeroClass { get; }
+        Global.HeroClass HeroClass { get; }
     }
 }

@@ -10,18 +10,16 @@ namespace HeroSchool
     public class School : ISchool
     {
         private List<IPlayer> _players;
-        private string _schoolName;
-        private Guid _id;
 
         public IReadOnlyCollection<IPlayer> Players { get; }
 
-        public string Name { get => _schoolName; set => _schoolName = value; }
-        public Guid ID { get => _id; }
+        public string Name { get; set; }
+        public string _id { get; }
 
         public School(string p_name)
         {
-            _schoolName = p_name;
-            _id = Guid.NewGuid();
+            Name = p_name;
+            _id = Guid.NewGuid().ToString();
             _players = new List<IPlayer>();
             Players = _players.AsReadOnly();
         }
@@ -41,9 +39,9 @@ namespace HeroSchool
             }
         }
 
-        public Player GetPlayer(string p_playerName)
+        public IPlayer GetPlayer(string p_playerName)
         {
-            return (Player)_players.Find(x => x.Name == p_playerName);
+            return _players.Find(x => x.Name == p_playerName);
         }
     }
 }

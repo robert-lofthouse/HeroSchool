@@ -8,8 +8,10 @@ namespace HeroSchool
     {
         private IHero _hero1;
         private IHero _hero2;
+        private IHero _winninghero;
         private IHero _defendingHero;
-        private Guid _id;
+
+        private string _hero1schoolid, _hero1playerid, _hero1id, _hero2schoolid, _hero2playerid, _hero2id, _winningheroid;
 
         public string Name
         {
@@ -20,23 +22,39 @@ namespace HeroSchool
         public IHero AttackingHero { get => _defendingHero != _hero1 ? _hero1 : _hero2; }
         public IHero DefendingHero { get => _defendingHero; }
 
-        public Guid ID { get => _id; }
-
+        public string _id { get; }
+        public Battle() { }
         public Battle(IHero p_hero1, IHero p_hero2)
         {
-            _id = Guid.NewGuid();
+            _id = Guid.NewGuid().ToString();
             _hero1 = p_hero1;
             _hero2 = p_hero2;
             FlipCoin();
         }
-
-        public Constants.AttackResult DoAttack()
+        public Battle(string p_id, string p_hero1schoolid, string p_hero1playerid, string p_hero1id, string p_hero2schoolid, string p_hero2playerid, string p_hero2id, string p_winningheroid)
         {
-            Constants.AttackResult atkres;
+            _id = p_id;
+
+            _hero1schoolid = p_hero1schoolid;
+            _hero1playerid = p_hero1playerid;
+            _hero1id = p_hero1id;
+            _hero2schoolid = p_hero2schoolid;
+            _hero2playerid = p_hero2playerid;
+            _hero2id = p_hero2id;
+            _winningheroid = p_winningheroid;
+        }
+
+        public SaveableBattle GetSaveableVersion() {
+            return new SaveableBattle(_id, _hero1schoolid, _hero1playerid, _hero1id, _hero2schoolid, _hero2playerid, _hero2id, _winningheroid);
+        }
+
+        public Global.AttackResult DoAttack()
+        {
+            Global.AttackResult atkres;
 
             List<IActionable> attackerPlayedCards = (List<IActionable>)AttackingHero.PlayedCards;
 
-            atkres = DefendingHero.PerformAttack(AttackingHero, attackerPlayedCards.Find(x => x.Type == Constants.CardType.Attack));
+            atkres = DefendingHero.PerformAttack(AttackingHero, attackerPlayedCards.Find(x => x.Type == Global.CardType.Attack));
 
             _defendingHero = AttackingHero;
 
@@ -57,5 +75,31 @@ namespace HeroSchool
                     break;
             }
         }
+
+        public class SaveableBattle
+        {
+            public SaveableBattle(string p_id, string p_hero1schoolid, string p_hero1playerid, string p_hero1id, string p_hero2schoolid, string p_hero2playerid, string p_hero2id, string p_winningheroid)
+            {
+                _id = p_id;
+
+                Hero1schoolid = p_hero1schoolid;
+                Hero1playerid = p_hero1playerid;
+                Hero1id = p_hero1id;
+                Hero2schoolid = p_hero2schoolid;
+                Hero2playerid = p_hero2playerid;
+                Hero2id = p_hero2id;
+                Winningheroid = p_winningheroid;
+            }
+
+            public string _id { get; set; }
+            public string Hero1schoolid { get; set; }
+            public string Hero1playerid { get; set; }
+            public string Hero1id { get; set; }
+            public string Hero2schoolid { get; set; }
+            public string Hero2playerid { get; set; }
+            public string Hero2id { get; set; }
+            public string Winningheroid { get; set; }
+        }
+
     }
 }

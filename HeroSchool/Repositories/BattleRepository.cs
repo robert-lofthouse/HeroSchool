@@ -1,4 +1,8 @@
-﻿using HeroSchool.Interfaces;
+﻿using HeroSchool.Converters;
+using HeroSchool.Interfaces;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +15,25 @@ namespace HeroSchool.Repositories
     {
         public void Add(IBattle p_new)
         {
-            throw new NotImplementedException();
+            IMongoCollection<BsonDocument> MongoCardCollection = Global.CreateConnection("Battle");
+
+            try
+            {
+                UpdateOptions options = new UpdateOptions { IsUpsert = true };
+
+                FilterDefinition<BsonDocument> filter = new BsonDocument("_id", p_new._id);
+
+                var jsonobject = BsonDocument.Parse(JsonConvert.SerializeObject(p_new.GetSaveableVersion()));
+                jsonobject.Remove("_id");
+
+                UpdateDefinition<BsonDocument> update = new BsonDocument("$set", jsonobject);
+
+                MongoCardCollection.UpdateOne(filter, update, options);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public void Delete(IBattle p_del)
@@ -21,7 +43,22 @@ namespace HeroSchool.Repositories
 
         public IList<IBattle> Get()
         {
-            throw new NotImplementedException();
+            IMongoCollection<BsonDocument> MongoCardCollection = Global.CreateConnection("Battle");
+
+            try
+            {
+                IList<IBattle> battleList = new List<IBattle>();
+
+                foreach (var item in MongoCardCollection.Find(new BsonDocument()).ToList())
+                {
+                    battleList.Add(JsonConvert.DeserializeObject<Battle>(item.ToJson(), new BattleConverter()));
+                }
+                return battleList;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public IBattle Get(IBattle p_get)

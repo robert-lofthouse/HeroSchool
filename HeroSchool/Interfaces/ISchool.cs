@@ -7,6 +7,6 @@ namespace HeroSchool.Interfaces
         IReadOnlyCollection<IPlayer> Players { get; }
 
         bool AddPlayer(IPlayer p_player);
-        Player GetPlayer(string p_playerName);
+        IPlayer GetPlayer(string p_playerName);
     }
 }

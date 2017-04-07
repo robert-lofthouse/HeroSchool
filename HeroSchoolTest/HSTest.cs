@@ -97,7 +97,7 @@ namespace HeroSchoolTest
             IHero ha = _battle.AttackingHero;
             IHero hd = _battle.DefendingHero;
 
-            ha.PlayCard(ha.PlayableCards.OfType<IActionable>().FirstOrDefault(x => x.Type == Constants.CardType.Attack));
+            ha.PlayCard(ha.PlayableCards.OfType<IActionable>().FirstOrDefault(x => x.Type == Global.CardType.Attack));
             hd.PlayCard(hd.PlayableCards.OfType<IDefendable>().FirstOrDefault());
         }
 
@@ -153,7 +153,7 @@ namespace HeroSchoolTest
             BasicData();
 
             //create an attack, defense and modifier card
-            ICard NewCard = CardFactory.CreateCard("NewCard", 1, 1, Constants.CardType.Attack);
+            ICard NewCard = CardFactory.CreateCard("NewCard", 1, 1, Global.CardType.Attack);
 
             _cardRepo.Add(NewCard);
 
@@ -188,7 +188,7 @@ namespace HeroSchoolTest
 
             // grab a random player from the schools player list
             IPlayer player = school.Players.ElementAt(new Random().Next(school.Players.Count()-1));
-            player.AddHero(HeroFactory.CreateHero("MyHero", 14, 4,player.ID,new HeroArchetype(20,Constants.HeroClass.Strength),_cardRepo,_schoolRepo));
+            player.AddHero(HeroFactory.CreateHero("MyHero", 14, 4,player._id,new HeroArchetype(20,Global.HeroClass.Strength),_cardRepo,_schoolRepo));
 
             Assert.AreEqual(player.Heroes.Count(), 2);
 
@@ -198,7 +198,7 @@ namespace HeroSchoolTest
             Assert.AreEqual(player.Heroes.Count(), 2);
             Assert.AreEqual(myhero.Value, 14);
             Assert.AreEqual(myhero.Energy, 4);
-            Assert.AreEqual(myhero.Type, Constants.CardType.Hero);
+            Assert.AreEqual(myhero.Type, Global.CardType.Hero);
         }
 
         //8 - Add cards to player collection
@@ -215,11 +215,11 @@ namespace HeroSchoolTest
                 .Players
                 .ElementAt(new Random().Next(school.Players.Count()-1));
 
-            ICard newAttackCard = CardFactory.CreateCard("New Attack", 1, 1, Constants.CardType.Attack);
+            ICard newAttackCard = CardFactory.CreateCard("New Attack", 1, 1, Global.CardType.Attack);
             _cardRepo.Add(newAttackCard);
-            ICard newDefenseCard = CardFactory.CreateCard("New Defense", 1, 1, Constants.CardType.Defense);
+            ICard newDefenseCard = CardFactory.CreateCard("New Defense", 1, 1, Global.CardType.Defense);
             _cardRepo.Add(newDefenseCard);
-            ICard newModifierCard = CardFactory.CreateCard("New Modifier", 1, 1, Constants.CardType.Modifier);
+            ICard newModifierCard = CardFactory.CreateCard("New Modifier", 1, 1, Global.CardType.Modifier);
             _cardRepo.Add(newModifierCard);
 
             player.AddCardtoCollection(newAttackCard);
@@ -252,7 +252,7 @@ namespace HeroSchoolTest
 
             //create a new card and add it to the deck
             int beforDeckCount = myhero.CardDeck.Count;
-            _cardRepo.Add(CardFactory.CreateCard("New Card", 4, 4, Constants.CardType.Attack));
+            _cardRepo.Add(CardFactory.CreateCard("New Card", 4, 4, Global.CardType.Attack));
             _cardList = _cardRepo.Get();
             player.AddCardtoCollection(_cardList.First(x => x.Name == "New Card"));
             myhero.AddCardtoDeck(_cardList.First(x => x.Name == "New Card"));
@@ -432,12 +432,55 @@ namespace HeroSchoolTest
                 // Play Cards
                 _battle
                     .AttackingHero
-                    .PlayCard(_battle.AttackingHero.PlayableCards.OfType<IActionable>().FirstOrDefault(x => x.Type == Constants.CardType.Attack));
+                    .PlayCard(_battle.AttackingHero.PlayableCards.OfType<IActionable>().FirstOrDefault(x => x.Type == Global.CardType.Attack));
                 _battle
                     .DefendingHero
                     .PlayCard(_battle.DefendingHero.PlayableCards.OfType<IDefendable>().FirstOrDefault());
             }
             Debug.WriteLine(string.Format("Battle finished - Winner : {0}", _battle.AttackingHero.Value > 0 ? _battle.AttackingHero : _battle.DefendingHero));
+        }
+
+        [TestMethod]
+        public void TestAddToCardRepo()
+        {
+            ICard newcard = CardFactory.CreateCard("New Attack Card", 10, 4, Global.CardType.Attack);
+            IRepository<ICard> CardRepo = new CardRepository();
+
+            CardRepo.Add(newcard);
+        }
+
+        [TestMethod]
+        public void GetAllCardsfromRepo()
+        {
+            IRepository<ICard> CardRepo = new CardRepository();
+
+            IList<ICard> cardlist = CardRepo.Get();
+
+            Assert.IsNotNull(cardlist);
+            Assert.IsTrue(cardlist.Count > 0);
+            Assert.IsTrue(cardlist.FirstOrDefault(x => x.Name == "New Attack Card").Type == Global.CardType.Attack);
+        }
+
+        [TestMethod]
+        public void GetCardFromRepo()
+        {
+            ICard card = CardFactory.CreateCard("New Attack Card", 0, 0, Global.CardType.Attack);
+
+            IRepository<ICard> cardRepo = new CardRepository();
+
+            ICard cardfromrepo = cardRepo.Get(card);
+        }
+
+        [TestMethod]
+        public void DelCardFromRepo()
+        {
+            ICard card = CardFactory.CreateCard("234", 0, 0, Global.CardType.Attack);
+
+            IRepository<ICard> cardRepo = new CardRepository();
+
+            ICard cardfromrepo = cardRepo.Get(card);
+
+            cardRepo.Delete(cardfromrepo);
         }
     }
 }
