@@ -24,7 +24,7 @@ namespace HeroSchool.Repositories
             throw new NotImplementedException();
         }
 
-        public ISchool Get(ISchool p_get)
+        public ISchool Get(KeyValuePair<string, string> p_get)
         {
             throw new NotImplementedException();
         }

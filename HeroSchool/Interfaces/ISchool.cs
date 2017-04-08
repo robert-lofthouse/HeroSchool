@@ -2,7 +2,7 @@
 
 namespace HeroSchool.Interfaces
 {
-    public interface ISchool : IHeroSchool
+    public interface ISchool : IGame
     {
         IReadOnlyCollection<IPlayer> Players { get; }
 

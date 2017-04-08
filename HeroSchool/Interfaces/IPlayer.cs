@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace HeroSchool.Interfaces
 {
-    public interface IPlayer : IHeroSchool
+    public interface IPlayer : IGame
     {
-        IList<ICard> CardCollection();
+        IList<Card> CardCollection { get; set; }
 
-        void AddCardtoCollection(ICard p_card);
+        void AddCardtoCollection(Card p_card);
 
         ICard GetCard(string p_ID);
 
-        IReadOnlyCollection<IHero> Heroes { get; }
-        void AddHero(IHero p_hero);
+        IList<Hero> Heroes { get; set;  }
+        void AddHero(Hero p_hero);
     }
 }

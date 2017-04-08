@@ -14,13 +14,13 @@ namespace HeroSchoolTest
     public class HSTest
     {
         IList<ISchool> _schoolList;
-        IList<ICard> _cardList;
+        IList<Card> _cardList;
 
         private FakeCardRepository _cardRepo;
         private FakeSchoolRepository _schoolRepo;
 
         private IBattle _battle;
-
+        #region Data Prep
         private void BasicData()
         {
             _cardRepo = new FakeCardRepository();
@@ -33,7 +33,7 @@ namespace HeroSchoolTest
             {
                 foreach (IPlayer player in school.Players)
                 {
-                    foreach (ICard card in _cardList)
+                    foreach (Card card in _cardList)
                     {
                         player.AddCardtoCollection(card);
 
@@ -51,21 +51,21 @@ namespace HeroSchoolTest
             BasicData();
 
             Random rand = new Random();
-            int s1rand = rand.Next(_schoolList.Count - 1);
-            int s2rand = rand.Next(_schoolList.Count - 1);
+            int s1rand = rand.Next(_schoolList.Count);
+            int s2rand = rand.Next(_schoolList.Count);
 
             while (s1rand == s2rand)
             {
-                s2rand = rand.Next(_schoolList.Count - 1);
+                s2rand = rand.Next(_schoolList.Count);
             }
 
             ISchool s1 = _schoolList[s1rand];
-            IPlayer p1 = s1.Players.ElementAt(rand.Next(s1.Players.Count - 1));
-            IHero h1 = p1.Heroes.ElementAt(rand.Next(p1.Heroes.Count - 1));
+            IPlayer p1 = s1.Players.ElementAt(rand.Next(s1.Players.Count));
+            IHero h1 = p1.Heroes.ElementAt(rand.Next(p1.Heroes.Count));
 
             ISchool s2 = _schoolList[s2rand];
-            IPlayer p2 = s2.Players.ElementAt(rand.Next(s2.Players.Count - 1));
-            IHero h2 = p2.Heroes.ElementAt(rand.Next(p2.Heroes.Count - 1));
+            IPlayer p2 = s2.Players.ElementAt(rand.Next(s2.Players.Count));
+            IHero h2 = p2.Heroes.ElementAt(rand.Next(p2.Heroes.Count));
 
             for (int i = 0; h1.Name == h2.Name; i++)
             {
@@ -128,7 +128,7 @@ namespace HeroSchoolTest
                 }
             }
         }
-
+        #endregion
         //tests
 
         //1 - Create a school using factory, add to a general list of schools
@@ -153,7 +153,7 @@ namespace HeroSchoolTest
             BasicData();
 
             //create an attack, defense and modifier card
-            ICard NewCard = CardFactory.CreateCard("NewCard", 1, 1, Global.CardType.Attack);
+            Card NewCard = CardFactory.CreateCard("NewCard", 1, 1, Global.CardType.Attack);
 
             _cardRepo.Add(NewCard);
 
@@ -173,10 +173,10 @@ namespace HeroSchoolTest
 
             School lofthouseSchool = _schoolList.First(x => x.Name == "Lofthouse")as School;
 
-            lofthouseSchool.AddPlayer(PlayerFactory.CreatePlayer("David", _cardRepo));
+            lofthouseSchool.AddPlayer(PlayerFactory.CreatePlayer("Mom", _cardRepo));
 
-            Assert.AreEqual(lofthouseSchool.Players.Count(), 2);
-            Assert.AreEqual(lofthouseSchool.Players.ElementAt(1).Name, "David");
+            Assert.AreEqual(lofthouseSchool.Players.Count(), 3);
+            Assert.AreEqual(lofthouseSchool.Players.ElementAt(2).Name, "Mom");
         }
         //7 - Create heros for a player
         [TestMethod]
@@ -215,22 +215,22 @@ namespace HeroSchoolTest
                 .Players
                 .ElementAt(new Random().Next(school.Players.Count()-1));
 
-            ICard newAttackCard = CardFactory.CreateCard("New Attack", 1, 1, Global.CardType.Attack);
+            Card newAttackCard = CardFactory.CreateCard("New Attack", 1, 1, Global.CardType.Attack);
             _cardRepo.Add(newAttackCard);
-            ICard newDefenseCard = CardFactory.CreateCard("New Defense", 1, 1, Global.CardType.Defense);
+            Card newDefenseCard = CardFactory.CreateCard("New Defense", 1, 1, Global.CardType.Defense);
             _cardRepo.Add(newDefenseCard);
-            ICard newModifierCard = CardFactory.CreateCard("New Modifier", 1, 1, Global.CardType.Modifier);
+            Card newModifierCard = CardFactory.CreateCard("New Modifier", 1, 1, Global.CardType.Modifier);
             _cardRepo.Add(newModifierCard);
 
             player.AddCardtoCollection(newAttackCard);
             player.AddCardtoCollection(newDefenseCard);
             player.AddCardtoCollection(newModifierCard);
 
-            Assert.AreEqual(player.CardCollection().Count, 8);
+            Assert.AreEqual(player.CardCollection.Count, 8);
 
-            Assert.IsTrue(player.CardCollection().Any(x => x.Name == "New Modifier"));
-            Assert.IsTrue(player.CardCollection().Any(x => x.Name == "New Defense"));
-            Assert.IsTrue(player.CardCollection().Any(x => x.Name == "New Attack"));
+            Assert.IsTrue(player.CardCollection.Any(x => x.Name == "New Modifier"));
+            Assert.IsTrue(player.CardCollection.Any(x => x.Name == "New Defense"));
+            Assert.IsTrue(player.CardCollection.Any(x => x.Name == "New Attack"));
         }
 
         //9 - Add cards from collection to a hero
@@ -260,7 +260,7 @@ namespace HeroSchoolTest
             Assert.AreEqual(myhero.CardDeck.Count, beforDeckCount + 1);
             Assert.AreNotEqual(myhero.CardDeck.First(x => x.Name == "New Card"), null);
 
-            Assert.AreEqual(myhero.CardDeck.FirstOrDefault(x => x.Name == "New Card"), player.CardCollection().FirstOrDefault(x=>x.Name =="New Card"));
+            Assert.AreEqual(myhero.CardDeck.FirstOrDefault(x => x.Name == "New Card"), player.CardCollection.FirstOrDefault(x=>x.Name =="New Card"));
         }
         //10- Create a battle between 2 heros from opposing schools
         [TestMethod]
@@ -423,7 +423,7 @@ namespace HeroSchoolTest
             {
                 Debug.WriteLine(string.Format("Before Attack; Attacking Hero - {0}, Defending Hero - {1}", _battle.AttackingHero.ToString(), _battle.DefendingHero.ToString()));
                 _battle.DoAttack();
-                Debug.WriteLine(string.Format("After Attack; Attacking Hero - {0}, Defending Hero - {1}", _battle.AttackingHero.ToString(), _battle.DefendingHero.ToString()));
+                //Debug.WriteLine(string.Format("After Attack; Attacking Hero - {0}, Defending Hero - {1}", _battle.AttackingHero.ToString(), _battle.DefendingHero.ToString()));
 
                 // Draw cards
                 _battle.AttackingHero.DrawCards(1);
@@ -441,46 +441,92 @@ namespace HeroSchoolTest
         }
 
         [TestMethod]
-        public void TestAddToCardRepo()
+        public void RepoTest_AddNewCards()
         {
-            ICard newcard = CardFactory.CreateCard("New Attack Card", 10, 4, Global.CardType.Attack);
-            IRepository<ICard> CardRepo = new CardRepository();
+            var ActionCardRepo = new Repository<ActionCard>();
+            var DefenseCardRepo = new Repository<DefenseCard>();
+            var ModifierCardRepo = new Repository<ModifierCard>();
+            Card newcard = CardFactory.CreateCard("New Attack Card", 10, 4, Global.CardType.Attack);
+            ActionCardRepo.Add((ActionCard)newcard);
 
-            CardRepo.Add(newcard);
+            newcard = CardFactory.CreateCard("New Defense Card", 5, 2, Global.CardType.Defense);
+            DefenseCardRepo.Add((DefenseCard)newcard);
+
+            newcard = CardFactory.CreateCard("New Modifier Card", 1, 1, Global.CardType.Modifier);
+            ModifierCardRepo.Add((ModifierCard)newcard);
         }
 
         [TestMethod]
-        public void GetAllCardsfromRepo()
+        public void RepoTest_GetAllCards()
         {
-            IRepository<ICard> CardRepo = new CardRepository();
+            Repository<ActionCard> ActionCardRepo = new Repository<ActionCard>();
+            Repository<ModifierCard> ModifierCardRepo = new Repository<ModifierCard>();
+            Repository<DefenseCard> DefenseCardRepo = new Repository<DefenseCard>();
 
-            IList<ICard> cardlist = CardRepo.Get();
+            IList<ActionCard> ActionCardlist = ActionCardRepo.Get(new ActionCard());
+            IList<ModifierCard> ModifierCardlist = ModifierCardRepo.Get(new ModifierCard());
+            IList<DefenseCard> DefenseCardlist = DefenseCardRepo.Get(new DefenseCard());
 
+            IList<Card> cardlist = new List<Card>();
+            cardlist = cardlist.Concat(ActionCardlist).ToList();
+            cardlist = cardlist.Concat(DefenseCardlist).ToList();
+            cardlist = cardlist.Concat(ModifierCardlist).ToList();
+            
             Assert.IsNotNull(cardlist);
             Assert.IsTrue(cardlist.Count > 0);
             Assert.IsTrue(cardlist.FirstOrDefault(x => x.Name == "New Attack Card").Type == Global.CardType.Attack);
         }
 
         [TestMethod]
-        public void GetCardFromRepo()
+        public void RepoTest_GetCard()
         {
             ICard card = CardFactory.CreateCard("New Attack Card", 0, 0, Global.CardType.Attack);
 
-            IRepository<ICard> cardRepo = new CardRepository();
+            Repository<ActionCard> cardRepo = new Repository<ActionCard>();
 
-            ICard cardfromrepo = cardRepo.Get(card);
+            Card cardfromrepo = cardRepo.Get(new Tuple<string, string>("Name", card.Name));
         }
 
         [TestMethod]
-        public void DelCardFromRepo()
+        public void RepoTest_DelCard()
         {
-            ICard card = CardFactory.CreateCard("234", 0, 0, Global.CardType.Attack);
+            ICard card = CardFactory.CreateCard("New Attack Card", 0, 0, Global.CardType.Attack);
 
-            IRepository<ICard> cardRepo = new CardRepository();
+            Repository<ActionCard> cardRepo = new Repository<ActionCard>();
 
-            ICard cardfromrepo = cardRepo.Get(card);
+            ActionCard cardfromrepo = cardRepo.Get(new Tuple<string, string>("Name", card.Name));
 
             cardRepo.Delete(cardfromrepo);
         }
+
+        [TestMethod]
+        public void RepoTest_AddPlayer()
+        {
+            BasicData();
+
+            //grab a random school from the repository
+            ISchool school = _schoolList[new Random().Next(_schoolList.Count - 1)];
+
+            // grab a random player from the schools player list
+            IPlayer player = school.Players.ElementAt(new Random().Next(school.Players.Count() - 1));
+
+            IRepository<IPlayer> playerRepo = new PlayerRepository();
+
+            playerRepo.Add(player);
+
+        }
+
+        [TestMethod]
+        public void RepoTest_GetAllPlayers()
+        {
+            IRepository<IPlayer> playerRepo = new PlayerRepository();
+
+            IList<IPlayer> playerlist = playerRepo.Get();
+
+            Assert.IsNotNull(playerlist);
+            Assert.IsTrue(playerlist.Count > 0);
+            
+        }
+
     }
 }

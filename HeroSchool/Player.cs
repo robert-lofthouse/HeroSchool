@@ -12,36 +12,30 @@ namespace HeroSchool
     {
         #region Private variables
 
-        private string _name;
-        private IList<ICard> _cardCollection = new List<ICard>();
-        private List<IHero> _heroes = new List<IHero>();
-        private IRepository<ICard> _cardRepository;
+        private List<Hero> _heroes = new List<Hero>();
+        private IRepository<Card> _cardRepository;
 
         #endregion
-        public IList<ICard> CardCollection()
-        {
-            return _cardCollection;
-        }
+        public IList<Card> CardCollection { get; set; }
 
-        public IReadOnlyCollection<IHero> Heroes { get => _heroes; }
+        public IList<Hero> Heroes { get { return _heroes; } set { _heroes = (List<Hero>)value; } }
 
-        public void AddHero(IHero p_hero) => _heroes.Add(p_hero);
+        public void AddHero(Hero p_hero) => _heroes.Add(p_hero);
 
         //Player's Name
-        public string Name
-        {
-            get => _name;
-            set => throw new NotImplementedException();
-        }
-
+        public string Name { get; set; }
+        
         public string _id { get; }
+        public string CollectionName { get => "Player"; }
 
         //Constructore
-        public Player(string p_playerName, IRepository<ICard> p_cardRepository)
+        public Player(string p_playerName, IRepository<Card> p_cardRepository, string p_id = "")
         {
-            _id = Guid.NewGuid().ToString();
-            _name = p_playerName;
+            _id = p_id == "" ? Guid.NewGuid().ToString() : p_id;
+            Name = p_playerName;
             _cardRepository = p_cardRepository;
+
+            CardCollection = new List<Card>();
         }
 
         /// <summary>
@@ -52,17 +46,17 @@ namespace HeroSchool
         /// <returns></returns>
         public ICard GetCard(string p_ID)
         {
-            return _cardCollection.FirstOrDefault(x => x._id == p_ID);
+            return CardCollection.FirstOrDefault(x => x._id == p_ID);
         }
 
         /// <summary>
         /// Adds an attack, defense or Modifier card to the card collection for the player
         /// </summary>
         /// <param name="p_card"></param>
-        public void AddCardtoCollection(ICard p_card)
+        public void AddCardtoCollection(Card p_card)
         {
-            if (_cardRepository.Get(p_card) != null)
-                _cardCollection.Insert(0, p_card);
+            if (_cardRepository.Get(new KeyValuePair<string, string>("_id", p_card._id)) != null)
+                CardCollection.Insert(0, p_card);
         }
     }
 }

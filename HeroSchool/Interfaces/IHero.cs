@@ -5,12 +5,12 @@ namespace HeroSchool.Interfaces
 {
     public interface IHero : IDefendable
     {
-        void AddCardtoDeck(ICard card, bool p_shuffle = true);
-        IReadOnlyCollection<ICard> CardDeck { get; }
-        IReadOnlyCollection<ICard> PlayableCards { get; }
-        IReadOnlyCollection<IActionable> PlayedCards { get; }
+        void AddCardtoDeck(Card card, bool p_shuffle = true);
+        IList<Card> CardDeck { get; }
+        IList<Card> PlayableCards { get; }
+        IList<ActionCard> PlayedCards { get; }
 
-        IHeroArchetype HeroArcheType { get; }
+        HeroArchetype HeroArcheType { get; }
 
         void DrawCards(int NumberofCards);
 

@@ -2,7 +2,7 @@
 
 namespace HeroSchool.Interfaces
 {
-    public interface ICard : IHeroSchool
+    public interface ICard : IGame
     {
         string ToString();
         int Energy { get; }

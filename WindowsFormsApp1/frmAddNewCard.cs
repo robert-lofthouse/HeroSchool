@@ -16,8 +16,8 @@ namespace WindowsFormsApp1
 {
     public partial class frmAddNewCard : Form
     {
-        IRepository<ICard> cardRepo = new CardRepository();
-        IList<ICard> cardList = new List<ICard>();
+        IRepository<Card> cardRepo = new CardRepository();
+        IList<Card> cardList = new List<Card>();
 
         public frmAddNewCard()
         {
@@ -82,7 +82,7 @@ namespace WindowsFormsApp1
 
                 Global.CardType cardType;
                 Enum.TryParse<Global.CardType>(cboCardType.Text.ToString(), out cardType);
-                ICard newCard = CardFactory.CreateCard(txtName.Text, int.Parse(txtValue.Text), int.Parse(txtEnergy.Text), cardType, cardType == Global.CardType.Attack ? int.Parse(txtReturnEnergy.Text) : 0);
+                Card newCard = CardFactory.CreateCard(txtName.Text, int.Parse(txtValue.Text), int.Parse(txtEnergy.Text), cardType, cardType == Global.CardType.Attack ? int.Parse(txtReturnEnergy.Text) : 0);
 
                 cardRepo.Add(newCard);
 

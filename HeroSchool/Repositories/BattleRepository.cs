@@ -61,7 +61,7 @@ namespace HeroSchool.Repositories
             }
         }
 
-        public IBattle Get(IBattle p_get)
+        public IBattle Get(KeyValuePair<string, string> p_get)
         {
             throw new NotImplementedException();
         }

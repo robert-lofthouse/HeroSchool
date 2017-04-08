@@ -23,6 +23,8 @@ namespace HeroSchool
         public IHero DefendingHero { get => _defendingHero; }
 
         public string _id { get; }
+        public string CollectionName { get => "Battle"; }
+
         public Battle() { }
         public Battle(IHero p_hero1, IHero p_hero2)
         {
@@ -52,7 +54,7 @@ namespace HeroSchool
         {
             Global.AttackResult atkres;
 
-            List<IActionable> attackerPlayedCards = (List<IActionable>)AttackingHero.PlayedCards;
+            List<ActionCard> attackerPlayedCards = (List<ActionCard>)AttackingHero.PlayedCards;
 
             atkres = DefendingHero.PerformAttack(AttackingHero, attackerPlayedCards.Find(x => x.Type == Global.CardType.Attack));
 

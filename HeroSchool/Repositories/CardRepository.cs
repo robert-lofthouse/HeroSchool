@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace HeroSchool.Repositories
 {
-    public class CardRepository : IRepository<ICard>
+    public class CardRepository : IRepository<Card>
     {
-        public void Add(ICard p_new)
+        public void Add(Card p_new)
         {
             IMongoCollection<BsonDocument> MongoCardCollection = Global.CreateConnection("Card");
 
@@ -37,7 +37,7 @@ namespace HeroSchool.Repositories
             }
         }
 
-        public void Delete(ICard p_del)
+        public void Delete(Card p_del)
         {
             IMongoCollection<BsonDocument> MongoCardCollection = Global.CreateConnection("Card");
 
@@ -51,17 +51,31 @@ namespace HeroSchool.Repositories
             }
         }
 
-        public IList<ICard> Get()
+        public IList<Card> Get()
         {
             IMongoCollection<BsonDocument> MongoCardCollection = Global.CreateConnection("Card");
 
             try
             {
-                IList<ICard> cardList = new List<ICard>();
+                IList<Card> cardList = new List<Card>();
 
                 foreach (var item in MongoCardCollection.Find(new BsonDocument()).ToList())
                 {
-                    cardList.Add(JsonConvert.DeserializeObject<Card>(item.ToJson(), new CardConverter()));
+                    int.TryParse(item["Type"].ToString(), out int icardtype);
+
+                    switch ((Global.CardType)icardtype)
+                    {
+                        case Global.CardType.Modifier:
+                            cardList.Add(JsonConvert.DeserializeObject<ModifierCard>(item.ToJson()));
+                            break;
+                        case Global.CardType.Defense:
+                            cardList.Add(JsonConvert.DeserializeObject<DefenseCard>(item.ToJson()));
+                            break;
+                        default:
+                            cardList.Add(JsonConvert.DeserializeObject<ActionCard>(item.ToJson()));
+                            break;
+                    }
+                    
                 }
                 return cardList;
             }
@@ -71,13 +85,13 @@ namespace HeroSchool.Repositories
             }
         }
 
-        public ICard Get(ICard p_get)
+        public Card Get(KeyValuePair<string, string> p_get)
         {
             IMongoCollection<BsonDocument> MongoCardCollection = Global.CreateConnection("Card");
 
             try
             {
-                var item = MongoCardCollection.Find("{'Name':{'$eq':'" + p_get.Name + "'}}").ToList()[0];
+                var item = MongoCardCollection.Find("{'"+ p_get.Key +"':{'$eq':'" + p_get.Value + "'}}").ToList()[0];
                 return JsonConvert.DeserializeObject<Card>(item.ToJson(), new CardConverter());
             }
             catch (Exception ex)
@@ -86,12 +100,12 @@ namespace HeroSchool.Repositories
             }
         }
 
-        public void Update(ICard p_upd)
+        public void Update(Card p_upd)
         {
             Add(p_upd);
         }
 
-        public void Update(IList<ICard> p_upds)
+        public void Update(IList<Card> p_upds)
         {
             throw new NotImplementedException();
         }

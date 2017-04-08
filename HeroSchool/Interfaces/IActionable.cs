@@ -7,7 +7,7 @@ namespace HeroSchool.Interfaces
         //        IHero HeroCard { get; set; }
         bool MeetsEnergyRequirement(IHero p_hero);
         int ReturnEnergy { get; }
-        new int Value { get; }
+        new int Value { get; set;  }
 
         bool ApplyModifierCard(IModifier p_modifierCard);
         IReadOnlyCollection<IModifier> ModifierCards { get; }

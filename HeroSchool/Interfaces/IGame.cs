@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace HeroSchool.Interfaces
 {
-    public interface IHeroSchool
+    public interface IGame
     {
         string Name { get; set; }
         string _id { get; }
+        string CollectionName { get; }
     }
 }

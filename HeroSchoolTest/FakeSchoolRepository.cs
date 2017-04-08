@@ -11,11 +11,11 @@ namespace HeroSchoolTest
 {
     public class FakeSchoolRepository : IRepository<ISchool>
     {
-        private readonly string[] HeroNames = { "The Grunter", "Pizzahead", "Hammernose", "Teddybear", "Walljumper", "Itchy_Scratchy", "Neuroticum", "The Blabbermouth", "Crusty", "Smelly" };
+        private readonly string[] HeroNames = { "the Grunter", "the Pizzahead", "the Hammernose", "the Teddybear", "the Walljumper", "the Itchy_Scratcher", "the Neurotic", "the Blabbermouth", "the Crusty", "the Smelly", "the Nosepicker", "the Kind", "the Flower-sniffer" };
         private IList<ISchool> SchoolList;
-        private IRepository<ICard> _cardRepo;
+        private IRepository<Card> _cardRepo;
 
-        public FakeSchoolRepository(IRepository<ICard> p_cardRepo)
+        public FakeSchoolRepository(IRepository<Card> p_cardRepo)
         {
             Random rand = new Random();
             _cardRepo = p_cardRepo;
@@ -28,15 +28,27 @@ namespace HeroSchoolTest
             };
 
             IPlayer player = PlayerFactory.CreatePlayer("Peter", _cardRepo);
-            player.AddHero(HeroFactory.CreateHero("Peter " + HeroNames[rand.Next(10)], rand.Next(8, 18), rand.Next(3, 6), player._id, new HeroArchetype(20, Global.HeroClass.Strength),_cardRepo,this));
+            player.AddHero(HeroFactory.CreateHero("Peter " + HeroNames[rand.Next(10)], rand.Next(10, 15), rand.Next(2, 5), player._id, new HeroArchetype(20, Global.HeroClass.Strength), _cardRepo, this));
+            (SchoolList[0]).AddPlayer(player);
+
+            player = PlayerFactory.CreatePlayer("Simon", _cardRepo);
+            player.AddHero(HeroFactory.CreateHero("Simon " + HeroNames[rand.Next(10)], rand.Next(10, 15), rand.Next(2, 5), player._id, new HeroArchetype(20, Global.HeroClass.Strength), _cardRepo, this));
             (SchoolList[0]).AddPlayer(player);
 
             player = PlayerFactory.CreatePlayer("Alan", _cardRepo);
-            player.AddHero(HeroFactory.CreateHero("Alan " + HeroNames[rand.Next(10)], rand.Next(8, 18), rand.Next(3, 6), player._id, new HeroArchetype(20, Global.HeroClass.Strength), _cardRepo, this));
+            player.AddHero(HeroFactory.CreateHero("Alan " + HeroNames[rand.Next(10)], rand.Next(10, 15), rand.Next(2, 5), player._id, new HeroArchetype(20, Global.HeroClass.Strength), _cardRepo, this));
+            (SchoolList[1]).AddPlayer(player);
+
+            player = PlayerFactory.CreatePlayer("Aidan", _cardRepo);
+            player.AddHero(HeroFactory.CreateHero("Aidan " + HeroNames[rand.Next(10)], rand.Next(10, 15), rand.Next(2, 5), player._id, new HeroArchetype(20, Global.HeroClass.Strength), _cardRepo, this));
             (SchoolList[1]).AddPlayer(player);
 
             player = PlayerFactory.CreatePlayer("Robert", _cardRepo);
-            player.AddHero(HeroFactory.CreateHero("Robert " + HeroNames[rand.Next(10)], rand.Next(8, 18), rand.Next(3, 6), player._id, new HeroArchetype(20, Global.HeroClass.Strength), _cardRepo, this));
+            player.AddHero(HeroFactory.CreateHero("Robert " + HeroNames[rand.Next(10)], rand.Next(10, 15), rand.Next(2, 5), player._id, new HeroArchetype(20, Global.HeroClass.Strength), _cardRepo, this));
+            (SchoolList[2]).AddPlayer(player);
+
+            player = PlayerFactory.CreatePlayer("David", _cardRepo);
+            player.AddHero(HeroFactory.CreateHero("David " + HeroNames[rand.Next(10)], rand.Next(10, 15), rand.Next(2, 5), player._id, new HeroArchetype(20, Global.HeroClass.Strength), _cardRepo, this));
             (SchoolList[2]).AddPlayer(player);
         }
 
@@ -55,7 +67,7 @@ namespace HeroSchoolTest
             return SchoolList;
         }
 
-        public ISchool Get(ISchool p_get)
+        public ISchool Get(KeyValuePair<string, string> p_get)
         {
             throw new NotImplementedException();
         }

@@ -59,9 +59,11 @@
     <Compile Include="Battle.cs" />
     <Compile Include="Cards\DefenseCard.cs" />
     <Compile Include="Converters\BattleConverter.cs" />
+    <Compile Include="Converters\PlayerConverter.cs" />
     <Compile Include="Converters\CardConverter.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Interfaces\IHeroClass.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="Interfaces\IHeroArchetype.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Interfaces\IModifier.cs" />
     <Compile Include="Interfaces\IActionable.cs" />
@@ -73,7 +75,7 @@
     <Compile Include="Factories\CardFactory.cs" />
     <Compile Include="Factories\HeroFactory.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />
-    <Compile Include="Interfaces\IHeroSchool.cs" />
+    <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Repositories\CardRepository.cs" />
     <Compile Include="Constants\Global.cs" />
@@ -81,14 +83,16 @@
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\ISchool.cs" />
     <Compile Include="Cards\ModifierCard.cs" />
-    <Compile Include="Cards\HeroCard.cs" />
+    <Compile Include="Cards\Hero.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Repositories\BattleRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\PlayerRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\SchoolRepository.cs" />
     <Compile Include="School.cs" />
     <Compile Include="Factories\SchoolFactory.cs" />
-    <Compile Include="StrengthHero.cs" />
+    <Compile Include="HeroArchetype.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Class Diagram\ClassDiagram1.cd" />

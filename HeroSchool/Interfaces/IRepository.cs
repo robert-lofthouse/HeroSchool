@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace HeroSchool.Interfaces
 {
-    public interface IRepository<T> where T : IHeroSchool
+    public interface IRepository<T> where T : IGame
     {
         void Add(T p_new);
 
         IList<T> Get();
 
-        T Get(T p_get);
+        T Get(KeyValuePair<string, string> p_get);
 
         void Update(T p_upd);
 

@@ -16,7 +16,7 @@ namespace HeroSchool.Factories
         /// <param name="p_cardRepo"></param>
         /// <param name="p_playerList"></param>
         /// <returns></returns>
-        public static IPlayer CreatePlayer(string p_Playername, IRepository<ICard> p_cardRepo)
+        public static IPlayer CreatePlayer(string p_Playername, IRepository<Card> p_cardRepo)
         {
             try
             {

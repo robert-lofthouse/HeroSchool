@@ -28,9 +28,11 @@ namespace HeroSchool.Converters
             switch (cardType)
             {
                 case Global.CardType.Modifier:
-                    return new ModifierCard(name, value, energy,id, cardType);
+                    return new ModifierCard(name, value, energy, id, cardType);
+                case Global.CardType.Defense:
+                    return new DefenseCard(name, value, energy, cardType, id);
                 default:
-                    return new ActionCard(name, value, energy, cardType, returnEnergy,id);
+                    return new ActionCard(name, value, energy, cardType, returnEnergy, id);
             }
         }
 
