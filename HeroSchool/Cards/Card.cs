@@ -14,7 +14,6 @@ namespace HeroSchool
 
         public string _id { get; set; }
 
-        public string CollectionName { get => "Card"; }
 
         protected Card ()
         {

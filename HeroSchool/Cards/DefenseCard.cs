@@ -15,7 +15,6 @@ namespace HeroSchool
             get { return base.Value - _attacks.Sum(x => x.Value); }
             set { base.Value = value; }
         }
-        public new string CollectionName { get => "DefenseCard"; }
 
         public DefenseCard () { }
 

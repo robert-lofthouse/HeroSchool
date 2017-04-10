@@ -25,7 +25,6 @@ namespace HeroSchool
         private IList<Card> _cardDeck = new List<Card>();
 
         private HeroArchetype _heroArchetype;
-        public new string CollectionName { get => "Hero"; }
 
         /// <summary>
         /// Cards loaded into the hero deck

@@ -21,7 +21,6 @@ namespace HeroSchool
             return p_hero.Energy >= Energy;
         }
 
-        public new string CollectionName { get => "ActionCard"; }
 
         public override int Value
         {

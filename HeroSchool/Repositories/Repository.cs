@@ -52,7 +52,7 @@ namespace HeroSchool.Repositories
             }
         }
 
-        public IList<T> Get(T p_get)
+        public IList<T> Get()
         {
             IMongoCollection<BsonDocument> MongoCardCollection = Global.CreateConnection(_collectionName);
 
@@ -78,8 +78,16 @@ namespace HeroSchool.Repositories
 
             try
             {
-                var item = MongoCardCollection.Find("{'" + p_get.Item1 + "':{'$eq':'" + p_get.Item2 + "'}}").ToList()[0];
-                return JsonConvert.DeserializeObject<T>(item.ToJson());
+                var itemlist = MongoCardCollection.Find("{'" + p_get.Item1 + "':{'$eq':'" + p_get.Item2 + "'}}").ToList();
+
+                BsonDocument item = new BsonDocument();
+                if (itemlist.Any())
+                {
+                    item = itemlist[0];
+                    return JsonConvert.DeserializeObject<T>(item.ToJson());
+                }
+                else
+                    return default(T);
             }
             catch (Exception ex)
             {

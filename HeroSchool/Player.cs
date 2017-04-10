@@ -26,7 +26,6 @@ namespace HeroSchool
         public string Name { get; set; }
         
         public string _id { get; }
-        public string CollectionName { get => "Player"; }
 
         //Constructore
         public Player(string p_playerName, IRepository<Card> p_cardRepository, string p_id = "")

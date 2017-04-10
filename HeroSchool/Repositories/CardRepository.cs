@@ -1,4 +1,5 @@
 ﻿using HeroSchool.Converters;
+using HeroSchool.Factories;
 using HeroSchool.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -16,68 +17,61 @@ namespace HeroSchool.Repositories
     {
         public void Add(Card p_new)
         {
-            IMongoCollection<BsonDocument> MongoCardCollection = Global.CreateConnection("Card");
-
-            try
+            switch (p_new.Type)
             {
-                UpdateOptions options = new UpdateOptions { IsUpsert = true };
-
-                FilterDefinition<BsonDocument> filter = new BsonDocument("_id", p_new._id);
-
-                var jsonobject = BsonDocument.Parse(JsonConvert.SerializeObject(p_new));
-                jsonobject.Remove("_id");
-
-                UpdateDefinition<BsonDocument> update = new BsonDocument("$set", jsonobject );
-
-                MongoCardCollection.UpdateOne(filter, update, options);
-            }
-            catch (Exception ex)
-            {
-                throw;
+                case Global.CardType.Attack:
+                    var ActionCardRepo = new Repository<ActionCard>();
+                    ActionCardRepo.Add((ActionCard)p_new);
+                    break;
+                case Global.CardType.Defense:
+                    var DefenseCardRepo = new Repository<DefenseCard>();
+                    DefenseCardRepo.Add((DefenseCard)p_new);
+                    break;
+                default:
+                    var ModifierCardRepo = new Repository<ModifierCard>();
+                    ModifierCardRepo.Add((ModifierCard)p_new);
+                    break;
             }
         }
 
         public void Delete(Card p_del)
         {
-            IMongoCollection<BsonDocument> MongoCardCollection = Global.CreateConnection("Card");
-
-            try
+            switch (p_del.Type)
             {
-                var item = MongoCardCollection.DeleteOne("{'_id':{'$eq':'" + p_del._id + "'}}");
-            }
-            catch (Exception ex)
-            {
-                throw;
+                case Global.CardType.Attack:
+                    var ActionCardRepo = new Repository<ActionCard>();
+                    ActionCardRepo.Add((ActionCard)p_del);
+                    break;
+                case Global.CardType.Defense:
+                    var DefenseCardRepo = new Repository<DefenseCard>();
+                    DefenseCardRepo.Add((DefenseCard)p_del);
+                    break;
+                default:
+                    var ModifierCardRepo = new Repository<ModifierCard>();
+                    ModifierCardRepo.Add((ModifierCard)p_del);
+                    break;
             }
         }
 
         public IList<Card> Get()
         {
-            IMongoCollection<BsonDocument> MongoCardCollection = Global.CreateConnection("Card");
 
             try
             {
-                IList<Card> cardList = new List<Card>();
+                Repository<ActionCard> ActionCardRepo = new Repository<ActionCard>();
+                Repository<ModifierCard> ModifierCardRepo = new Repository<ModifierCard>();
+                Repository<DefenseCard> DefenseCardRepo = new Repository<DefenseCard>();
 
-                foreach (var item in MongoCardCollection.Find(new BsonDocument()).ToList())
-                {
-                    int.TryParse(item["Type"].ToString(), out int icardtype);
+                IList<ActionCard> ActionCardlist = ActionCardRepo.Get();
+                IList<ModifierCard> ModifierCardlist = ModifierCardRepo.Get();
+                IList<DefenseCard> DefenseCardlist = DefenseCardRepo.Get();
 
-                    switch ((Global.CardType)icardtype)
-                    {
-                        case Global.CardType.Modifier:
-                            cardList.Add(JsonConvert.DeserializeObject<ModifierCard>(item.ToJson()));
-                            break;
-                        case Global.CardType.Defense:
-                            cardList.Add(JsonConvert.DeserializeObject<DefenseCard>(item.ToJson()));
-                            break;
-                        default:
-                            cardList.Add(JsonConvert.DeserializeObject<ActionCard>(item.ToJson()));
-                            break;
-                    }
-                    
-                }
-                return cardList;
+                IList<Card> cardlist = new List<Card>();
+                cardlist = cardlist.Concat(ActionCardlist).ToList();
+                cardlist = cardlist.Concat(DefenseCardlist).ToList();
+                cardlist = cardlist.Concat(ModifierCardlist).ToList();
+
+                return cardlist;
             }
             catch (Exception ex)
             {
@@ -87,17 +81,32 @@ namespace HeroSchool.Repositories
 
         public Card Get(KeyValuePair<string, string> p_get)
         {
-            IMongoCollection<BsonDocument> MongoCardCollection = Global.CreateConnection("Card");
+            Card retcard = null;
 
-            try
+            Repository<ActionCard> atkcardRepo = new Repository<ActionCard>();
+            Card atkcard = atkcardRepo.Get(new Tuple<string, string>(p_get.Key, p_get.Value));
+            if (atkcard != null)
             {
-                var item = MongoCardCollection.Find("{'"+ p_get.Key +"':{'$eq':'" + p_get.Value + "'}}").ToList()[0];
-                return JsonConvert.DeserializeObject<Card>(item.ToJson(), new CardConverter());
+                retcard = atkcard;
             }
-            catch (Exception ex)
+            else
             {
-                throw;
+                Repository<DefenseCard> defcardRepo = new Repository<DefenseCard>();
+                Card defCard = defcardRepo.Get(new Tuple<string, string>(p_get.Key, p_get.Value));
+                if (defCard != null)
+                {
+                    retcard = defCard;
+                }
+                else
+                {
+                    Repository<ModifierCard> modcardRepo = new Repository<ModifierCard>();
+                    Card modCard = modcardRepo.Get(new Tuple<string, string>(p_get.Key, p_get.Value));
+                    if (modCard != null)
+                        retcard = modCard;
+                }
             }
+
+            return retcard;
         }
 
         public void Update(Card p_upd)

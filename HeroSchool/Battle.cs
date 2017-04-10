@@ -23,7 +23,6 @@ namespace HeroSchool
         public IHero DefendingHero { get => _defendingHero; }
 
         public string _id { get; }
-        public string CollectionName { get => "Battle"; }
 
         public Battle() { }
         public Battle(IHero p_hero1, IHero p_hero2)

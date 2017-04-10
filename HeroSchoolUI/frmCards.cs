@@ -12,14 +12,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp1
+namespace HeroSchoolUI
 {
-    public partial class frmAddNewCard : Form
+    public partial class frmCards : Form
     {
-        IRepository<Card> cardRepo = new CardRepository();
         IList<Card> cardList = new List<Card>();
 
-        public frmAddNewCard()
+        public frmCards()
         {
             InitializeComponent();
         }
@@ -32,7 +31,7 @@ namespace WindowsFormsApp1
         private void LoadList()
         {
             lstCards.Items.Clear();
-            cardList = cardRepo.Get();
+            cardList = Globals.cardRepo.Get();
             foreach (ICard card in cardList)
             {
                 ListViewItem xitm = new ListViewItem(card.Name);
@@ -84,7 +83,7 @@ namespace WindowsFormsApp1
                 Enum.TryParse<Global.CardType>(cboCardType.Text.ToString(), out cardType);
                 Card newCard = CardFactory.CreateCard(txtName.Text, int.Parse(txtValue.Text), int.Parse(txtEnergy.Text), cardType, cardType == Global.CardType.Attack ? int.Parse(txtReturnEnergy.Text) : 0);
 
-                cardRepo.Add(newCard);
+                Globals.cardRepo.Add(newCard);
 
                 LoadList();
 

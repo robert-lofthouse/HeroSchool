@@ -1,6 +1,6 @@
-﻿namespace WindowsFormsApp1
+﻿namespace HeroSchoolUI
 {
-    partial class frmAddNewCard
+    partial class frmCards
     {
         /// <summary>
         /// Required designer variable.
@@ -54,7 +54,7 @@
             "Attack",
             "Defense",
             "Modifier"});
-            this.cboCardType.Location = new System.Drawing.Point(252, 87);
+            this.cboCardType.Location = new System.Drawing.Point(252, 36);
             this.cboCardType.Name = "cboCardType";
             this.cboCardType.Size = new System.Drawing.Size(121, 21);
             this.cboCardType.TabIndex = 1;
@@ -62,7 +62,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(35, 90);
+            this.label1.Location = new System.Drawing.Point(10, 39);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(56, 13);
             this.label1.TabIndex = 1;
@@ -70,7 +70,7 @@
             // 
             // btnSaveCard
             // 
-            this.btnSaveCard.Location = new System.Drawing.Point(298, 258);
+            this.btnSaveCard.Location = new System.Drawing.Point(298, 141);
             this.btnSaveCard.Name = "btnSaveCard";
             this.btnSaveCard.Size = new System.Drawing.Size(75, 23);
             this.btnSaveCard.TabIndex = 5;
@@ -81,7 +81,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(36, 48);
+            this.label2.Location = new System.Drawing.Point(10, 13);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 3;
@@ -90,7 +90,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(35, 132);
+            this.label3.Location = new System.Drawing.Point(12, 66);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(34, 13);
             this.label3.TabIndex = 4;
@@ -99,7 +99,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(35, 174);
+            this.label4.Location = new System.Drawing.Point(10, 92);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(40, 13);
             this.label4.TabIndex = 5;
@@ -108,7 +108,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(35, 216);
+            this.label5.Location = new System.Drawing.Point(12, 118);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(75, 13);
             this.label5.TabIndex = 6;
@@ -116,28 +116,28 @@
             // 
             // txtValue
             // 
-            this.txtValue.Location = new System.Drawing.Point(252, 129);
+            this.txtValue.Location = new System.Drawing.Point(252, 63);
             this.txtValue.Name = "txtValue";
             this.txtValue.Size = new System.Drawing.Size(121, 20);
             this.txtValue.TabIndex = 2;
             // 
             // txtEnergy
             // 
-            this.txtEnergy.Location = new System.Drawing.Point(252, 171);
+            this.txtEnergy.Location = new System.Drawing.Point(252, 89);
             this.txtEnergy.Name = "txtEnergy";
             this.txtEnergy.Size = new System.Drawing.Size(121, 20);
             this.txtEnergy.TabIndex = 3;
             // 
             // txtReturnEnergy
             // 
-            this.txtReturnEnergy.Location = new System.Drawing.Point(252, 213);
+            this.txtReturnEnergy.Location = new System.Drawing.Point(252, 115);
             this.txtReturnEnergy.Name = "txtReturnEnergy";
             this.txtReturnEnergy.Size = new System.Drawing.Size(121, 20);
             this.txtReturnEnergy.TabIndex = 4;
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(252, 45);
+            this.txtName.Location = new System.Drawing.Point(252, 10);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(121, 20);
             this.txtName.TabIndex = 0;
@@ -150,7 +150,7 @@
             this.columnHeader3,
             this.columnHeader4,
             this.columnHeader5});
-            this.lstCards.Location = new System.Drawing.Point(13, 297);
+            this.lstCards.Location = new System.Drawing.Point(12, 170);
             this.lstCards.Name = "lstCards";
             this.lstCards.Size = new System.Drawing.Size(378, 234);
             this.lstCards.TabIndex = 11;
@@ -182,12 +182,12 @@
             this.columnHeader5.Text = "Return Energy";
             this.columnHeader5.Width = 83;
             // 
-            // frmAddNewCard
+            // frmCards
             // 
             this.AcceptButton = this.btnSaveCard;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(403, 543);
+            this.ClientSize = new System.Drawing.Size(403, 415);
             this.Controls.Add(this.lstCards);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.txtReturnEnergy);
@@ -201,7 +201,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cboCardType);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "frmAddNewCard";
+            this.Name = "frmCards";
             this.Text = "Card";
             this.Load += new System.EventHandler(this.frmAddNewCard_Load);
             this.ResumeLayout(false);

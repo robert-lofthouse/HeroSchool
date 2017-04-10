@@ -10,6 +10,5 @@ namespace HeroSchool.Interfaces
     {
         string Name { get; set; }
         string _id { get; }
-        string CollectionName { get; }
     }
 }

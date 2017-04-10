@@ -463,9 +463,9 @@ namespace HeroSchoolTest
             Repository<ModifierCard> ModifierCardRepo = new Repository<ModifierCard>();
             Repository<DefenseCard> DefenseCardRepo = new Repository<DefenseCard>();
 
-            IList<ActionCard> ActionCardlist = ActionCardRepo.Get(new ActionCard());
-            IList<ModifierCard> ModifierCardlist = ModifierCardRepo.Get(new ModifierCard());
-            IList<DefenseCard> DefenseCardlist = DefenseCardRepo.Get(new DefenseCard());
+            IList<ActionCard> ActionCardlist = ActionCardRepo.Get();
+            IList<ModifierCard> ModifierCardlist = ModifierCardRepo.Get();
+            IList<DefenseCard> DefenseCardlist = DefenseCardRepo.Get();
 
             IList<Card> cardlist = new List<Card>();
             cardlist = cardlist.Concat(ActionCardlist).ToList();
@@ -480,10 +480,9 @@ namespace HeroSchoolTest
         [TestMethod]
         public void RepoTest_GetCard()
         {
-            ICard card = CardFactory.CreateCard("New Attack Card", 0, 0, Global.CardType.Attack);
+            ICard card = CardFactory.CreateCard("sdfsdfd", 0, 0, Global.CardType.Attack);
 
             Repository<ActionCard> cardRepo = new Repository<ActionCard>();
-
             Card cardfromrepo = cardRepo.Get(new Tuple<string, string>("Name", card.Name));
         }
 
@@ -508,9 +507,9 @@ namespace HeroSchoolTest
             ISchool school = _schoolList[new Random().Next(_schoolList.Count - 1)];
 
             // grab a random player from the schools player list
-            IPlayer player = school.Players.ElementAt(new Random().Next(school.Players.Count() - 1));
+            Player player = (Player)school.Players.ElementAt(new Random().Next(school.Players.Count() - 1));
 
-            IRepository<IPlayer> playerRepo = new PlayerRepository();
+            Repository<Player> playerRepo = new Repository<Player>();
 
             playerRepo.Add(player);
 
@@ -519,9 +518,9 @@ namespace HeroSchoolTest
         [TestMethod]
         public void RepoTest_GetAllPlayers()
         {
-            IRepository<IPlayer> playerRepo = new PlayerRepository();
+            Repository<Player> playerRepo = new Repository<Player>();
 
-            IList<IPlayer> playerlist = playerRepo.Get();
+            IList<Player> playerlist = playerRepo.Get();
 
             Assert.IsNotNull(playerlist);
             Assert.IsTrue(playerlist.Count > 0);
