@@ -1,21 +1,20 @@
 ﻿using HeroSchool;
-using HeroSchool.Factories;
-using HeroSchool.Interfaces;
+using HeroSchool.Factory;
+using HeroSchool.Interface;
+using HeroSchool.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HeroSchoolTest
 {
-    public class FakeCardRepository : IRepository<Card>
+    public class FakeCardRepository : IRepository<ICard>
     {
-        private IList<Card> cardList;
+        private IList<ICard> cardList;
 
         public FakeCardRepository()
         {
-            cardList = new List<Card>()
+            cardList = new List<ICard>()
             {
                 CardFactory.CreateCard("Fireball", 2, 1, Global.CardType.Attack),
                 CardFactory.CreateCard("Lightning Bolt", 3, 2, Global.CardType.Attack, 1),
@@ -25,32 +24,32 @@ namespace HeroSchoolTest
             };
         }
 
-        public void Add(Card p_new)
+        public void Add(ICard p_new)
         {
             cardList.Add(p_new);
         }
 
-        public void Delete(Card p_del)
+        public void Delete(ICard p_del)
         {
             throw new NotImplementedException();
         }
 
-        public IList<Card> Get()
+        public IList<ICard> Get()
         {
             return cardList;
         }
 
-        public Card Get(KeyValuePair<string,string> p_get)
+        public ICard Get(KeyValuePair<string,string> p_get)
         {
             return cardList.FirstOrDefault(x => x._id == p_get.Value);
         }
 
-        public void Update(Card p_upd)
+        public void Update(ICard p_upd)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IList<Card> p_upds)
+        public void Update(IList<ICard> p_upds)
         {
             throw new NotImplementedException();
         }

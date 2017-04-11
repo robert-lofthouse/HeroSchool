@@ -1,26 +1,28 @@
 ﻿using HeroSchool;
-using HeroSchool.Factories;
-using HeroSchool.Interfaces;
-using HeroSchool.Repositories;
+using HeroSchool.Factory;
+using HeroSchool.Interface;
+using HeroSchool.Model;
+using HeroSchool.Repository;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HeroSchoolUI
 {
     public partial class frmCards : Form
     {
-        IList<Card> cardList = new List<Card>();
+        IRepository<ICard> _cardRepo;
+        IList<ICard> cardList = new List<ICard>();
 
         public frmCards()
         {
             InitializeComponent();
+        }
+
+        public frmCards(IRepository<ICard> p_cardRepo)
+        {
+            InitializeComponent();
+            _cardRepo = p_cardRepo;
         }
 
         private void frmAddNewCard_Load(object sender, EventArgs e)
@@ -31,7 +33,7 @@ namespace HeroSchoolUI
         private void LoadList()
         {
             lstCards.Items.Clear();
-            cardList = Globals.cardRepo.Get();
+            cardList = _cardRepo.Get();
             foreach (ICard card in cardList)
             {
                 ListViewItem xitm = new ListViewItem(card.Name);
@@ -83,7 +85,7 @@ namespace HeroSchoolUI
                 Enum.TryParse<Global.CardType>(cboCardType.Text.ToString(), out cardType);
                 Card newCard = CardFactory.CreateCard(txtName.Text, int.Parse(txtValue.Text), int.Parse(txtEnergy.Text), cardType, cardType == Global.CardType.Attack ? int.Parse(txtReturnEnergy.Text) : 0);
 
-                Globals.cardRepo.Add(newCard);
+                _cardRepo.Add(newCard);
 
                 LoadList();
 

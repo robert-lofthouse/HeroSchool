@@ -61,6 +61,7 @@
             this.Controls.Add(this.btnCards);
             this.Name = "frmHeroSchool";
             this.Text = "frmHeroSchool";
+            this.Load += new System.EventHandler(this.frmHeroSchool_Load);
             this.ResumeLayout(false);
 
         }

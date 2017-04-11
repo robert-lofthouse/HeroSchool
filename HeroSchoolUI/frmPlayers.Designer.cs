@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.lstPlayers = new System.Windows.Forms.ListView();
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.txtName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnSavePlayer = new System.Windows.Forms.Button();
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // lstPlayers
@@ -45,6 +45,13 @@
             this.lstPlayers.TabIndex = 23;
             this.lstPlayers.UseCompatibleStateImageBehavior = false;
             this.lstPlayers.View = System.Windows.Forms.View.Details;
+            this.lstPlayers.SelectedIndexChanged += new System.EventHandler(this.lstPlayers_SelectedIndexChanged);
+            this.lstPlayers.DoubleClick += new System.EventHandler(this.lstPlayers_DoubleClick);
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "Name";
+            this.columnHeader6.Width = 343;
             // 
             // txtName
             // 
@@ -71,11 +78,6 @@
             this.btnSavePlayer.Text = "Save Player";
             this.btnSavePlayer.UseVisualStyleBackColor = true;
             this.btnSavePlayer.Click += new System.EventHandler(this.btnSavePlayer_Click);
-            // 
-            // columnHeader6
-            // 
-            this.columnHeader6.Text = "Name";
-            this.columnHeader6.Width = 343;
             // 
             // frmPlayers
             // 

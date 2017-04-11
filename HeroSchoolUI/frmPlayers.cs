@@ -1,26 +1,29 @@
 ﻿using HeroSchool;
-using HeroSchool.Factories;
-using HeroSchool.Interfaces;
-using HeroSchool.Repositories;
+using HeroSchool.Interface;
+using Microsoft.Practices.Unity;
+using HeroSchool.Repository;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HeroSchoolUI
 {
     public partial class frmPlayers : Form
     {
-        IList<Player> playerList = new List<Player>();
+        private Repository<Player> _playerRepo;
+        private IRepository<ICard> _cardRepo;
+        private frmHeroes _frmheroes;
 
         public frmPlayers()
         {
             InitializeComponent();
+        }
+
+        public frmPlayers(Repository<Player> p_playerRepo, IRepository<ICard> p_cardRepo, frmHeroes p_frmheroes)
+        {
+            InitializeComponent();
+            _playerRepo = p_playerRepo;
+            _cardRepo = p_cardRepo;
+            _frmheroes = p_frmheroes;
         }
 
         private void btnSavePlayer_Click(object sender, EventArgs e)
@@ -34,9 +37,9 @@ namespace HeroSchoolUI
                     return;
                 }
 
-                IPlayer newCard = PlayerFactory.CreatePlayer(txtName.Text, Globals.cardRepo);
+                IPlayer newPlayer = new Player(txtName.Text, _cardRepo);
 
-                Globals.playerRepo.Add((Player)newCard);
+                _playerRepo.Add((Player)newPlayer);
 
                 LoadList();
 
@@ -54,15 +57,31 @@ namespace HeroSchoolUI
         {
             LoadList();
         }
+
         private void LoadList()
         {
-            lstPlayers.Items.Clear();
-            playerList = Globals.playerRepo.Get();
-            foreach (IPlayer player in playerList)
+            foreach (Player player in _playerRepo.Get())
             {
                 ListViewItem xitm = new ListViewItem(player.Name);
+
+                xitm.Tag = player;
                 lstPlayers.Items.Add(xitm);
             }
+        }
+
+        private void lstPlayers_DoubleClick(object sender, EventArgs e)
+        {
+
+            var player = (Player)lstPlayers.SelectedItems[0].Tag;
+
+            _frmheroes.player = player;
+            _frmheroes.ShowDialog();
+            _playerRepo.Update(player);
+        }
+
+        private void lstPlayers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

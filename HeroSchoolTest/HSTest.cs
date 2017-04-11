@@ -1,12 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using HeroSchool;
-using HeroSchool.Repositories;
-using System.Collections.Generic;
-using HeroSchool.Interfaces;
-using HeroSchool.Factories;
-using System.Linq;
+﻿using HeroSchool;
+using HeroSchool.Factory;
+using HeroSchool.Interface;
+using HeroSchool.Model;
+using HeroSchool.Repository;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace HeroSchoolTest
 {
@@ -14,7 +15,7 @@ namespace HeroSchoolTest
     public class HSTest
     {
         IList<ISchool> _schoolList;
-        IList<Card> _cardList;
+        IList<ICard> _cardList;
 
         private FakeCardRepository _cardRepo;
         private FakeSchoolRepository _schoolRepo;
@@ -37,7 +38,7 @@ namespace HeroSchoolTest
                     {
                         player.AddCardtoCollection(card);
 
-                        foreach (IHero hero in player.Heroes)
+                        foreach (var hero in player.Heroes)
                         {
                             hero.AddCardtoDeck(card);
                         }
@@ -72,7 +73,7 @@ namespace HeroSchoolTest
                 h2 = p2.Heroes.ElementAt(i);
             }
 
-            _battle = BattleFactory.CreateBattle(h1, h2);
+            _battle = new Battle(h1, h2);
         }
 
         private void BattleCardsDrawnData()
@@ -137,7 +138,7 @@ namespace HeroSchoolTest
         {
             BasicData();
 
-            ISchool NewSchool = SchoolFactory.CreateSchool("NewSchool");
+            ISchool NewSchool = new School("NewSchool");
 
             _schoolRepo.Add(NewSchool);
 
@@ -173,7 +174,7 @@ namespace HeroSchoolTest
 
             School lofthouseSchool = _schoolList.First(x => x.Name == "Lofthouse")as School;
 
-            lofthouseSchool.AddPlayer(PlayerFactory.CreatePlayer("Mom", _cardRepo));
+            lofthouseSchool.AddPlayer(new Player("Mom", _cardRepo));
 
             Assert.AreEqual(lofthouseSchool.Players.Count(), 3);
             Assert.AreEqual(lofthouseSchool.Players.ElementAt(2).Name, "Mom");
@@ -187,8 +188,8 @@ namespace HeroSchoolTest
             ISchool school = _schoolList[new Random().Next(_schoolList.Count - 1)];
 
             // grab a random player from the schools player list
-            IPlayer player = school.Players.ElementAt(new Random().Next(school.Players.Count()-1));
-            player.AddHero(HeroFactory.CreateHero("MyHero", 14, 4,player._id,new HeroArchetype(20,Global.HeroClass.Strength),_cardRepo,_schoolRepo));
+            Player player = (Player)school.Players.ElementAt(new Random().Next(school.Players.Count()-1));
+            player.AddHero(new Hero("MyHero", 14, 4, player, new HeroArchetype(20, Global.HeroClass.Strength), _cardRepo));//,_schoolRepo));
 
             Assert.AreEqual(player.Heroes.Count(), 2);
 
@@ -287,7 +288,7 @@ namespace HeroSchoolTest
             IPlayer p2 = s2.Players.ElementAt(rand.Next(s2.Players.Count - 1));
             IHero h2 = p2.Heroes.ElementAt(rand.Next(p2.Heroes.Count - 1));
 
-            _battle = BattleFactory.CreateBattle(h1, h2);
+            _battle = new Battle(h1, h2);
 
             Assert.AreNotEqual(_battle.AttackingHero, null);
             Assert.AreNotEqual(_battle.DefendingHero, null);
