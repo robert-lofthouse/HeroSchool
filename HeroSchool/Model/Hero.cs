@@ -11,13 +11,12 @@ namespace HeroSchool.Model
     public class Hero : DefenseCard, IHero
     {
 //        private string _playerID;
-        private IRepository<ICard> _cardRepo;
         private Player _player;
         //private IRepository<ISchool> _schoolRepo;
         private int _energyUsed = 0;
         private int _energyReturned = 0;
-        private int _level = 1;
         private int _xp = 0;
+
         private IList<ActionCard> _playedCards = new List<ActionCard>();
 
         private IList<Card> _playableCards = new List<Card>();
@@ -30,7 +29,14 @@ namespace HeroSchool.Model
         /// Cards loaded into the hero deck
         /// </summary>
         /// <returns></returns>
-        public IList<Card> CardDeck { get => _cardDeck ;set => _cardDeck = value; }
+        public IList<Card> CardDeck()
+        {
+            return AttackCardDeck.Concat<Card>(DefenseCardDeck).ToList().Concat(ModifierCardDeck).ToList();
+        }
+
+        public IList<ActionCard> AttackCardDeck { get; set; }
+        public IList<DefenseCard> DefenseCardDeck { get; set; }
+        public IList<ModifierCard> ModifierCardDeck { get; set; }
 
         /// <summary>
         /// Cards that are currently in play
@@ -47,7 +53,7 @@ namespace HeroSchool.Model
         /// <summary>
         /// Energy is calculated from the base energy of the hero minus the accumulative energy of all the cards played so far
         /// </summary>
-        public override int Energy { get => base.Energy - _energyUsed + _energyReturned; }
+        public override int Energy { get => base.Energy - _energyUsed + _energyReturned; set => base.Energy = value; }
 
         public HeroArchetype HeroArcheType { get => _heroArchetype; }
 
@@ -57,12 +63,13 @@ namespace HeroSchool.Model
         }
 
         //Constructor
-        public Hero(string p_name, int p_value, int p_energy, Player p_player, HeroArchetype p_heroArchetype, IRepository<ICard> p_cardRepo,  Global.CardType p_cardType = Global.CardType.Hero, string p_id = "") : base(p_name, p_value, p_energy, p_cardType,p_id)
+        public Hero(string p_name, int p_value, int p_energy, HeroArchetype p_heroArchetype,  Global.CardType p_cardType = Global.CardType.Hero, string p_id = "") : base(p_name, p_value, p_energy, p_cardType,p_id)
         {
-            _cardRepo = p_cardRepo;
-            _player = p_player;
             _heroArchetype = p_heroArchetype;
-        }
+            AttackCardDeck = new List<ActionCard>();
+            DefenseCardDeck = new List<DefenseCard>();
+            ModifierCardDeck = new List<ModifierCard>();
+    }
 
         /// <summary>
         /// Adds an existing card to the players playing deck 
@@ -74,28 +81,40 @@ namespace HeroSchool.Model
             //IList<ISchool> _schoolList = _schoolRepo.Get();
             //IPlayer _player = (from _school in _schoolList from player in _school.Players select player).FirstOrDefault(x => x._id == _playerID);
 
-            if (_player.GetCard(card._id) == null)
-            {
-                throw new Exception("Can't add card to deck, player doesn't have card in collection");
-            }
+            //if (_player.GetCard(card._id) == null)
+            //{
+            //    throw new Exception("Can't add card to deck, player doesn't have card in collection");
+            //}
 
-            if (!_cardDeck.Any(x=>x._id == card._id))
+            if (!CardDeck().Any(x => x._id == card._id))
             {
-                _cardDeck.Add((Card)card);
+                switch (card.Type)
+                {
+                    case Global.CardType.Attack:
+                        AttackCardDeck.Add((ActionCard)card);
+                        _cardDeck.Add((ActionCard)card);
+                        break;
+                    case Global.CardType.Defense:
+                        DefenseCardDeck.Add((DefenseCard)card);
+                        _cardDeck.Add((DefenseCard)card);
+                        break;
+                    case Global.CardType.Modifier:
+                        ModifierCardDeck.Add((ModifierCard)card);
+                        _cardDeck.Add((ModifierCard)card);
+                        break;
+                }
             }
 
             if (p_shuffle)
-            {
                 ShuffleDeck();
-            }
         }
         /// <summary>
         /// Reorders the card deck (shuffles the deck)
         /// </summary>
-        private void ShuffleDeck()
+        public void ShuffleDeck()
         {
             Random rand = new Random();
-            CardDeck = CardDeck.OrderBy(c => rand.Next()).ToList();
+            _cardDeck = CardDeck().OrderBy(c => rand.Next()).ToList();
         }
 
         /// <summary>
@@ -104,13 +123,24 @@ namespace HeroSchool.Model
         /// <param name="NumberofCards"></param>
         /// <returns></returns>
         public void DrawCards(int NumberofCards)
-        {             
-            foreach (Card item in new HashSet<ICard>(CardDeck.Take(NumberofCards)))
+        {
+            foreach (Card item in new HashSet<ICard>(_cardDeck.Take(NumberofCards)))
             {
                 _playableCards.Add(item);
+                switch (item.Type)
+                {
+                    case Global.CardType.Attack:
+                        AttackCardDeck.Remove((ActionCard)item);
+                        break;
+                    case Global.CardType.Defense:
+                        DefenseCardDeck.Remove((DefenseCard)item);
+                        break;
+                    case Global.CardType.Modifier:
+                        ModifierCardDeck.Remove((ModifierCard)item);
+                        break;
+                }
                 _cardDeck.Remove(item);
             }
-            
         }
 
         /// <summary>
@@ -201,6 +231,27 @@ namespace HeroSchool.Model
             else
             {
                 AddCardtoDeck((Card)p_card, false);
+            }
+        }
+
+        public void  SetPlayer(Player p_player)
+        {
+            _player = p_player;
+        }
+
+        public void RemoveCardFromDeck(ICard p_card)
+        {
+            switch (p_card.Type)
+            {
+                case Global.CardType.Attack:
+                    AttackCardDeck.Remove((ActionCard)p_card);
+                    break;
+                case Global.CardType.Defense:
+                    DefenseCardDeck.Remove((DefenseCard)p_card);
+                    break;
+                case Global.CardType.Modifier:
+                    ModifierCardDeck.Remove((ModifierCard)p_card);
+                    break;
             }
         }
     }

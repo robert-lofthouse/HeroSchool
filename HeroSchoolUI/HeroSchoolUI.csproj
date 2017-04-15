@@ -60,17 +60,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Battles.cs" />
+    <Compile Include="frmBattle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBattle.Designer.cs">
+      <DependentUpon>frmBattle.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmCards.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmCards.Designer.cs">
       <DependentUpon>frmCards.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmHeroes.cs">
+    <Compile Include="frmHero.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmHeroes.Designer.cs">
-      <DependentUpon>frmHeroes.cs</DependentUpon>
+    <Compile Include="frmHero.Designer.cs">
+      <DependentUpon>frmHero.cs</DependentUpon>
     </Compile>
     <Compile Include="frmHeroSchool.cs">
       <SubType>Form</SubType>
@@ -78,11 +85,11 @@
     <Compile Include="frmHeroSchool.Designer.cs">
       <DependentUpon>frmHeroSchool.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmPlayerCards.cs">
+    <Compile Include="frmPlayer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPlayerCards.Designer.cs">
-      <DependentUpon>frmPlayerCards.cs</DependentUpon>
+    <Compile Include="frmPlayer.Designer.cs">
+      <DependentUpon>frmPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="frmPlayers.cs">
       <SubType>Form</SubType>
@@ -92,17 +99,20 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmBattle.resx">
+      <DependentUpon>frmBattle.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmCards.resx">
       <DependentUpon>frmCards.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmHeroes.resx">
-      <DependentUpon>frmHeroes.cs</DependentUpon>
+    <EmbeddedResource Include="frmHero.resx">
+      <DependentUpon>frmHero.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmHeroSchool.resx">
       <DependentUpon>frmHeroSchool.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmPlayerCards.resx">
-      <DependentUpon>frmPlayerCards.cs</DependentUpon>
+    <EmbeddedResource Include="frmPlayer.resx">
+      <DependentUpon>frmPlayer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPlayers.resx">
       <DependentUpon>frmPlayers.cs</DependentUpon>

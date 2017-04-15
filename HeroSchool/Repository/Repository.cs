@@ -82,7 +82,7 @@ namespace HeroSchool.Repository
                 return newList;
             }
             catch (Exception ex)
-            {
+                {
                 throw;
             }
         }

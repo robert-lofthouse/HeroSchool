@@ -82,11 +82,11 @@ namespace HeroSchoolTest
             IHero ha = _battle.AttackingHero;
             IHero hd = _battle.DefendingHero;
 
-            while (ha.CardDeck.Count > 0)
+            while (ha.CardDeck().Count > 0)
             {
                 ha.DrawCards(1);
             }
-            while (hd.CardDeck.Count > 0)
+            while (hd.CardDeck().Count > 0)
             {
                 hd.DrawCards(1);
             }
@@ -174,7 +174,9 @@ namespace HeroSchoolTest
 
             School lofthouseSchool = _schoolList.First(x => x.Name == "Lofthouse")as School;
 
-            lofthouseSchool.AddPlayer(new Player("Mom", _cardRepo));
+            Player plyr = new Player("Mom");
+            plyr.SetCardRepository(_cardRepo);
+            lofthouseSchool.AddPlayer(plyr);
 
             Assert.AreEqual(lofthouseSchool.Players.Count(), 3);
             Assert.AreEqual(lofthouseSchool.Players.ElementAt(2).Name, "Mom");
@@ -189,7 +191,9 @@ namespace HeroSchoolTest
 
             // grab a random player from the schools player list
             Player player = (Player)school.Players.ElementAt(new Random().Next(school.Players.Count()-1));
-            player.AddHero(new Hero("MyHero", 14, 4, player, new HeroArchetype(20, Global.HeroClass.Strength), _cardRepo));//,_schoolRepo));
+            Hero hero = new Hero("MyHero", 14, 4, new HeroArchetype(20, Global.HeroClass.Strength));
+            hero.SetPlayer(player);
+            player.AddHero(hero);//,_schoolRepo));
 
             Assert.AreEqual(player.Heroes.Count(), 2);
 
@@ -227,11 +231,11 @@ namespace HeroSchoolTest
             player.AddCardtoCollection(newDefenseCard);
             player.AddCardtoCollection(newModifierCard);
 
-            Assert.AreEqual(player.CardCollection.Count, 8);
+            Assert.AreEqual(player.CardCollection().Count, 8);
 
-            Assert.IsTrue(player.CardCollection.Any(x => x.Name == "New Modifier"));
-            Assert.IsTrue(player.CardCollection.Any(x => x.Name == "New Defense"));
-            Assert.IsTrue(player.CardCollection.Any(x => x.Name == "New Attack"));
+            Assert.IsTrue(player.CardCollection().Any(x => x.Name == "New Modifier"));
+            Assert.IsTrue(player.CardCollection().Any(x => x.Name == "New Defense"));
+            Assert.IsTrue(player.CardCollection().Any(x => x.Name == "New Attack"));
         }
 
         //9 - Add cards from collection to a hero
@@ -252,16 +256,16 @@ namespace HeroSchoolTest
             myhero.AddCardtoDeck(_cardList.First(x => x.Name == "Fireball"));
 
             //create a new card and add it to the deck
-            int beforDeckCount = myhero.CardDeck.Count;
+            int beforDeckCount = myhero.CardDeck().Count;
             _cardRepo.Add(CardFactory.CreateCard("New Card", 4, 4, Global.CardType.Attack));
             _cardList = _cardRepo.Get();
             player.AddCardtoCollection(_cardList.First(x => x.Name == "New Card"));
             myhero.AddCardtoDeck(_cardList.First(x => x.Name == "New Card"));
 
-            Assert.AreEqual(myhero.CardDeck.Count, beforDeckCount + 1);
-            Assert.AreNotEqual(myhero.CardDeck.First(x => x.Name == "New Card"), null);
+            Assert.AreEqual(myhero.CardDeck().Count, beforDeckCount + 1);
+            Assert.AreNotEqual(myhero.CardDeck().First(x => x.Name == "New Card"), null);
 
-            Assert.AreEqual(myhero.CardDeck.FirstOrDefault(x => x.Name == "New Card"), player.CardCollection.FirstOrDefault(x=>x.Name =="New Card"));
+            Assert.AreEqual(myhero.CardDeck().FirstOrDefault(x => x.Name == "New Card"), player.CardCollection().FirstOrDefault(x=>x.Name =="New Card"));
         }
         //10- Create a battle between 2 heros from opposing schools
         [TestMethod]

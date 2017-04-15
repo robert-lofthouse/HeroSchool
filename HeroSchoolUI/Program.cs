@@ -1,11 +1,8 @@
-﻿using HeroSchool;
-using HeroSchool.Interface;
+﻿using HeroSchool.Interface;
+using HeroSchool.Model;
 using HeroSchool.Repository;
 using Microsoft.Practices.Unity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HeroSchoolUI
@@ -24,15 +21,17 @@ namespace HeroSchoolUI
 
             unityContainer.RegisterType<Repository<Player>>(new ContainerControlledLifetimeManager());
             unityContainer.RegisterType<IRepository<ICard>, CardRepository>(new ContainerControlledLifetimeManager());
-            unityContainer.RegisterType<frmHeroes>();
+            unityContainer.RegisterType<frmPlayers>();
             unityContainer.RegisterType<frmCards>();
-            unityContainer.RegisterType<frmHeroes>();
-            unityContainer.RegisterType<frmPlayerCards>();
+            unityContainer.RegisterType<frmPlayer>();
+            unityContainer.RegisterType<frmHero>();
+            unityContainer.RegisterType<frmBattle>();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             frmHeroSchool frmhs = unityContainer.Resolve<frmHeroSchool>();
+            unityContainer.Resolve<frmBattle>();
             Application.Run(frmhs);
         }
     }

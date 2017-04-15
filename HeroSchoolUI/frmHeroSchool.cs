@@ -4,6 +4,7 @@ using HeroSchool.Model;
 using HeroSchool.Repository;
 using Microsoft.Practices.Unity;
 using System;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace HeroSchoolUI
@@ -13,17 +14,20 @@ namespace HeroSchoolUI
 
         frmPlayers frmplayers;
         frmCards frmcards;
+        Repository<Player> _playerRepo;
 
         public frmHeroSchool()
         {
             InitializeComponent();
         }
 
-        public frmHeroSchool(frmCards p_frmcards, frmPlayers p_frmplayers)
+
+        public frmHeroSchool(frmCards p_frmcards, frmPlayers p_frmplayers, Repository<Player> p_playerrepo)
         {
             InitializeComponent();
             frmplayers = p_frmplayers;
             frmcards = p_frmcards;
+            _playerRepo = p_playerrepo;
         }
 
         private void btnCards_click(object sender, EventArgs e)
@@ -40,6 +44,13 @@ namespace HeroSchoolUI
         private void frmHeroSchool_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnBattle_Click(object sender, EventArgs e)
+        {
+            frmBattle frmbattle = new frmBattle(_playerRepo);
+            Battles.Instance.AddBattleForm(frmbattle);
+            frmbattle.Show();
         }
     }
 }

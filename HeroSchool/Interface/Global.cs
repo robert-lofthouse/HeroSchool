@@ -2,6 +2,12 @@
 {
     public static class Global
     {
+        public enum BattleType
+        {
+            AwaitingHero,
+            Active
+        }
+
         public enum HeroClass
         {
             Strength,

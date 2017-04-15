@@ -1,6 +1,5 @@
-﻿using HeroSchool;
-using HeroSchool.Interface;
-using Microsoft.Practices.Unity;
+﻿using HeroSchool.Interface;
+using HeroSchool.Model;
 using HeroSchool.Repository;
 using System;
 using System.Windows.Forms;
@@ -11,19 +10,19 @@ namespace HeroSchoolUI
     {
         private Repository<Player> _playerRepo;
         private IRepository<ICard> _cardRepo;
-        private frmHeroes _frmheroes;
+        private frmPlayer _frmplayer;
 
         public frmPlayers()
         {
             InitializeComponent();
         }
 
-        public frmPlayers(Repository<Player> p_playerRepo, IRepository<ICard> p_cardRepo, frmHeroes p_frmheroes)
+        public frmPlayers(Repository<Player> p_playerRepo, IRepository<ICard> p_cardRepo, frmPlayer p_frmplayer)
         {
             InitializeComponent();
             _playerRepo = p_playerRepo;
             _cardRepo = p_cardRepo;
-            _frmheroes = p_frmheroes;
+            _frmplayer= p_frmplayer;
         }
 
         private void btnSavePlayer_Click(object sender, EventArgs e)
@@ -37,9 +36,10 @@ namespace HeroSchoolUI
                     return;
                 }
 
-                IPlayer newPlayer = new Player(txtName.Text, _cardRepo);
+                Player newPlayer = new Player(txtName.Text);
+                newPlayer.SetCardRepository(_cardRepo);
 
-                _playerRepo.Add((Player)newPlayer);
+                _playerRepo.Add(newPlayer);
 
                 LoadList();
 
@@ -60,10 +60,12 @@ namespace HeroSchoolUI
 
         private void LoadList()
         {
+            lstPlayers.Items.Clear();
+
             foreach (Player player in _playerRepo.Get())
             {
                 ListViewItem xitm = new ListViewItem(player.Name);
-
+                player.SetCardRepository(_cardRepo);
                 xitm.Tag = player;
                 lstPlayers.Items.Add(xitm);
             }
@@ -74,8 +76,9 @@ namespace HeroSchoolUI
 
             var player = (Player)lstPlayers.SelectedItems[0].Tag;
 
-            _frmheroes.player = player;
-            _frmheroes.ShowDialog();
+            _frmplayer.player = player;
+            _frmplayer.ShowDialog();
+
             _playerRepo.Update(player);
         }
 

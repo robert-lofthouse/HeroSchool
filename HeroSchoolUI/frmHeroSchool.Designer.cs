@@ -30,13 +30,14 @@
         {
             this.btnCards = new System.Windows.Forms.Button();
             this.btnPlayers = new System.Windows.Forms.Button();
+            this.btnBattle = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCards
             // 
             this.btnCards.Location = new System.Drawing.Point(26, 26);
             this.btnCards.Name = "btnCards";
-            this.btnCards.Size = new System.Drawing.Size(134, 47);
+            this.btnCards.Size = new System.Drawing.Size(309, 47);
             this.btnCards.TabIndex = 0;
             this.btnCards.Text = "Cards";
             this.btnCards.UseVisualStyleBackColor = true;
@@ -46,17 +47,28 @@
             // 
             this.btnPlayers.Location = new System.Drawing.Point(26, 93);
             this.btnPlayers.Name = "btnPlayers";
-            this.btnPlayers.Size = new System.Drawing.Size(134, 47);
+            this.btnPlayers.Size = new System.Drawing.Size(309, 47);
             this.btnPlayers.TabIndex = 0;
             this.btnPlayers.Text = "Players";
             this.btnPlayers.UseVisualStyleBackColor = true;
             this.btnPlayers.Click += new System.EventHandler(this.btnPlayers_Click);
+            // 
+            // btnBattle
+            // 
+            this.btnBattle.Location = new System.Drawing.Point(26, 162);
+            this.btnBattle.Name = "btnBattle";
+            this.btnBattle.Size = new System.Drawing.Size(309, 47);
+            this.btnBattle.TabIndex = 0;
+            this.btnBattle.Text = "New Battle";
+            this.btnBattle.UseVisualStyleBackColor = true;
+            this.btnBattle.Click += new System.EventHandler(this.btnBattle_Click);
             // 
             // frmHeroSchool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(812, 486);
+            this.Controls.Add(this.btnBattle);
             this.Controls.Add(this.btnPlayers);
             this.Controls.Add(this.btnCards);
             this.Name = "frmHeroSchool";
@@ -70,5 +82,6 @@
 
         private System.Windows.Forms.Button btnCards;
         private System.Windows.Forms.Button btnPlayers;
+        private System.Windows.Forms.Button btnBattle;
     }
 }

@@ -2,7 +2,6 @@
 using HeroSchool.Factory;
 using HeroSchool.Interface;
 using HeroSchool.Model;
-using HeroSchool.Repository;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;

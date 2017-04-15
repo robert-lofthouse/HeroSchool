@@ -71,11 +71,11 @@
             // 
             // btnSavePlayer
             // 
-            this.btnSavePlayer.Location = new System.Drawing.Point(305, 36);
+            this.btnSavePlayer.Location = new System.Drawing.Point(282, 36);
             this.btnSavePlayer.Name = "btnSavePlayer";
-            this.btnSavePlayer.Size = new System.Drawing.Size(75, 23);
+            this.btnSavePlayer.Size = new System.Drawing.Size(98, 23);
             this.btnSavePlayer.TabIndex = 21;
-            this.btnSavePlayer.Text = "Save Player";
+            this.btnSavePlayer.Text = "Save New Player";
             this.btnSavePlayer.UseVisualStyleBackColor = true;
             this.btnSavePlayer.Click += new System.EventHandler(this.btnSavePlayer_Click);
             // 

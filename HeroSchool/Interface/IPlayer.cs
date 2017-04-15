@@ -6,8 +6,11 @@ namespace HeroSchool.Interface
 {
     public interface IPlayer : IGame
     {
-        IList<Card> CardCollection { get; set; }
-
+        IList<Card> CardCollection();
+        void RemoveCardFromCollection(Card p_card);
+        IList<ActionCard> AttackCardCollection { get; set; }
+        IList<DefenseCard> DefenseCardCollection { get; set; }
+        IList<ModifierCard> ModifierCardCollection { get; set; }
         void AddCardtoCollection(ICard p_card);
 
         ICard GetCard(string p_ID);

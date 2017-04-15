@@ -10,6 +10,7 @@ namespace HeroSchool.Interface
         Global.AttackResult DoAttack();
         IHero AttackingHero { get; }
         IHero DefendingHero { get; }
+        Global.BattleType Type { get; }
       //  Battle.SaveableBattle GetSaveableVersion();
     }
 }
