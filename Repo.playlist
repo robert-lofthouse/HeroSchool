@@ -1,0 +1,1 @@
+<Playlist Version="1.0"><Add Test="HeroSchoolTest.HSTest.RepoTest_DelCard" /><Add Test="HeroSchoolTest.HSTest.RepoTest_AddPlayer" /><Add Test="HeroSchoolTest.HSTest.RepoTest_GetAllCards" /><Add Test="HeroSchoolTest.HSTest.RepoTest_GetAllPlayers" /><Add Test="HeroSchoolTest.HSTest.RepoTest_AddNewCards" /><Add Test="HeroSchoolTest.HSTest.RepoTest_GetCard" /></Playlist>
