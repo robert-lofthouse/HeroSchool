@@ -23,7 +23,7 @@ namespace HeroSchool.Model
 
         private IList<Card> _cardDeck = new List<Card>();
 
-        private HeroArchetype _heroArchetype;
+        private HeroArcheType _heroArchetype;
 
         /// <summary>
         /// Cards loaded into the hero deck
@@ -55,7 +55,7 @@ namespace HeroSchool.Model
         /// </summary>
         public override int Energy { get => base.Energy - _energyUsed + _energyReturned; set => base.Energy = value; }
 
-        public HeroArchetype HeroArcheType { get => _heroArchetype; }
+        public HeroArcheType HeroArcheType { get => (HeroArcheType)_heroArchetype; }
 
         public override string ToString()
         {
@@ -65,7 +65,7 @@ namespace HeroSchool.Model
         //Constructor
         public Hero(string p_name, int p_value, int p_energy, HeroArchetype p_heroArchetype,  Global.CardType p_cardType = Global.CardType.Hero, string p_id = "") : base(p_name, p_value, p_energy, p_cardType,p_id)
         {
-            _heroArchetype = p_heroArchetype;
+            _heroArchetype = (HeroArcheType)p_heroArchetype;
             AttackCardDeck = new List<ActionCard>();
             DefenseCardDeck = new List<DefenseCard>();
             ModifierCardDeck = new List<ModifierCard>();

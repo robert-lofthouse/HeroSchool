@@ -18,7 +18,7 @@ namespace HeroSchool.Model
 
         public DefenseCard () { }
 
-        public DefenseCard(string p_name, int p_value, int p_energy, Global.CardType p_cardType = Global.CardType.Defense, string p_id = "") : base(p_name, p_value,p_energy, p_cardType,p_id)
+        public DefenseCard(string p_name, int p_value, int p_energy, HeroArchetype p_heroarchetype, Global.CardType p_cardType = Global.CardType.Defense, string p_id = "") : base(p_name, p_value,p_energy, p_heroarchetype, p_cardType,p_id)
         {
         }
 

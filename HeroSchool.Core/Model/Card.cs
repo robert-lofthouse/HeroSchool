@@ -11,7 +11,7 @@ namespace HeroSchool.Model
         public Global.CardType Type { get; set; }
         public virtual int Energy { get; set; }
         public virtual int Value { get; set; }
-        public IHeroArchetype HeroArchetype { get; set; }
+        public HeroArchetype HeroArchetype { get; set; }
         public int Level { get; set; }
 
         public string _id { get; set; }
@@ -27,6 +27,15 @@ namespace HeroSchool.Model
             Value = p_value;
             Energy = p_energy;
             Type = p_cardType;
+            _id = p_id == "" ? Guid.NewGuid().ToString() : p_id;
+        }
+        protected Card(string p_name, int p_value, int p_energy, HeroArchetype p_heroarchtype, Global.CardType p_cardType, string p_id = "")
+        {
+            Name = p_name;
+            Value = p_value;
+            Energy = p_energy;
+            Type = p_cardType;
+            HeroArchetype = p_heroarchtype;
             _id = p_id == "" ? Guid.NewGuid().ToString() : p_id;
         }
 

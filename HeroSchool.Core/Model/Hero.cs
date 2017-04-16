@@ -10,8 +10,6 @@ namespace HeroSchool.Model
     /// </summary>
     public class Hero : DefenseCard, IHero
     {
-//        private string _playerID;
-        private Player _player;
         //private IRepository<ISchool> _schoolRepo;
         private int _energyUsed = 0;
         private int _energyReturned = 0;
@@ -23,7 +21,7 @@ namespace HeroSchool.Model
 
         private IList<Card> _cardDeck = new List<Card>();
 
-        private HeroArchetype _heroArchetype;
+        public override int Energy { get => base.Energy - _energyUsed + _energyReturned; set => base.Energy = value; }
 
         /// <summary>
         /// Cards loaded into the hero deck
@@ -33,6 +31,7 @@ namespace HeroSchool.Model
         {
             return AttackCardDeck.Concat<Card>(DefenseCardDeck).ToList().Concat(ModifierCardDeck).ToList();
         }
+
 
         public IList<ActionCard> AttackCardDeck { get; set; }
         public IList<DefenseCard> DefenseCardDeck { get; set; }
@@ -53,9 +52,6 @@ namespace HeroSchool.Model
         /// <summary>
         /// Energy is calculated from the base energy of the hero minus the accumulative energy of all the cards played so far
         /// </summary>
-        public override int Energy { get => base.Energy - _energyUsed + _energyReturned; set => base.Energy = value; }
-
-        public HeroArchetype HeroArcheType { get => _heroArchetype; }
 
         public override string ToString()
         {
@@ -63,9 +59,8 @@ namespace HeroSchool.Model
         }
 
         //Constructor
-        public Hero(string p_name, int p_value, int p_energy, HeroArchetype p_heroArchetype,  Global.CardType p_cardType = Global.CardType.Hero, string p_id = "") : base(p_name, p_value, p_energy, p_cardType,p_id)
+        public Hero(string p_name, int p_value, int p_energy, HeroArchetype p_heroArchetype,  Global.CardType p_cardType = Global.CardType.Hero, string p_id = "") : base(p_name, p_value, p_energy, p_heroArchetype, p_cardType,p_id)
         {
-            _heroArchetype = p_heroArchetype;
             AttackCardDeck = new List<ActionCard>();
             DefenseCardDeck = new List<DefenseCard>();
             ModifierCardDeck = new List<ModifierCard>();
@@ -232,11 +227,6 @@ namespace HeroSchool.Model
             {
                 AddCardtoDeck((Card)p_card, false);
             }
-        }
-
-        public void  SetPlayer(Player p_player)
-        {
-            _player = p_player;
         }
 
         public void RemoveCardFromDeck(ICard p_card)

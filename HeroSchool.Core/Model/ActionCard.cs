@@ -10,15 +10,7 @@ namespace HeroSchool.Model
         private List<IModifier> _modifierCards = new List<IModifier>();
 
 
-        public int ReturnEnergy { get; set;}
-
         public IReadOnlyCollection<IModifier> ModifierCards { get; set; }
-
-        public bool MeetsEnergyRequirement(IHero p_hero)
-        {
-            return p_hero.Energy >= Energy;
-        }
-
 
         public override int Value
         {
@@ -26,12 +18,14 @@ namespace HeroSchool.Model
             set { base.Value = value; }
         }
 
+        public int ReturnEnergy { get; set; }
+
         public ActionCard () { }
-        public ActionCard(string p_name, int p_value, int p_energy, Global.CardType p_cardType, string p_id = "") : base(p_name, p_value, p_energy, p_cardType,p_id)
+        public ActionCard(string p_name, int p_value, int p_energy, HeroArchetype p_heroarchtype, Global.CardType p_cardType, string p_id = "") : base(p_name, p_value, p_energy, p_heroarchtype, p_cardType,p_id)
         {
         }
 
-        public ActionCard(string p_name, int p_value, int p_energy, Global.CardType p_cardType, int p_returnEnergy, string p_id = "") : base(p_name, p_value, p_energy, p_cardType,p_id)
+        public ActionCard(string p_name, int p_value, int p_energy, Global.CardType p_cardType, int p_returnEnergy, string p_id = "") : base(p_name, p_value, p_energy,null, p_cardType,p_id)
         {
             _returnEnergy = p_returnEnergy;
         }
@@ -39,6 +33,11 @@ namespace HeroSchool.Model
         public void RemoveModifiers()
         {
             _modifierCards.Clear();
+        }
+
+        public bool MeetsEnergyRequirement(IHero p_hero)
+        {
+            return p_hero.Energy >= Energy;
         }
 
         public bool ApplyModifierCard(IModifier p_modifierCard)

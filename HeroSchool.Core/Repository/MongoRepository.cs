@@ -1,5 +1,6 @@
 ﻿using HeroSchool.Interface;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
@@ -8,7 +9,7 @@ using System.Linq;
 
 namespace HeroSchool.Repository
 {
-    public class Repository<T> where T : IGame
+    public class MongoRepository<T> where T : IGame
     {
         public static IMongoCollection<BsonDocument> CreateConnection(string p_collectionName)
         {
@@ -78,6 +79,7 @@ namespace HeroSchool.Repository
                 foreach (var item in MongoCardCollection.Find(new BsonDocument()).ToList())
                 {
                     newList.Add(JsonConvert.DeserializeObject<T>(item.ToJson()));
+                    //newList.Add(BsonSerializer.Deserialize<T>(item));
                 }
                 return newList;
             }

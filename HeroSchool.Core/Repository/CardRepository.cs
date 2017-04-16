@@ -14,15 +14,15 @@ namespace HeroSchool.Repository
             switch (p_new.Type)
             {
                 case Global.CardType.Attack:
-                    var ActionCardRepo = new Repository<ActionCard>();
+                    var ActionCardRepo = new MongoRepository<ActionCard>();
                     ActionCardRepo.Add((ActionCard)p_new);
                     break;
                 case Global.CardType.Defense:
-                    var DefenseCardRepo = new Repository<DefenseCard>();
+                    var DefenseCardRepo = new MongoRepository<DefenseCard>();
                     DefenseCardRepo.Add((DefenseCard)p_new);
                     break;
                 default:
-                    var ModifierCardRepo = new Repository<ModifierCard>();
+                    var ModifierCardRepo = new MongoRepository<ModifierCard>();
                     ModifierCardRepo.Add((ModifierCard)p_new);
                     break;
             }
@@ -33,15 +33,15 @@ namespace HeroSchool.Repository
             switch (p_del.Type)
             {
                 case Global.CardType.Attack:
-                    var ActionCardRepo = new Repository<ActionCard>();
+                    var ActionCardRepo = new MongoRepository<ActionCard>();
                     ActionCardRepo.Add((ActionCard)p_del);
                     break;
                 case Global.CardType.Defense:
-                    var DefenseCardRepo = new Repository<DefenseCard>();
+                    var DefenseCardRepo = new MongoRepository<DefenseCard>();
                     DefenseCardRepo.Add((DefenseCard)p_del);
                     break;
                 default:
-                    var ModifierCardRepo = new Repository<ModifierCard>();
+                    var ModifierCardRepo = new MongoRepository<ModifierCard>();
                     ModifierCardRepo.Add((ModifierCard)p_del);
                     break;
             }
@@ -52,9 +52,9 @@ namespace HeroSchool.Repository
 
             try
             {
-                var ActionCardRepo = new Repository<ActionCard>();
-                var ModifierCardRepo = new Repository<DefenseCard>();
-                var DefenseCardRepo = new Repository<ModifierCard>();
+                var ActionCardRepo = new MongoRepository<ActionCard>();
+                var ModifierCardRepo = new MongoRepository<DefenseCard>();
+                var DefenseCardRepo = new MongoRepository<ModifierCard>();
 
                 IList<ActionCard> ActionCardlist = ActionCardRepo.Get();
                 IList<ModifierCard> DefenseCardlist = DefenseCardRepo.Get();
@@ -73,28 +73,28 @@ namespace HeroSchool.Repository
             }
         }
 
-        public ICard Get(KeyValuePair<string, string> p_get)
+        public ICard Get(Tuple<string, string> p_get)
         {
             ICard retcard = null;
 
-            var atkcardRepo = new Repository<ActionCard>();
-            ICard atkcard = atkcardRepo.Get(new Tuple<string, string>(p_get.Key, p_get.Value));
+            var atkcardRepo = new MongoRepository<ActionCard>();
+            ICard atkcard = atkcardRepo.Get(new Tuple<string, string>(p_get.Item1, p_get.Item2));
             if (atkcard != null)
             {
                 retcard = atkcard;
             }
             else
             {
-                var defcardRepo = new Repository<DefenseCard>();
-                ICard defCard = defcardRepo.Get(new Tuple<string, string>(p_get.Key, p_get.Value));
+                var defcardRepo = new MongoRepository<DefenseCard>();
+                ICard defCard = defcardRepo.Get(new Tuple<string, string>(p_get.Item1, p_get.Item2));
                 if (defCard != null)
                 {
                     retcard = defCard;
                 }
                 else
                 {
-                    var modcardRepo = new Repository<ModifierCard>();
-                    ICard modCard = modcardRepo.Get(new Tuple<string, string>(p_get.Key, p_get.Value));
+                    var modcardRepo = new MongoRepository<ModifierCard>();
+                    ICard modCard = modcardRepo.Get(new Tuple<string, string>(p_get.Item1, p_get.Item2));
                     if (modCard != null)
                         retcard = modCard;
                 }

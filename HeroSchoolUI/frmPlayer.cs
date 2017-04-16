@@ -113,7 +113,7 @@ namespace HeroSchoolUI
                     return;
                 }
 
-                Hero newHero = new Hero(txtName.Text, int.Parse(txtValue.Text), int.Parse(txtEnergy.Text),  new HeroArchetype(20, Global.HeroClass.Strength));
+                Hero newHero = new Hero(txtName.Text, int.Parse(txtValue.Text), int.Parse(txtEnergy.Text),  new HeroArcheType(20, Global.HeroClass.Strength));
                 newHero.SetPlayer(player);
                 player.AddHero(newHero);
 

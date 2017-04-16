@@ -18,19 +18,17 @@ namespace HeroSchool.Model
         {
             return AttackCardCollection.Concat<Card>(DefenseCardCollection).ToList().Concat(ModifierCardCollection).ToList();
         }
+        public string _id { get; set; }
+        //Player's Name
+        public string Name { get; set; }
+
+        public IList<Hero> Heroes { get { return _heroes; } set { _heroes = (List<Hero>)value; } }
 
         public IList<ActionCard> AttackCardCollection { get; set; }
         public IList<DefenseCard> DefenseCardCollection { get; set; }
         public IList<ModifierCard> ModifierCardCollection { get; set; }
-        
-        public IList<Hero> Heroes { get { return _heroes; } set { _heroes = (List<Hero>)value; } }
 
         public void AddHero(IHero p_hero) => _heroes.Add((Hero)p_hero);
-
-        //Player's Name
-        public string Name { get; set; }
-        
-        public string _id { get; set; }
 
         public void SetCardRepository(IRepository<ICard> p_cardrepo)
         {
@@ -70,7 +68,7 @@ namespace HeroSchool.Model
         /// <param name="p_card"></param>
         public void AddCardtoCollection(ICard p_card)
         {
-            if (_cardRepository.Get(new KeyValuePair<string, string>("_id", p_card._id)) != null)
+            if (_cardRepository.Get(new Tuple<string, string>("_id", p_card._id)) != null)
             {
                 switch (p_card.Type)
                 {

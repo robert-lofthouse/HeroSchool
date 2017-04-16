@@ -11,7 +11,7 @@ namespace HeroSchool.Model
         public Global.CardType Type { get; set; }
         public virtual int Energy { get; set; }
         public virtual int Value { get; set; }
-        public IHeroArchetype HeroArchetype { get; set; }
+        public HeroArchetype HeroArcheType { get; set; }
         public int Level { get; set; }
 
         public string _id { get; set; }

@@ -8,6 +8,6 @@ namespace HeroSchool.Interface
         int Energy { get; }
         int Value { get; }
         Global.CardType Type { get; }
-        IHeroArchetype HeroArchetype { get; set; }
+        HeroArchetype HeroArcheType { get; set; }
     }
 }

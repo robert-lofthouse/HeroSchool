@@ -12,7 +12,7 @@ namespace HeroSchool.Interface
 
         IList<T> Get();
 
-        T Get(KeyValuePair<string, string> p_get);
+        T Get(Tuple<string, string> p_get);
 
         void Update(T p_upd);
 

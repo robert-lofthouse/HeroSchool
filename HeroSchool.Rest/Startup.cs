@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using HeroSchool.Model;
+using HeroSchool.Repository;
 
 namespace HeroSchool.Rest
 {
@@ -29,6 +31,8 @@ namespace HeroSchool.Rest
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddSingleton<Repository<Player>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +42,8 @@ namespace HeroSchool.Rest
             loggerFactory.AddDebug();
 
             app.UseMvc();
+
+
         }
     }
 }

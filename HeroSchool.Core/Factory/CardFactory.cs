@@ -1,4 +1,5 @@
-﻿using HeroSchool.Model;
+﻿using HeroSchool.Interface;
+using HeroSchool.Model;
 using System;
 
 namespace HeroSchool.Factory
@@ -14,7 +15,7 @@ namespace HeroSchool.Factory
         /// <param name="p_cardType"></param>
         /// <param name="p_returnEnergy"></param>
         /// <returns></returns>
-        static public Card CreateCard(string p_name, int p_value, int p_energy, Global.CardType p_cardType, int p_returnEnergy = 0)
+        static public Card CreateCard(string p_name, int p_value, int p_energy, Global.CardType p_cardType, HeroArchetype p_heroarchtype, int p_returnEnergy = 0)
         {
             try
             {
@@ -25,7 +26,7 @@ namespace HeroSchool.Factory
                     case Global.CardType.Attack:
                         return new ActionCard(p_name, p_value, p_energy, p_cardType, p_returnEnergy);
                     case Global.CardType.Defense:
-                        return new DefenseCard(p_name, p_value, p_energy);
+                        return new DefenseCard(p_name, p_value, p_energy,p_heroarchtype);
                     default:
                         return null;
                 }

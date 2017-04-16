@@ -191,7 +191,7 @@ namespace HeroSchoolTest
 
             // grab a random player from the schools player list
             Player player = (Player)school.Players.ElementAt(new Random().Next(school.Players.Count()-1));
-            Hero hero = new Hero("MyHero", 14, 4, new HeroArchetype(20, Global.HeroClass.Strength));
+            Hero hero = new Hero("MyHero", 14, 4, new HeroArcheType(20, Global.HeroClass.Strength));
             hero.SetPlayer(player);
             player.AddHero(hero);//,_schoolRepo));
 

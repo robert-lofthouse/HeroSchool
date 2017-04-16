@@ -3,24 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using HeroSchool.Model;
+using HeroSchool.Repository;
 
 namespace HeroSchool.Rest.Controllers
 {
-    [Route("api/[controller]")]
-    public class ValuesController : Controller
+    [Route("[controller]")]
+    public class PlayersController : Controller
     {
+        Repository<Player> playerRepo;
+
+        public PlayersController(Repository<Player> p_PlayerRepo)
+        {
+            playerRepo = p_PlayerRepo;
+        }
+
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Player> Get()
         {
-            return new string[] { "value1", "value2" };
+            return playerRepo.Get();
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Player Get(string id)
         {
-            return "value";
+            return playerRepo.Get(new Tuple<string, string>("_id", id));
         }
 
         // POST api/values

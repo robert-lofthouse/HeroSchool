@@ -17,8 +17,6 @@ namespace HeroSchool.Interface
         IList<Card> PlayableCards { get; }
         IList<ActionCard> PlayedCards { get; }
 
-        HeroArchetype HeroArcheType { get; }
-
         void DrawCards(int NumberofCards);
         void ShuffleDeck();
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeroSchool.Interface
 {
-    public interface IHeroArchetype
+    public interface HeroArchetype
     {
         int HeroPoints { get; }
         Global.HeroClass HeroClass { get; }
